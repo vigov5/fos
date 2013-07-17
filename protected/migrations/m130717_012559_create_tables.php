@@ -2,7 +2,6 @@
 
 class m130717_012559_create_tables extends CDbMigration
 {
-
     public function up()
     {
         $transaction = $this->getDbConnection()->beginTransaction();
@@ -106,15 +105,4 @@ class m130717_012559_create_tables extends CDbMigration
             return false;
         }
     }
-
-    /*
-      // Use safeUp/safeDown to do migration with transaction
-      public function safeUp()
-      {
-      }
-
-      public function safeDown()
-      {
-      }
-     */
 }
