@@ -18,7 +18,7 @@ $this->breadcrumbs = array(
     <div style="height:20px"></div>
     <div class="" style="color: blue; font-size: 8px">
         <label>
-            <input name='SignInForm[rememberMe]' type="checkbox">
+            <?php echo CHtml::activeCheckBox($form, 'rememberMe'); ?>
             Log in automatically
         </label>
     </div>

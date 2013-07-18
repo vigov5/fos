@@ -109,4 +109,23 @@ class User extends CActiveRecord
         ));
     }
 
+    /**
+     * @author Nguyen Anh Tien
+     * @return string hashed password
+     */
+    public function generatePasswordHash($raw_password)
+    {
+        return crypt($raw_password, Randomness::blowfishSalt());
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @param string input password
+     * @return boolean whether password is valid or not
+     */
+    public function isValidPassword($raw_password)
+    {
+        return crypt($raw_password, $this->password) === $this->password;
+    }
+
 }
