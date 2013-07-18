@@ -6,7 +6,14 @@
 <h1>View <?php echo $profile->name; ?>'s profile</h1>
 
 <?php
-$this->widget('zii.widgets.CDetailView', array(
+    echo CHtml::link('Edit this profile',
+        array('profile/update', 'id' => $profile->id),
+        array('class' => 'btn btn-primary')
+    );
+?>
+<div class="none"></div>
+<?php
+$this->widget('bootstrap.widgets.TbDetailView', array(
     'data' => $profile,
     'attributes' => array(
         'id',
@@ -15,11 +22,8 @@ $this->widget('zii.widgets.CDetailView', array(
         'phone',
         'address',
         'employee_code',
-        'secret_key',
         'position',
         'date_of_birth',
-        'created_at',
-        'updated_at',
     ),
 ));
 ?>
