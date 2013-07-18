@@ -1,4 +1,4 @@
-<div style="height:70px"></div>
+<div style="height:50px"></div>
 <h1> Sign In</h1>
 <?php
 $this->breadcrumbs = array(
@@ -24,6 +24,5 @@ $this->breadcrumbs = array(
     </div>
     <div class=""><?php echo CHtml::link('Forget your password ?', array('user/forgetPassword')); ?></div>
     <div style="height:20px"></div>
-    <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit','type' => 'primary', 'label'=>'Sign in')); ?>
-
+    <div class=""><?php echo CHtml::submitButton('Sign in'); ?></div>
 </form>
