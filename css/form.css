@@ -75,6 +75,8 @@ div.form .hint
 div.form .note
 {
 	font-style: italic;
+    width: 200px;
+    margin-left: 120px;
 }
 
 div.form span.required

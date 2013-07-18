@@ -12,7 +12,7 @@
  * @property string $created_at
  * @property string $updated_at
  */
-class User extends CActiveRecord
+class User extends ActiveRecord
 {
 
     /**

@@ -10,7 +10,7 @@
  * @property string $created_at
  * @property string $updated_at
  */
-class Vote extends CActiveRecord
+class Vote extends ActiveRecord
 {
 
     /**
