@@ -16,7 +16,7 @@
  * @property string $created_at
  * @property string $updated_at
  */
-class Profile extends CActiveRecord
+class Profile extends ActiveRecord
 {
 
     /**
@@ -50,6 +50,9 @@ class Profile extends CActiveRecord
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, email, name, phone, address, employee_code, secret_key, position, date_of_birth, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('email, employee_code, name', 'required'),
+            array('email', 'email'),
+            array('date_of_birth', 'date', 'format' => 'yyyy-M-d'),
         );
     }
 

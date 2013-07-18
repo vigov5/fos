@@ -15,7 +15,7 @@
  * @property string $created_at
  * @property string $updated_at
  */
-class Notification extends CActiveRecord
+class Notification extends ActiveRecord
 {
 
     /**

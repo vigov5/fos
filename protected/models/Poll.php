@@ -19,7 +19,7 @@
  * @property string $start_at
  * @property string $end_at
  */
-class Poll extends CActiveRecord
+class Poll extends ActiveRecord
 {
 
     /**

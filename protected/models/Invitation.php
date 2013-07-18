@@ -11,7 +11,7 @@
  * @property string $created_at
  * @property string $updated_at
  */
-class Invitation extends CActiveRecord
+class Invitation extends ActiveRecord
 {
 
     /**
