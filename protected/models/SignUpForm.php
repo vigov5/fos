@@ -2,22 +2,30 @@
 
 class SignUpForm extends User
 {
+
     public $password;
-    public $passwordConfirm;    
+    public $passwordConfirm;
 
     /*
      * @author Nguyen Van Cuong
      * rule of state that passwordconfirm is required 
      * password and password confirm will be compare
      */
-    public function rules() {
-        $rules = parent::rules();               
+
+    public function rules()
+    {
+        $rules = parent::rules();
         $rules[] = array('passwordConfirm', 'required');
-        $rules[] = array('password', 'compare',
+        $rules[] = array(
+            'password',
+            'compare',
             'compareAttribute' => 'passwordConfirm',
-            'message' => 'Retype password is incorrect.');        
+            'message' => 'Retype password is incorrect.',
+        );
+        $rules[] = array('password', 'length', 'max' => 15, 'min' => 6);
         return $rules;
     }
+
 }
 
 ?>
