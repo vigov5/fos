@@ -6,10 +6,19 @@ class UserController extends Controller
      */
     public function actionSignIn()
     {
-        $form = new SigninForm;
-        if (isset($_POST['SigninForm']))
-        {
-            $form->attributes = $_POST['SigninForm'];
+        // return user to requested url if user already signin
+        if (Yii::app()->user->getId()) {
+            Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+        } else {
+            $form = new SigninForm;
+            if (isset($_POST['SigninForm']))
+            {
+                $form->attributes = $_POST['SigninForm'];
+                if ($form->validate() && $form->login()) {
+                    $this->afterSignIn();
+                    Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+                }
+            }
         }
         $this->render('signin', array('form' => $form ));
     }
@@ -27,6 +36,13 @@ class UserController extends Controller
     {
         $form = new SignUpForm; 
         $this->render('signup', array('form' => $form));
+    }
+    /**
+     * @author Nguyen Anh Tien
+     */
+    public function actionSignOut(){
+        Yii::app()->user->logout();
+        Yii::app()->request->redirect($this->createUrl('home/index'));
     }
 }
 ?>
