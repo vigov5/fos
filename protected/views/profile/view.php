@@ -2,8 +2,9 @@
 /* @var $this ProfileController */
 /* @var $model Profile */
 ?>
+<?php $this->widget('bootstrap.widgets.TbAlert'); ?>
 
-<h1>View <?php echo $profile->name; ?>'s profile</h1>
+<h1><?php echo $profile->name; ?>'s profile</h1>
 
 <?php
     echo CHtml::link('Edit this profile',
