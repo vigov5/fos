@@ -42,7 +42,9 @@ class User extends ActiveRecord
         // will receive user inputs.
         return array(
             array('profile_id, is_admin', 'numerical', 'integerOnly' => true),
-            array('username', 'length', 'max' => 255),
+            array('username', 'unique'),
+            array('username', 'unique', 'className' => 'Profile', 'attributeName' => 'employee_code'),
+            array('username', 'length', 'max' => 20),
             array('password, created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
