@@ -131,6 +131,33 @@ class UserController extends Controller
 //            $this->redirect(Yii::app()->homeUrl);
 //        }
     }
+    
+    /*
+     * @author Nguyen Van Cuong
+     * action change password
+     */
+     public function actionChangePassword() {
+        $form = new ChangePasswordForm;
+        if (isset($_POST['ChangePasswordForm'])){
+            $form->attributes = $_POST['ChangePasswordForm'];
+            $form->validate();
+            if (!$form->hasErrors()){
+                $user = User::model()->findByPk(Yii::app()->user->id);
+                if (!$user->isValidPassword($form->oldPass)){
+                    Yii::app()->user->setFlash('error', 'Old password is incorrect!');
+                    $this->refresh();
+                } else {
+                    $user->password = $user->generatePasswordHash($form->newPass);
+                    $user->save();
+                    Yii::app()->user->setFlash('sucessful', 'Your password has been changed !');
+                    $this->redirect(Yii::app()->homeUrl);
+                }
+                
+            }
+           
+        }
+        $this->render('change_password', array('form' => $form));
+    }
 }
 
 ?>
