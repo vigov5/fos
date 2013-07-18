@@ -8,7 +8,11 @@ return array(
 
 	// preloading 'log' component
 	'preload'=>array('log'),
-
+    'import' => array(
+        'application.models.*',
+        'application.components.*',
+        'application.extensions.yii-mail.*',
+    ),
 	// application components
 	'components'=>array(
         /*
@@ -32,5 +36,24 @@ return array(
 				),
 			),
 		),
+        'mail' => array(
+            'class' => 'application.extensions.yii-mail.YiiMail',
+            'transportType'=>'smtp',
+            'transportOptions'=>array(
+                'host'=>'smtp.gmail.com',
+                'username'=>'framgia.email.tester@gmail.com',
+                'password'=>'framgia345',
+                'port'=>'465',
+                'encryption'=>'ssl',
+                ),
+            'viewPath' => 'application.views.mail',
+            'logging' => true,
+            'dryRun' => false,
+        ),
 	),
+    'params' => array(
+        // this is used in contact page
+        'adminEmail' => 'webmaster@example.com',
+        'base_url' => 'http://localhost/fos',
+    ),
 );
