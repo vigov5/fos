@@ -158,7 +158,21 @@ class UserController extends Controller
         }
         $this->render('change_password', array('form' => $form));
     }
-
+    
+    /**
+     * @author Nguyen Thi Huyen 
+     * @param integer $id of the model to be delete
+     */
+    public function actionDelete($id) {
+        $profile = Profile::model()->findByPk($id);
+        if($profile === null) {
+            throw new CHttpException(404, 'The requested page does not exist.');
+        }
+        if (!$profile->user->is_admin) {
+            $profile->deleteUser();
+        }
+        $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('/profile/index'));
+    }
 }
 
 ?>

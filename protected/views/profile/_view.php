@@ -33,11 +33,12 @@
 <div class="row">
     <?php
         if (Yii::app()->user->isAdmin){
-            if (!isset($data->user->is_admin)) {
+            if (empty($data->user->is_admin)) {
                 if (isset($data->user->username)) {
-                    echo '<span class="small primary warning btn">';
+                    echo '<span>';
                     echo CHtml::button('Delete user', array('submit' => array('user/delete',
-                        'id' => $data->id), 'confirm'=>'Do you want to delete this user permanently?'));
+                        'id' => $data->id), 'class' => 'btn btn-warning',
+                        'confirm'=>'Do you want to delete this user permanently?'));
                     echo '</span>&nbsp';
                 } else {
                     echo '<span>';
@@ -50,7 +51,7 @@
             echo CHtml::button('Update profile', array('submit' => array('profile/update',
                 'id' => $data->id), 'class' => 'btn btn-success'));
             echo '</span>&nbsp';
-            if (!isset($data->user->is_admin)) {
+            if (empty($data->user->is_admin)) {
                 echo '<span>';
                 echo CHtml::button('Delete profile', array('submit' => array('profile/delete',
                     'id' => $data->id),'class' => 'btn btn-danger',

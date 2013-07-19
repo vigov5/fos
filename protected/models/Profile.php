@@ -177,6 +177,11 @@ class Profile extends ActiveRecord
         $result = MailSender::sendMail('Reset Password', $this->email, $this->name, $link);
         return $result;
     }
-
+    
+     public function deleteUser()
+    {
+        $user = $this->user;
+        $user->delete();
+    }
 }
 
