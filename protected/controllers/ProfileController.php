@@ -75,6 +75,9 @@ class ProfileController extends Controller
         $profile = new Profile;
         if (isset($_POST['Profile'])) {
             $profile->attributes = $_POST['Profile'];
+            if (empty($profile->date_of_birth)) {
+                $profile->date_of_birth = null;
+            }
             if ($profile->save()) {
                 Yii::app()->user->setFlash('success', 'You created successfully!');
                 $this->redirect(array('view', 'id' => $profile->id));
@@ -96,9 +99,13 @@ class ProfileController extends Controller
         $profile = $this->loadModel($id);
         if (isset($_POST['Profile'])) {
             $profile->attributes = $_POST['Profile'];
-            if ($profile->save())
+            if (empty($profile->date_of_birth)) {
+                $profile->date_of_birth = null;
+            }
+            if ($profile->save()) {
                 Yii::app()->user->setFlash('success', 'You updated successfully!');
                 $this->redirect(array('view', 'id' => $profile->id));
+            }
         }
 
         $this->render('update', array(

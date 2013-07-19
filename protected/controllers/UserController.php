@@ -98,7 +98,7 @@ class UserController extends Controller
                 $profile->sendResetPasswordLink();
                 Yii::app()->user->setFlash('success', 'We have sent you a link to reset your password. 
                     Please check your email');
-                $this->redirect(Yii::app()->homeUrl);
+                $this->redirect(Yii::app()->user->loginUrl);
             } else {
                 Yii::app()->user->setFlash('error', 'Sorry ! No User found !');
             }
