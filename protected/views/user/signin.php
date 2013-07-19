@@ -3,6 +3,7 @@ $this->breadcrumbs = array(
     'User' => array('signin'),
     'Log in',
 );
+$this->widget('bootstrap.widgets.TbAlert');
 ?>
 <div class="center_form">
     <div class="row text-center">

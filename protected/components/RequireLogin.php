@@ -13,6 +13,7 @@ class RequireLogin extends CBehavior
     public function handleBeginRequest($event)
     {
         if (Yii::app()->user->isGuest && !$this->isAllowed()) {
+            Yii::app()->user->setFlash('error', 'You must sign in first.');
             Yii::app()->user->loginRequired();
         }
     }
