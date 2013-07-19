@@ -17,12 +17,13 @@
     <p class="note">Fields with <span class="required">*</span> are required.</p>
     <?php echo $form->errorSummary($profile); ?>
     <?php echo $form->textFieldRow($profile, 'email', array('class' => 'span4')); ?>
-    <?php echo $form->textFieldRow($profile, 'name',array('class' => 'span4')); ?>
-    <?php echo $form->textAreaRow($profile, 'address',array('class' => 'span4', 'rows' => 3)); ?>
-    <?php echo $form->textFieldRow($profile, 'employee_code',array('class' => 'span4')); ?>
-    <?php echo $form->textFieldRow($profile, 'position',array('class' => 'span2')); ?>
+    <?php echo $form->textFieldRow($profile, 'name', array('class' => 'span4')); ?>
+    <?php echo $form->textAreaRow($profile, 'address', array('class' => 'span4', 'rows' => 3)); ?>
+    <?php echo $form->textFieldRow($profile, 'phone', array('class' => 'span3')); ?>
+    <?php echo $form->textFieldRow($profile, 'employee_code', array('class' => 'span3')); ?>
+    <?php echo $form->textFieldRow($profile, 'position', array('class' => 'span3')); ?>
     <?php echo $form->textFieldRow($profile, 'date_of_birth', array(
-            'class' => 'span2',
+            'class' => 'span3',
             'hint' => 'Format is Year-Month-Day. Example: 1991-11-27',
         ));
     ?>
