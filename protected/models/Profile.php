@@ -129,22 +129,21 @@ class Profile extends ActiveRecord
                         'user/signup', array('email' => $this->email, 'key' => $this->secret_key)
         );
     }
-    
+
     /**
      * @author Pham Tri Thai
      * @return string reset password URL
      */
     public function generateResetPasswordLink()
-    {        
+    {
         return Yii::app()->createAbsoluteUrl(
-            'user/resetPassword', 
-            array(
-                'email' => $this->email, 
+            'user/resetPassword', array(
+                'email' => $this->email,
                 'key' => $this->secret_key
             )
         );
     }
-    
+
     /**
      * @author Nguyen Anh Tien
      * @return string unique string used as secret_key
@@ -166,6 +165,17 @@ class Profile extends ActiveRecord
     {
         $this->secret_key = $this->generateKey();
         $this->save();
+    }
+
+    /*
+     * @author Vu Dang Tung
+     */
+
+    public function sendResetPasswordLink()
+    {
+        $link = $this->generateResetPasswordLink();
+        $result = MailSender::sendMail('Reset Password', $this->email, $this->name, $link);
+        return $result;
     }
 
 }
