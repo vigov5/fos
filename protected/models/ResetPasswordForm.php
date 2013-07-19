@@ -7,11 +7,14 @@ class ResetPasswordForm extends CFormModel
     
     public function rules()
     {
-        return array(array('passwordConfirm',
-            'compare',
-            'compareAttribute' => 'password',
-            'message' => 'Retype password is incorrect.',
-        ));
+        return array(
+            array('password', 'required'),
+            array(
+                'passwordConfirm', 'compare',
+                'compareAttribute' => 'password',
+                'message' => 'Retype password is incorrect.',
+            )
+        );
     }
 
 }
