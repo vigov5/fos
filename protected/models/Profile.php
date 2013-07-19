@@ -126,7 +126,7 @@ class Profile extends ActiveRecord
             $this->updateKey();
         }
         return Yii::app()->createAbsoluteUrl(
-            'user/signup', array('email' => $this->email, 'key' => $this->secret_key)
+            'user/signup', array('email' => $this->email, 'secret_key' => $this->secret_key)
         );
     }
 
