@@ -4,7 +4,7 @@
         <h1>Reset Password</h1>
     </div>
 </div>
-
+<?php $this->widget('bootstrap.widgets.TbAlert'); ?>
 <div>
     <form method="Post">      
         <div>          

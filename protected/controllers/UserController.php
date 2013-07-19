@@ -88,6 +88,7 @@ class UserController extends Controller
     public function actionForgetPassword()
     {
         if (isset($_POST['ForgetPasswordForm'])) {
+
             $profile = ProfileOrUserFinder::findProfile($_POST['ForgetPasswordForm']['arg']);
             if ($profile != null && $profile->user != null) {
                 $profile->sendResetPasswordLink();
@@ -100,36 +101,34 @@ class UserController extends Controller
         }
         $this->render('forget_password');
     }
-
-    /*
-     * @author Nguyen Van Cuong
+   
+    /* 
+     *@author Nguyen Van Cuong
      * action reset password
      */
-
-    public function actionResetPassword()
-    {
-//        $profile = Profile::model()->findByAttributes(
-//            array('email' => $email, 'secret_key' => $key));
-//        if ($profile != null) {   
-//        $form = new ResetPasswordForm;
-//            if (isset($_POST['ResetPasswordForm'])) {             
-//                $form->password = $_POST['ResetPasswordForm']['password'];
-//                $form->passwordConfirm = $_POST['ResetPasswordForm']['passwordConfirm'];
-//                $form->validate();
-//                if (!$form->hasErrors()) {
-//                    $user = $profile->user;
-//                    $user->password = md5($form->password);
-//                    $user->save();
-//                    $profile->updateKey(); 
-//                    Yii::app()->user->setFlash('sucessful', 'Your password has been changed !');
-//                    $this->redirect(Yii::app()->homeUrl);
-//                }
-//            }
-//       $this->render('reset_password', array('form' => $form));
-//        } else {
-//            Yii::app()->user->setFlash('fail', 'Invalid URL !');
-//            $this->redirect(Yii::app()->homeUrl);
-//        }
+     public function actionResetPassword()
+    {       
+        $profile = Profile::model()->findByAttributes(
+            array('email' => $_GET['email'], ));
+        if ($profile != null) {   
+            $form = new ResetPasswordForm;   
+            if (isset($_POST['ResetPasswordForm'])) {             
+                $form->attributes = $_POST['ResetPasswordForm'];
+                $form->validate();
+                if (!$form->hasErrors()) {
+                    $user = $profile->user;
+                    $user->password = $user->generatePasswordHash($form->password);
+                    $user->save();
+                    $profile->updateKey(); 
+                    Yii::app()->user->setFlash('success', 'Your password has been changed !');
+                    $this->redirect(Yii::app()->homeUrl);
+                }  
+            }
+            $this->render('reset_password', array('form' => $form));
+        } else {
+            Yii::app()->user->setFlash('error', 'Invalid URL !');
+            $this->redirect(Yii::app()->homeUrl);
+        }
     }
 
     /*

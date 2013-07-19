@@ -166,6 +166,7 @@ class Profile extends ActiveRecord
         $this->secret_key = $this->generateKey();
         $this->save();
     }
+    
 
     /*
      * @author Vu Dang Tung

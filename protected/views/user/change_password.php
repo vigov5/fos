@@ -4,12 +4,7 @@
         <h1>Change Password</h1>
     </div>
 </div>
-<?php $this->widget('bootstrap.widgets.TbAlert', array(
-            'block'=>true, // display a larger alert block?
-            'fade'=>true, // use transitions?
-            'closeText'=>'&times;', // close link text - if set to false, no close link is displayed
-        )
-); ?>
+<?php $this->widget('bootstrap.widgets.TbAlert'); ?>
 <div>
     <form method="Post">      
         <div>
