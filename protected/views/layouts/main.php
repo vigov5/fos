@@ -72,8 +72,16 @@
                                 'items' => array(
                                     array('label' => Yii::app()->user->username, 'icon' => 'user white', 'url' => '#',
                                         'items' => array(
-                                            array('label' => 'Profile', 'icon' => 'pencil', 'url' => '#'),
-                                            array('label' => 'Settings', 'icon' => 'cog', 'url' => '#'),
+                                            array(
+                                                'label' => 'Profile',
+                                                'icon' => 'pencil',
+                                                'url' => array('profile/view', 'id' => Yii::app()->user->profile_id),
+                                            ),
+                                            array(
+                                                'label' => 'Change password',
+                                                'icon' => 'cog',
+                                                'url' => array('user/changePassword'),
+                                            ),
                                             array('label' => 'Help', 'icon' => 'flag', 'url' => '#'),
                                             '---',
                                             array('label' => 'Logout', 'icon' => 'icon-share', 'url' => array('user/signout')),

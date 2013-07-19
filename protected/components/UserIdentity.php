@@ -28,7 +28,7 @@ class UserIdentity extends CUserIdentity
             if ($user->isValidPassword($this->password)) {
                 $this->_id = $user->id;
                 $this->setState('username', $user->username);
-                $this->setState('profileId', $user->profile_id);
+                $this->setState('profile_id', $user->profile_id);
                 if ($user->is_admin) {
                     $this->setState('is_admin', true);
                 } else {
