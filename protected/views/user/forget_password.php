@@ -1,27 +1,31 @@
 <?php $this->widget('bootstrap.widgets.TbAlert'); ?>
-<div class="none"></div>
-<div class="row">
-    <div class="span10">
-        <h1 class="page-title">Password Recovery</h1>
+<div class="center_form">
+    <div class="row text-center">
+        <h1>Password Recovery</h1>
     </div>
-</div>
-<?php $this->widget('bootstrap.widgets.TbAlert'); ?>
-<div>
-    <form method="Post">
-        <div class="span7">           
-            <div style="height:50px"></div>
-            <div>
-                <?php echo CHtml::textField('ForgetPasswordForm[arg]', null, array('class' => '', 
-                    'placeholder' => 'Username or Email or Employee code')); ?>
+    <?php $this->widget('bootstrap.widgets.TbAlert'); ?>
+    <div>
+        <form method="Post">
+            <div class="span7">           
+                <div style="height:40px"></div>
+                <div>
+                    <label class="" >
+                    <?php echo CHtml::textField('ForgetPasswordForm[arg]', null, array(
+                        'class' => 'span25 offset4', 
+                        'placeholder' => 'Username or Email or Employee code')); ?>
+                    </label>
+                </div>
+                <div style="height:30px"></div>
+                <div class="row">
+                    <?php
+                        echo CHtml::button('Submit', array(
+                                'submit' => array('user/forgetPassword'),
+                                'class' => 'btn btn-primary btn-medium span5 offset7',)
+                            );
+                    ?>
+                </div>
             </div>
-            <div style="height:50px"></div>
-            <?php
-                echo CHtml::button('Submit', array(
-                        'submit' => array('user/forgetPassword'),
-                        'class' => 'btn btn-primary btn-large',)
-                    );
-            ?>
-        </div>
-    </form>
+        </form>
+    </div>
+    <div style="height:150px"></div>
 </div>
-<div style="height:150px"></div>
