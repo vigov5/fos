@@ -7,10 +7,12 @@
 <h1><?php echo $profile->name; ?>'s profile</h1>
 
 <?php
-    echo CHtml::link('Edit this profile',
-        array('profile/update', 'id' => $profile->id),
-        array('class' => 'btn btn-primary')
-    );
+    if (Yii::app()->user->is_admin) {
+        echo CHtml::link('Edit this profile',
+            array('profile/update', 'id' => $profile->id),
+            array('class' => 'btn btn-primary')
+        );
+    }
 ?>
 <div class="none"></div>
 <?php

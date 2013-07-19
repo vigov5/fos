@@ -9,7 +9,7 @@ $this->breadcrumbs = array(
 
 <div class="row">
     <h2>Profiles</h2>
-    <?php if (Yii::app()->user->isAdmin) { ?>
+    <?php if (Yii::app()->user->is_admin) { ?>
         <div>
             <?php echo CHtml::button('Create profile', array('submit' => array('profile/create'),
                 'class' => 'btn btn-primary')); ?>

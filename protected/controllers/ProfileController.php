@@ -29,7 +29,7 @@ class ProfileController extends Controller
             'allow', // allow admin user to perform actions
             'controllers' => array('profile'),
             'actions' => array('create', 'update', 'delete', 'sendSignUpEmail'),
-            'expression' => '$user->isAdmin'
+            'expression' => '$user->is_admin'
         ),
         array(
             'deny',  // deny all users
