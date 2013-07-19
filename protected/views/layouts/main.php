@@ -13,7 +13,7 @@
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
     <body>
-        <div class="container" id="page">
+        <div class="row-fluid" id="page">
             <div id="header">
                 <div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
             </div><!-- header -->
@@ -40,7 +40,7 @@
                                 'class' => 'bootstrap.widgets.TbMenu',
                                 'htmlOptions' => array('class' => 'pull-right'),
                                 'items' => array(
-                                    array('label' => 'SignIn', 'icon' => 'user white',
+                                    array('label' => 'Sign In', 'icon' => 'user white',
                                         'url' => array('user/signin')
                                     ),
                                 ),
@@ -64,7 +64,7 @@
                                 ),
                             ),
                             '<form class="navbar-search pull-left" action=""><input type="text"
-                             class="search-query span4" placeholder="search people, post and anythings">
+                             class="search-query" placeholder="search people, post and anythings">
                             </form>',
                             array(
                                 'class' => 'bootstrap.widgets.TbMenu',
@@ -91,13 +91,11 @@
                 <?php echo $content; ?>
             </div>
             <div class="clear"></div>
-
-            <div id="footer">
-                Copyright &copy; <?php echo date('Y'); ?> by Framgia.<br/>
-                All Rights Reserved.<br/>                        
-                <?php echo Yii::powered(); ?>                   
-            </div><!-- footer -->
         </div><!-- page -->
-
+        <div id="footer">
+            Copyright &copy; <?php echo date('Y'); ?> by Framgia.<br/>
+            All Rights Reserved.<br/>
+            <?php echo Yii::powered(); ?>
+        </div><!-- footer -->
     </body>
 </html>
