@@ -17,7 +17,6 @@
 $this->widget('bootstrap.widgets.TbDetailView', array(
     'data' => $profile,
     'attributes' => array(
-        'id',
         'email',
         'name',
         'phone',
