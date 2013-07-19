@@ -51,4 +51,3 @@ class UserIdentity extends CUserIdentity
     }
 
 }
-
