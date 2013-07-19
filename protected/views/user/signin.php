@@ -12,10 +12,12 @@ $this->breadcrumbs = array(
     <form method='post'>
         <?php echo CHtml::errorSummary($form); ?>
         <div class="row">
-            <?php echo CHtml::activeTextField($form, 'username', array('class' => 'span6 offset3', 'placeholder' => 'Username')); ?>
+            <?php echo CHtml::activeTextField($form, 'username', array('class' => 'span6 offset3', 
+                'placeholder' => 'Username')); ?>
         </div>
         <div class="row">
-            <?php echo CHtml::activePasswordField($form, 'password', array('class' => 'span6 offset3', 'placeholder' => 'Password')); ?>
+            <?php echo CHtml::activePasswordField($form, 'password', array('class' => 'span6 offset3', 
+                'placeholder' => 'Password')); ?>
         </div>
         <div style="height:20px"></div>
         <div class="row" style="color: blue; font-size: 8px">
