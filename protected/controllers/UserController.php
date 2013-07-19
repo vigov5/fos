@@ -65,10 +65,14 @@ class UserController extends Controller
                     }
                 }
                 $this->render('signup', array('form' => $signup_form));
+            } else {
+                // on invalid case, redirect to home page
+                $this->redirect($this->createUrl('user/signin'));
             }
+        } else {
+            // on invalid case, redirect to home page
+            $this->redirect($this->createUrl('user/signin'));
         }
-        // on invalid case, redirect to home page
-        $this->redirect($this->createUrl('user/signin'));
     }
 
     /**
