@@ -32,7 +32,7 @@
 </div>
 <div class="row">
     <?php
-        if (Yii::app()->user->isAdmin){
+        if (Yii::app()->user->is_admin){
             if (empty($data->user->is_admin)) {
                 if (isset($data->user->username)) {
                     echo '<span>';
