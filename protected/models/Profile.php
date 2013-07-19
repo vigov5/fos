@@ -126,7 +126,7 @@ class Profile extends ActiveRecord
             $this->updateKey();
         }
         return Yii::app()->createAbsoluteUrl(
-                        'user/signup', array('email' => $this->email, 'key' => $this->secret_key)
+            'user/signup', array('email' => $this->email, 'key' => $this->secret_key)
         );
     }
 
@@ -178,11 +178,21 @@ class Profile extends ActiveRecord
         $result = MailSender::sendMail('Reset Password', $this->email, $this->name, $link);
         return $result;
     }
-    
+
      public function deleteUser()
     {
         $user = $this->user;
         $user->delete();
+    }
+    /*
+     * @author Vu Dang Tung
+     * send user link to sign up task#5309
+     */
+    public function sendSignUpEmail()
+    {   
+        $link = $this->generateSignUpLink();
+        $result = MailSender::sendMail('Sign Up Link', $this->email, $this->name, $link);
+        return $result;
     }
 }
 
