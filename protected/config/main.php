@@ -25,12 +25,18 @@ return array(
             'ipFilters' => array('127.0.0.1', '::1'),
         ),
     ),
+    'behaviors' => array(
+        'onBeginRequest' => array(
+            'class' => 'application.components.RequireLogin'
+        )
+    ),
     // application components
     'components' => array(
         'bootstrap' => array(
             'class' => 'bootstrap.components.Bootstrap',
         ),
         'user' => array(
+            'loginUrl' => array('user/signin'),
             // enable cookie-based authentication
             'allowAutoLogin' => true,
         ),
