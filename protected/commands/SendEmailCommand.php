@@ -23,6 +23,7 @@ class SendEmailCommand extends CConsoleCommand
             ),
             'text/html'
         );
+        Yii::app()->mail->send($message);
     }
 
 }
