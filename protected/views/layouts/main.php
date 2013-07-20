@@ -13,11 +13,7 @@
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
     <body>
-        <div class="row-fluid" id="page">
-            <div id="header">
-                <div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-            </div><!-- header -->
-
+        <div class="row-fluid" id="page">   
             <div id="mainmenu">
                 <?php
                 if (Yii::app()->user->isGuest) {
@@ -28,13 +24,7 @@
                         'collapse' => true, // requires bootstrap-responsive.css
                         'items' => array(
                             array(
-                                'class' => 'bootstrap.widgets.TbMenu',
-                                'items' => array(
-                                    array('label' => 'Home', 'icon' => 'home white', 'url' => array('home/index')),
-                                    array('label' => '', 'icon' => 'star', 'url' => '#'),
-                                    array('label' => '', 'icon' => 'envelope', 'url' => '#'),
-                                    array('label' => '', 'icon' => 'globe', 'url' => '#'),
-                                ),
+                                'class' => 'bootstrap.widgets.TbMenu',                                
                             ),
                             array(
                                 'class' => 'bootstrap.widgets.TbMenu',
@@ -91,19 +81,36 @@
                         ),
                     ));
                 }
-                ?>
-            </div><!-- mainmenu -->
-
-            <div class="clear"></div>
-            <div class="content">
-                <?php echo $content; ?>
+                ?>   
             </div>
+            <div class="row-fluid main-page">  
+                <?php
+                if (Yii::app()->user->isGuest) {
+                    echo '<div class="clear"></div>';
+                    echo $content;
+                } else {
+                    ?>                  
+                    <div class="span9 content">                            
+                        <?php echo $content; ?>
+                    </div>
+                    <div class="span3 stream">
+                        <div class="alert alert-info">Stream</div>
+                        <?php
+                        foreach ($this->stream as $activity) {
+                            $this->renderPartial(
+                                '/stream/_an_activity', array('activity' => $activity)
+                            );
+                        }
+                        ?>
+                    </div>
+                <?php } ?>
+            </div>            
             <div class="clear"></div>
-        </div><!-- page -->
-        <div id="footer">
-            Copyright &copy; <?php echo date('Y'); ?> by Framgia.<br/>
-            All Rights Reserved.<br/>
-            <?php echo Yii::powered(); ?>
-        </div><!-- footer -->
+        </div><!-- page -->        
     </body>
+    <div id="footer">
+        Copyright &copy; <?php echo date('Y'); ?> by Framgia.<br/>
+        All Rights Reserved.<br/>
+        <?php echo Yii::powered(); ?>
+    </div><!-- footer -->
 </html>
