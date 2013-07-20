@@ -58,9 +58,7 @@
                                 'class' => 'bootstrap.widgets.TbMenu',
                                 'items' => array(
                                     array('label' => 'Home', 'icon' => 'home white', 'url' => array('home/index')),
-                                    array('label' => '', 'icon' => 'star', 'url' => '#'),
-                                    array('label' => '', 'icon' => 'envelope', 'url' => '#'),
-                                    array('label' => '', 'icon' => 'globe', 'url' => '#'),
+                                    array('label' => 'Notifications', 'icon' => 'globe white', 'url' => '#'),
                                 ),
                             ),
                             '<form class="navbar-search pull-left" action=""><input type="text"
@@ -70,6 +68,8 @@
                                 'class' => 'bootstrap.widgets.TbMenu',
                                 'htmlOptions' => array('class' => 'pull-right'),
                                 'items' => array(
+                                    array('label' => 'All Polls', 'url' => array('poll/all')),
+                                    array('label' => 'My Polls', 'url' => array('poll/my')),
                                     array('label' => Yii::app()->user->username, 'icon' => 'user white', 'url' => '#',
                                         'items' => array(
                                             array(
