@@ -1,43 +1,36 @@
 $(function(){
-    checkNumberChoices();
-    $('#add_choice').click(function(){
-        var poll_id = $('#add_choice_textfield').attr('data-poll_id');
-        var content_choice = $('#add_choice_textfield').val();
-        if (content_choice === '') {
-            alert('Choice content not empty!');
-        } else {
-            addChoice(poll_id, content_choice);
-        }
+    $('#add_choice').click(function(){        
+        addChoice();                                
     });
     
     $('#add_choice_textfield').keypress(function(event){
-        if (event.which === 13) {
-            var poll_id = $('#add_choice_textfield').attr('data-poll_id');
-            var content_choice = $('#add_choice_textfield').val();
-            if (content_choice === '') {
-                alert('Choice content not empty!');
-            } else {
-                addChoice(poll_id, content_choice);
-            }
+        if (event.which === 13) {           
+            addChoice();                                            
         }
     });
     
     addCloseListener();
 });
 
-function addChoice(poll_id, content_choice) {
-    var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?r=choice/create';
+function addChoice() {
+    var poll_id = $('#add_choice_textfield').attr('data-poll_id');
+    var choice_content = $('#add_choice_textfield').val();
+    if (choice_content === '') {
+        return;
+    } 
+    var url = 'index.php?r=choice/create';
     $.ajax({
         type: 'POST',
         url: url,
         data: {
             poll_id: poll_id,
-            content_choice: content_choice
+            content_choice: choice_content
         }
     }).success(function(msg) {
-        choice_id = jQuery.parseJSON(msg);
-        $('#choice_content').append(addHtml(content_choice, choice_id));
-        $('#add_choice_textfield').val('');
+        var choice_id = jQuery.parseJSON(msg);
+        var choice_html = createChoiceElement(choice_content, choice_id);        
+        choice_html.appendTo('#choice_content');        
+        HtmlElement.reset('#add_choice_textfield');
         addCloseListener(choice_id);
         checkNumberChoices();
     }).fail(function() {
@@ -46,19 +39,15 @@ function addChoice(poll_id, content_choice) {
 }
 
 function deleteChoice(choice_id) {
-    var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?r=choice/delete';
+    var url = 'index.php?r=choice/delete';
     $.ajax({
         type: 'POST',
         url: url,
         data: {
             choice_id: choice_id
         }
-    }).success(function() {
-        $('div[data-choice_id="' + choice_id + '"]').hide(500, function(){
-            this.remove();
-            checkNumberChoices();
-        });
-        
+    }).success(function() {                
+        HtmlElement.remove('#choice_' + choice_id, checkNumberChoices);         
     }).fail(function() {
         alert('Fail!');
     });
@@ -78,13 +67,13 @@ function addCloseListener (choice_id){
     }
 }
 
-function addHtml(content_choice, choice_id){
-    console.log(choice_id);
-    var html = '<div class="well well-small" data-choice_id="';
-    html += choice_id + '">';
-    html += content_choice + '<button class="close close_choice" data-choice_id="';
-    html += choice_id + '">&times;</button></div>';
-    return html;
+function createChoiceElement(choice_content, choice_id){
+    var data = {
+        id: 'choice_' + choice_id,
+        choice_id: choice_id,
+        choice_content: choice_content
+    };
+    return new HtmlElement('choice', data);        
 };
 
 function checkNumberChoices(){
