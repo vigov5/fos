@@ -14,7 +14,7 @@ $this->widget('bootstrap.widgets.TbAlert');
             <td>
                 <b> Multichoice :</b>
                 <?php
-                if ($poll->is_multichoice === '0') {
+                if ($poll->is_multichoice == POll::IS_MULTICHOICES_NO) {
                     echo ' No ';
                 } else {
                     echo ' Yes ';
@@ -27,7 +27,7 @@ $this->widget('bootstrap.widgets.TbAlert');
             <td>
                 <b> Poll Type :</b>
                 <?php
-                if ($poll->poll_type === '0') {
+                if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_ANONYMOUS) {
                     echo ' Anonymous ';
                 } else {
                     echo ' Non-Anonymous ';
@@ -41,13 +41,13 @@ $this->widget('bootstrap.widgets.TbAlert');
                 <b>Poll Display :</b>
                 <?php
                 switch ($poll->display_type) {
-                    case 0:
+                    case Poll::POLL_DISPLAY_SETTINGS_PUBLIC:
                         echo ' Public ';
                         break;
-                    case 1:
+                    case Poll::POLL_DISPLAY_SETTINGS_RESTRICTED:
                         echo ' Restricted ';
                         break;
-                    case 2:
+                    default:
                         echo ' Invited Only ';
                         break;
                 }
@@ -60,13 +60,13 @@ $this->widget('bootstrap.widgets.TbAlert');
                 <b>Result Display :</b>
                 <?php
                 switch ($poll->result_display_type) {
-                    case 0:
+                    case Poll::RESULT_DISPLAY_SETTINGS_PUBLIC:
                         echo 'Pulic';
                         break;
-                    case 1:
+                    case Poll::RESULT_DISPLAY_SETTINGS_VOTED_ONLY:
                         echo 'Voted Only';
                         break;
-                    case 2:
+                    default:
                         echo 'Owner Only';
                         break;
                 }
@@ -78,7 +78,7 @@ $this->widget('bootstrap.widgets.TbAlert');
             <td>
                 <b>Result Details :</b>
                 <?php
-                if ($poll->result_detail_type === '0') {
+                if ($poll->result_detail_type == Poll::RESULT_DETAIL_SETTINGS_ALL) {
                     echo ' All ';
                 } else {
                     echo ' Only Percentage ';
@@ -91,7 +91,7 @@ $this->widget('bootstrap.widgets.TbAlert');
             <td>
                 <b>Result Show Time :</b>
                 <?php
-                if ($poll->result_show_time_type === '0') {
+                if ($poll->result_show_time_type == Poll::RESULT_TIME_SETTINGS_AFTER) {
                     echo ' After vote finish';
                 } else {
                     echo ' During ';

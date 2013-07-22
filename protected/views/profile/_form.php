@@ -16,14 +16,14 @@
     
     <p class="note">Fields with <span class="required">*</span> are required.</p>
     <?php echo $form->errorSummary($profile); ?>
-    <?php echo $form->textFieldRow($profile, 'email', array('class' => 'span4')); ?>
-    <?php echo $form->textFieldRow($profile, 'name', array('class' => 'span4')); ?>
-    <?php echo $form->textAreaRow($profile, 'address', array('class' => 'span4', 'rows' => 3)); ?>
-    <?php echo $form->textFieldRow($profile, 'phone', array('class' => 'span3')); ?>
-    <?php echo $form->textFieldRow($profile, 'employee_code', array('class' => 'span3')); ?>
-    <?php echo $form->textFieldRow($profile, 'position', array('class' => 'span3')); ?>
+    <?php echo $form->textFieldRow($profile, 'email', array('class' => 'span6')); ?>
+    <?php echo $form->textFieldRow($profile, 'name', array('class' => 'span6')); ?>
+    <?php echo $form->textAreaRow($profile, 'address', array('class' => 'span6', 'rows' => 3)); ?>
+    <?php echo $form->textFieldRow($profile, 'phone', array('class' => 'span4')); ?>
+    <?php echo $form->textFieldRow($profile, 'employee_code', array('class' => 'span4')); ?>
+    <?php echo $form->textFieldRow($profile, 'position', array('class' => 'span4')); ?>
     <?php echo $form->textFieldRow($profile, 'date_of_birth', array(
-            'class' => 'span3',
+            'class' => 'span4',
             'hint' => 'Format is Year-Month-Day. Example: 1991-11-27',
         ));
     ?>
@@ -35,7 +35,6 @@
         ?>
         <?php echo CHtml::resetButton('Reset', array('class' => 'btn')); ?>
     </div>
-
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->

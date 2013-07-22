@@ -20,8 +20,54 @@
  * @property string $end_at
  */
 class Poll extends ActiveRecord
-{
-
+{   
+    const IS_MULTICHOICES_YES = 1;
+    const IS_MULTICHOICES_NO = 0;
+    
+    const POLL_TYPE_SETTINGS_ANONYMOUS = 1;
+    const POLL_TYPE_SETTINGS_NON_ANONYMOUS = 2;
+    
+    const POLL_DISPLAY_SETTINGS_PUBLIC = 1;
+    const POLL_DISPLAY_SETTINGS_RESTRICTED = 2;
+    const POLL_DISPLAY_SETTINGS_INVITED_ONLY = 3;
+    
+    const RESULT_DISPLAY_SETTINGS_PUBLIC = 1;
+    const RESULT_DISPLAY_SETTINGS_VOTED_ONLY = 2;
+    const RESULT_DISPLAY_SETTINGS_OWNER_ONLY = 3;
+    
+    const RESULT_DETAIL_SETTINGS_ALL = 1;
+    const RESULT_DETAIL_SETTINGS_ONLY_PERCENTAGE = 2;
+    
+    const RESULT_TIME_SETTINGS_AFTER = 1;
+    const RESULT_TIME_SETTINGS_DURING = 2;
+    
+    public static $IS_MULTICHOICES_SETTINGS = array(
+        'Yes' => self::IS_MULTICHOICES_YES,
+        'No' => self::IS_MULTICHOICES_NO,
+    );
+    public static $POLL_TYPE_SETTINGS = array(
+        'Anonymous' => self::POLL_TYPE_SETTINGS_ANONYMOUS,
+        'Non-anonymous' => self::POLL_TYPE_SETTINGS_NON_ANONYMOUS,
+    );
+    public static $POLL_DISPLAY_SETTINGS = array(
+        'Public' => self::POLL_DISPLAY_SETTINGS_PUBLIC,
+        'Restricted' => self::POLL_DISPLAY_SETTINGS_RESTRICTED,
+        'Invited only' => self::POLL_DISPLAY_SETTINGS_INVITED_ONLY,
+    );
+    public static $RESULT_DISPLAY_SETTINGS = array(
+        'Public' => self::RESULT_DISPLAY_SETTINGS_PUBLIC,
+        'Voted only' => self::RESULT_DISPLAY_SETTINGS_VOTED_ONLY,
+        'Owner only' => self::RESULT_DISPLAY_SETTINGS_OWNER_ONLY,
+    );
+    public static $RESULT_DETAIL_SETTINGS = array(
+        'All' => self::RESULT_DETAIL_SETTINGS_ALL,
+        'Only percentage' => self::RESULT_DETAIL_SETTINGS_ONLY_PERCENTAGE,
+    );
+    public static $RESULT_TIME_SETTINGS = array(
+        'After' => self::RESULT_TIME_SETTINGS_AFTER,
+        'During' => self::RESULT_TIME_SETTINGS_DURING,
+    );
+    
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
