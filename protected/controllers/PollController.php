@@ -24,7 +24,7 @@ class PollController extends Controller
         return array(
             array(
                 'allow',
-                'actions' => array('create', 'index', 'view', 'my', 'all', 'update', 'vote'),
+                'actions' => array('create', 'index', 'view', 'my', 'update', 'vote'),
                 'users' => array('@'),
             ),
             array(
@@ -38,15 +38,6 @@ class PollController extends Controller
             ),
         );
     }
-
-    /**
-     * @author Nguyen Thi Huyen
-     */
-    public function actionIndex()
-    {
-        $this->render('index');
-    }
-
     /**
      * @author Nguyen Van Cuong
      * function view detail poll
@@ -113,12 +104,12 @@ class PollController extends Controller
     /**
      *  @author Vu Dang Tung
      */
-    public function actionAll()
+    public function actionIndex()
     {
         $criteria = new CDbCriteria();
         $polls = Poll::model()->findAll($criteria);
 
-        $this->render('all', array('polls' => $polls));
+        $this->render('index', array('polls' => $polls));
     }
 
     public function actionMy()
