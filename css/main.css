@@ -22,7 +22,7 @@ body
 
 #mainmenu
 {
-    height: 40px;        
+    height: 40px; 
 }
 
 .main-page
@@ -37,18 +37,18 @@ body
 {    
     width: 75%;
     float: left;
-    height: 100%;
-    border: #C9E0ED solid 1px;
+    height: 100%;        
     border-bottom: none;
 }
 
 .stream 
 {
-    width: 20%;    
-    float:left;
+    width: 20%;        
     height: 100%;    
     border: #C9E0ED solid 1px;
     border-bottom: none;
+    position:fixed;
+    right: 5%;
 }
 
 
