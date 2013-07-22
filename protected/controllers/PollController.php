@@ -57,7 +57,7 @@ class PollController extends Controller
         $user = $poll->user;
         $choices = $poll->choices;
         $comments = $poll->comments;
-        $all_votes = User::model()->findByPk(Yii::app()->user->id)->getAllVotes($poll->id);
+        $all_votes = $this->current_user->getAllVotes($poll->id);
         $this->render('view', array(
             'poll' => $poll,
             'user' => $user,
@@ -173,7 +173,7 @@ class PollController extends Controller
                     }
                 }
                 // delete previous vote record
-                User::model()->findByPk(Yii::app()->user->id)->deleteAllVote($poll->id);
+                $this->current_user->deleteAllVote($poll->id);
 
                 // must contain only one in case of one-choice
                 if (!$poll->is_multichoice && count($valid_choice_ids) > 1) {

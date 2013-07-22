@@ -30,7 +30,7 @@ class UserController extends Controller
 
     private function afterSignIn()
     {
-        
+        Yii::app()->session['current_user'] = User::model()->findByPk(Yii::app()->user->id);
     }
 
     /*
@@ -147,7 +147,7 @@ class UserController extends Controller
             $form->attributes = $_POST['ChangePasswordForm'];
             $form->validate();
             if (!$form->hasErrors()) {
-                $user = User::model()->findByPk(Yii::app()->user->id);
+                $user = $this->current_user;
                 if (!$user->isValidPassword($form->oldPass)) {
                     Yii::app()->user->setFlash('error', 'Old password is incorrect!');
                     $this->refresh();
