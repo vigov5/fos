@@ -98,6 +98,7 @@ class PollController extends Controller
         $poll = new Poll;
         if (isset($_POST['Poll'])) {
             $poll->attributes = $_POST['Poll'];
+            $poll->user_id = Yii::app()->user->getId();
             if ($poll->save()) {
                 Yii::app()->user->setFlash('success', 'You created successfully!');
                 $this->redirect(array('view', 'id' => $poll->id));

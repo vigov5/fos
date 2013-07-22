@@ -9,8 +9,9 @@
 div.none { 
     height: 30px;
 }
-#poll_type_content, #display_type_content, #result_display_type_content,
-#result_detail_type_content, #result_show_time_type_content {
+#poll_type_content, #display_type_content,
+#result_display_type_content, #result_detail_type_content,
+#result_show_time_type_content, #is_multichoice_content {
     color: blue;
 }
 
