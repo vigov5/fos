@@ -32,13 +32,20 @@ class Controller extends CController
     public $stream = array();
     
     /**
+     *
+     * @var User current logging in user
+     */
+    public $current_user;
+
+    /**
      * If user logged in then get all recent activities detail and add to stream array
      * @param string $action     
      * @author Tran Duc Thang
      */   
     public function beforeAction($action)
     {
-        if (!Yii::app()->user->isGuest) {            
+        if (!Yii::app()->user->isGuest) {
+            $this->current_user = Yii::app()->session['current_user'];
             $this->stream[] = 'test 1';
             $this->stream[] = 'test 2';
             $this->stream[] = 'test 3';
