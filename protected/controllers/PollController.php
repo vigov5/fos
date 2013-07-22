@@ -1,6 +1,8 @@
 <?php
+
 class PollController extends Controller
 {
+
     /**
      * @return array action filters
      */
@@ -11,7 +13,7 @@ class PollController extends Controller
             'postOnly + delete', // we only allow deletion via POST request
         );
     }
-        
+
     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
@@ -19,25 +21,25 @@ class PollController extends Controller
      */
     public function accessRules()
     {
-    return array(
-        array(
-            'allow',
-            'actions' => array('create', 'index'),
-            'users' => array('@'),
-        ),
-        array(
-            'allow',
-            'controllers' => array('poll'),
-            'actions' => array('create'),
-            'expression' => '$user->is_admin'
-        ),
-        array(
-            'deny',
-            'users' => array('*'),
-        ),
-    );
+        return array(
+            array(
+                'allow',
+                'actions' => array('create', 'index', 'view', 'my', 'all'),
+                'users' => array('@'),
+            ),
+            array(
+                'allow',
+                'controllers' => array('poll'),
+                'actions' => array('create'),
+                'expression' => '$user->is_admin'
+            ),
+            array(
+                'deny',
+                'users' => array('*'),
+            ),
+        );
     }
-    
+
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -47,7 +49,7 @@ class PollController extends Controller
     {
         $this->render('index');
     }
-    
+
     /*
      * @author Nguyen Van Cuong
      */
@@ -71,6 +73,7 @@ class PollController extends Controller
     /*
      *  @author Nguyen Thi Huyen
      */
+
     public function actionCreate()
     {
         $poll = new Poll;
@@ -86,4 +89,28 @@ class PollController extends Controller
             'poll' => $poll,
         ));
     }
+
+    /*
+     *  @author Vu Dang Tung
+     */
+
+    public function actionAll()
+    {
+        $criteria = new CDbCriteria();
+        $polls = Poll::model()->findAll($criteria);
+
+        $this->render('all', array('polls' => $polls));
+    }
+
+    public function actionMy()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('user_id', Yii::app()->user->getId());
+        $polls = Poll::model()->findAll($criteria);
+
+        $this->render('my', array('polls' => $polls));
+    }
+
 }
+
+?>

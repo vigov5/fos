@@ -10,6 +10,16 @@ div.none {
     height: 30px;
 }
 #poll_type_content, #display_type_content, #result_display_type_content,
-    #result_detail_type_content, #result_show_time_type_content {
-        color: blue;
+#result_detail_type_content, #result_show_time_type_content {
+    color: blue;
+}
+
+span.poll_note {
+    color: #808080;
+    font-size: 12px;
+}
+
+span.user_poll{
+    font-size: 14px;
+    color: red;
 }
