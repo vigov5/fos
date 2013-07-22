@@ -3,6 +3,16 @@
 <?php
 $this->widget('bootstrap.widgets.TbAlert');
 ?>
+<?php
+if (Yii::app()->user->is_admin) {
+    echo CHtml::button('Delete Poll', array(
+        'submit' => array(
+            'poll/delete', 
+            'id' => $poll->id), 
+            'confirm' => 'Do you want to delete this poll ?')
+    );
+}
+?>
 <table class='detail-view table table-striped table-condensed' id='yw1'>
     <tbody>
         <tr class='odd'>

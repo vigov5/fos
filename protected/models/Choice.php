@@ -96,5 +96,16 @@ class Choice extends ActiveRecord
             'criteria' => $criteria,
         ));
     }
+    
+    /*
+     * @author Nguyen Van Cuong
+     * after delete choice . Automatic delete vote belong to choice
+     */
+    public function afterDelete()
+    {
+        foreach ($this->votes as $vote) {
+            $vote->delete();
+        }
+    }
 
 }
