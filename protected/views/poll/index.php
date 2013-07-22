@@ -13,3 +13,8 @@ and open the template in the editor.
         <?php echo CHtml::link('link to view', array('poll/view', 'id'=>'1')); ?>
     </body>
 </html>
+
+<div>
+    <?php echo CHtml::button('Create poll', array('submit' => array('poll/create'),
+        'class' => 'btn btn-primary')); ?>
+</div>
