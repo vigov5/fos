@@ -130,4 +130,15 @@ class User extends ActiveRecord
         return crypt($raw_password, $this->password) === $this->password;
     }
 
+    public function deleteAllVote($poll_id){
+        foreach ($this->getAllVotes($poll_id) as $vote) {
+            $vote->delete();
+        }
+    }
+
+
+
+    public function getAllVotes($poll_id){
+        return Vote::model()->votedBy($this->id)->belongTo($poll_id)->findAll();
+    }
 }
