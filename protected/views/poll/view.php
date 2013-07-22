@@ -6,10 +6,20 @@ $this->widget('bootstrap.widgets.TbAlert');
 <?php
 if (Yii::app()->user->is_admin) {
     echo CHtml::button('Delete Poll', array(
+        'class' => 'btn-danger',
         'submit' => array(
             'poll/delete', 
             'id' => $poll->id), 
             'confirm' => 'Do you want to delete this poll ?')
+    );
+}
+if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
+    echo CHtml::button('Edit Poll', array(
+        'class' => 'btn-warning',
+        'submit' => array(
+            'poll/update', 
+            'id' => $poll->id)
+        )
     );
 }
 ?>
