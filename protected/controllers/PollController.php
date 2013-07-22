@@ -29,8 +29,7 @@ class PollController extends Controller
             ),
             array(
                 'allow',
-                'controllers' => array('poll'),
-                'actions' => array('create'),
+                'actions' => array('delete'),
                 'expression' => '$user->is_admin'
             ),
             array(
@@ -52,8 +51,8 @@ class PollController extends Controller
 
     /*
      * @author Nguyen Van Cuong
+     * function view detail poll
      */
-
     public function actionView($id)
     {
         $poll = Poll::model()->findbyAttributes(array('id' => $id));
@@ -68,6 +67,27 @@ class PollController extends Controller
             'vote' => $vote,
             'comments' => $comments,
         ));
+    }
+    
+    /*
+     * @author Nguyen Van Cuong
+     */
+    public function loadModel($id) //Find Poll where id = $id
+    {
+        $model = Poll::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
+
+    /*
+     * @author Nguyen Van Cuong
+     */
+    public function actionDelete($id) //delete Poll where id = $id
+    {
+        $poll = $this->loadModel($id);
+        $poll->delete();
+        $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
     /*
@@ -89,7 +109,6 @@ class PollController extends Controller
             'poll' => $poll,
         ));
     }
-
     /*
      *  @author Vu Dang Tung
      */
@@ -114,3 +133,4 @@ class PollController extends Controller
 }
 
 ?>
+

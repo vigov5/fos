@@ -172,5 +172,19 @@ class Poll extends ActiveRecord
             'criteria' => $criteria,
         ));
     }
+    
+    /*
+     * @author Nguyen Van Cuong
+     * after delete poll . Automatic delete comments and choices belong to this poll
+     */
+    public function afterDelete()
+    {
+        foreach ($this->comments as $comment) {
+            $comment->delete();
+        }
+        foreach ($this->choices as $choice) {
+            $choice->delete();
+        }
+    }
 
 }
