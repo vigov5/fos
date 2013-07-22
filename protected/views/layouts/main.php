@@ -6,9 +6,14 @@
         <meta name="language" content="en" />
         <?php
         Yii::app()->bootstrap->register();
+        Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/jquery-ui.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/style.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/main.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/form.css');
+        Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/datetimepicker.css');
+        
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-2.0.3.min.js');
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-ui.js');
         ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>

@@ -69,4 +69,8 @@ $(function(){
             $('#result_show_time_type_content').html(html).fadeIn();
         });
    });
-  }); 
+   
+   $('.poll_time').datetimepicker({
+       dateFormat: "yy-mm-dd"
+   });
+});
