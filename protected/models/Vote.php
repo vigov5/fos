@@ -96,4 +96,34 @@ class Vote extends ActiveRecord
         ));
     }
 
+    /**
+     *
+     * @param integer $user_id id of user to search
+     * @return function scope that search votes is voted by user
+     */
+    public function votedBy($user_id){
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'condition' => 'user_id=:user_id',
+                'params' => array(':user_id' => $user_id),
+            )
+        );
+        return $this;
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @param integer $poll_id id of poll to search
+     * @return function search votes that have choices belong to poll
+     */
+    public function belongTo($poll_id){
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'with' => 'choice',
+                'condition' => 'choice.poll_id=:poll_id',
+                'params' => array(':poll_id' => $poll_id),
+            )
+        );
+        return $this;
+    }
 }

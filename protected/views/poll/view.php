@@ -8,8 +8,8 @@ if (Yii::app()->user->is_admin) {
     echo CHtml::button('Delete Poll', array(
         'class' => 'btn-danger',
         'submit' => array(
-            'poll/delete', 
-            'id' => $poll->id), 
+            'poll/delete',
+            'id' => $poll->id),
             'confirm' => 'Do you want to delete this poll ?')
     );
 }
@@ -17,7 +17,7 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
     echo CHtml::button('Edit Poll', array(
         'class' => 'btn-warning',
         'submit' => array(
-            'poll/update', 
+            'poll/update',
             'id' => $poll->id)
         )
     );
@@ -28,11 +28,11 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
         <tr class='odd'>
             <th>User</th>
             <td><?php echo $user->username ?></td>
-        </tr>  
+        </tr>
         <tr class='even'>
             <th>Setting</th>
             <td>
-                <b> Multichoice :</b>
+                <b> Multi-choice :</b>
                 <?php
                 if ($poll->is_multichoice == POll::IS_MULTICHOICES_NO) {
                     echo ' No ';
@@ -41,7 +41,7 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
                 }
                 ?>
             </td>
-        </tr>  
+        </tr>
         <tr class='even'>
             <th></th>
             <td>
@@ -54,7 +54,7 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
                 }
                 ?>
             </td>
-        </tr>        
+        </tr>
         <tr class='even'>
             <th></th>
             <td>
@@ -118,7 +118,7 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
                 }
                 ?>
             </td>
-        </tr>      
+        </tr>
         <tr class='even'>
             <th>Question</th>
             <td><?php echo $poll->question ?></td>
@@ -127,19 +127,30 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
             <th>Description</th>
             <td><?php echo $poll->description ?></td>
         </tr>
+        </tbody>
+    </table>
+    <form method="post" action="<?php echo Yii::app()->createUrl('poll/vote', array('id' => $poll->id));?>">
         <?php
         foreach ($choices as $c) {
-            echo '<tr>';
-            echo '<th>';
-            echo '</th>';
-            echo '<td>';
+            if ($poll->is_multichoice) {
+                echo CHtml::checkBox('choice['.$c->id.']', false);
+            } else {
+                echo CHtml::radioButton('choice', false, array('value' => $c->id));
+            }
             echo $c->content;
-            echo '</td>';
-            echo '</tr>';
+            echo '<br>';
+        }
+        if (empty($all_votes)) {
+            echo CHtml::submitButton('Vote');
+        } else {
+            foreach ($all_votes as $vote) {
+                echo "You voted with \"{$vote->choice->content}\"<br>";
+            }
+            echo CHtml::submitButton('Re-Vote');
         }
         ?>
-    </tbody>    
-</table>
+    </form>
+
 
 <table>
 <?php
@@ -148,5 +159,3 @@ foreach ($comments as $m) {
 }
 ?>
 </table>
-
-

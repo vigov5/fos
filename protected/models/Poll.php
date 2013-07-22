@@ -173,7 +173,7 @@ class Poll extends ActiveRecord
         ));
     }
     
-    /*
+    /**
      * @author Nguyen Van Cuong
      * after delete poll . Automatic delete comments and choices belong to this poll
      */
@@ -185,6 +185,16 @@ class Poll extends ActiveRecord
         foreach ($this->choices as $choice) {
             $choice->delete();
         }
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     */
+    public function hasChoice($choice_id){
+        return Choice::model()->exists(
+            'id=:id AND poll_id=:poll_id',
+            array(':id' => $choice_id, ':poll_id' => $this->id)
+        );
     }
 
 }

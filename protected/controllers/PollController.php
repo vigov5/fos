@@ -24,7 +24,7 @@ class PollController extends Controller
         return array(
             array(
                 'allow',
-                'actions' => array('create', 'index', 'view', 'my', 'all', 'update'),
+                'actions' => array('create', 'index', 'view', 'my', 'all', 'update', 'vote'),
                 'users' => array('@'),
             ),
             array(
@@ -40,8 +40,6 @@ class PollController extends Controller
     }
 
     /**
-     * Creates a new model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
      * @author Nguyen Thi Huyen
      */
     public function actionIndex()
@@ -49,31 +47,29 @@ class PollController extends Controller
         $this->render('index');
     }
 
-    /*
+    /**
      * @author Nguyen Van Cuong
      * function view detail poll
      */
-
     public function actionView($id)
     {
         $poll = Poll::model()->findbyAttributes(array('id' => $id));
         $user = $poll->user;
         $choices = $poll->choices;
-        $vote = new Vote;
         $comments = $poll->comments;
+        $all_votes = User::model()->findByPk(Yii::app()->user->id)->getAllVotes($poll->id);
         $this->render('view', array(
             'poll' => $poll,
             'user' => $user,
             'choices' => $choices,
-            'vote' => $vote,
+            'all_votes' => $all_votes,
             'comments' => $comments,
         ));
     }
 
-    /*
+    /**
      * @author Nguyen Van Cuong
      */
-
     public function loadModel($id) //Find Poll where id = $id
     {
         $model = Poll::model()->findByPk($id);
@@ -82,10 +78,9 @@ class PollController extends Controller
         return $model;
     }
 
-    /*
+    /**
      * @author Nguyen Van Cuong
      */
-
     public function actionDelete($id) //delete Poll where id = $id
     {
         $poll = $this->loadModel($id);
@@ -93,10 +88,11 @@ class PollController extends Controller
         $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
     }
 
-    /*
-     *  @author Nguyen Thi Huyen
+    /**
+     * Creates a new model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @author Nguyen Thi Huyen
      */
-
     public function actionCreate()
     {
         $poll = new Poll;
@@ -113,10 +109,9 @@ class PollController extends Controller
         ));
     }
 
-    /*
+    /**
      *  @author Vu Dang Tung
      */
-
     public function actionAll()
     {
         $criteria = new CDbCriteria();
@@ -150,6 +145,56 @@ class PollController extends Controller
         ));
     }
 
+    /**
+     * @author Nguyen Anh Tien
+     */
+    public function actionVote($id)
+    {
+        $poll = Poll::model()->findByPk($id);
+        if ($poll != null) {
+            // check if user submited form
+            if (isset($_POST['choice'])) {
+                if ($poll->is_multichoice) {
+                    $sumitted_choices = $_POST['choice'];
+                } else {
+                    $sumitted_choices = array($_POST['choice'] => 1);
+                }
+                // ensure choice_ids is in poll's choices
+                $valid_choice_ids = array();
+                foreach ($sumitted_choices as $choice_id => $checked) {
+                    if ($poll->hasChoice($choice_id)) {
+                        if ($checked) {
+                            $valid_choice_ids[] = $choice_id;
+                        }
+                    } else {
+                        // flash invalid choice
+                        Yii::app()->user->setFlash('error', 'You selected an invalid choice !');
+                        $this->redirect(array('poll/view', 'id' => $id));
+                    }
+                }
+                // delete previous vote record
+                User::model()->findByPk(Yii::app()->user->id)->deleteAllVote($poll->id);
+
+                // must contain only one in case of one-choice
+                if (!$poll->is_multichoice && count($valid_choice_ids) > 1) {
+                    Yii::app()->user->setFlash('error', 'You can select only one  choice !');
+                    $this->redirect(array('poll/view', 'id' => $id));
+                }
+
+                foreach ($valid_choice_ids as $choice_id) {
+                    $vote = new Vote;
+                    // ensure current user is voting
+                    $vote->user_id = Yii::app()->user->id;
+                    $vote->choice_id = $choice_id;
+                    $vote->save();
+                    // TODO : add notification
+                }
+           }
+           $this->redirect(array('poll/view', 'id' => $id));
+        } else {
+            $this->redirect(array('poll/index'));
+        }
+    }
 }
 ?>
 
