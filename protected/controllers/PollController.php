@@ -24,7 +24,7 @@ class PollController extends Controller
         return array(
             array(
                 'allow',
-                'actions' => array('create', 'index', 'view', 'my', 'all'),
+                'actions' => array('create', 'index', 'view', 'my', 'all', 'update'),
                 'users' => array('@'),
             ),
             array(
@@ -53,6 +53,7 @@ class PollController extends Controller
      * @author Nguyen Van Cuong
      * function view detail poll
      */
+
     public function actionView($id)
     {
         $poll = Poll::model()->findbyAttributes(array('id' => $id));
@@ -68,10 +69,11 @@ class PollController extends Controller
             'comments' => $comments,
         ));
     }
-    
+
     /*
      * @author Nguyen Van Cuong
      */
+
     public function loadModel($id) //Find Poll where id = $id
     {
         $model = Poll::model()->findByPk($id);
@@ -83,6 +85,7 @@ class PollController extends Controller
     /*
      * @author Nguyen Van Cuong
      */
+
     public function actionDelete($id) //delete Poll where id = $id
     {
         $poll = $this->loadModel($id);
@@ -109,6 +112,7 @@ class PollController extends Controller
             'poll' => $poll,
         ));
     }
+
     /*
      *  @author Vu Dang Tung
      */
@@ -130,7 +134,22 @@ class PollController extends Controller
         $this->render('my', array('polls' => $polls));
     }
 
-}
+    public function actionUpdate($id) // id of poll
+    {
+        $model = $this->loadModel($id);
+        if (isset($_POST['Poll'])) {
+            $model->attributes = $_POST['Poll'];
+            if ($model->save()) {
+                Yii::app()->user->setFlash('success', 'Poll is updated !');
+                $this->redirect(array('view', 'id' => $model->id));
+            }
+        }
 
+        $this->render('update', array(
+            'poll' => $model,
+        ));
+    }
+
+}
 ?>
 
