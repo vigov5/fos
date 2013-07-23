@@ -17,18 +17,17 @@ div.none {
 
 span.poll_note {
     color: #808080;
-    font-size: 12px;
+    font-size: 0.9em;
 }
 
-span.user_poll a{
-    font-size: 14px;
+span.user_poll {
+    font-size: 1.1em;
+}
+
+span.user_poll a{    
     color: red;
 }
 
-/*
- * @author Pham Tri Thai
- * Style sheet for home page
- */
 .home-content{
     width: 90%;
     margin: 10px;
@@ -123,4 +122,20 @@ span.user_poll a{
 
 .type_new_comment{
     width: 98%;
+}
+
+.poll-summary {
+    margin-top: -7px !important;    
+}
+
+.poll-end {
+    background-color: rgb(210, 210, 210);
+}
+
+.poll-running {
+    background-color: rgb(230, 230, 230);
+}
+
+.poll-notstart {
+    background-color: rgb(250, 250, 250);
 }

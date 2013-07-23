@@ -109,16 +109,13 @@ class PollController extends Controller
         $criteria = new CDbCriteria();
         $polls = Poll::model()->findAll($criteria);
 
-        $this->render('index', array('polls' => $polls));
+        $this->render('index', array('polls' => $polls, 'title' => 'All Polls'));
     }
 
     public function actionMy()
     {
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('user_id', Yii::app()->user->getId());
-        $polls = Poll::model()->findAll($criteria);
-
-        $this->render('my', array('polls' => $polls));
+        $polls = $this->current_user->polls;
+        $this->render('index', array('polls' => $polls, 'title' => 'My Polls'));
     }
 
     public function actionUpdate($id) // id of poll

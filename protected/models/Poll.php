@@ -198,4 +198,21 @@ class Poll extends ActiveRecord
         );
     }
 
+    /**
+     * 
+     * @return boolean poll has started or not
+     * @author Tran Duc Thang
+     */
+    public function hasStarted() {
+        return $this->start_at <= date('Y-m-d H:i:s');
+    }
+    
+    /**
+     * 
+     * @return boolean poll has ended or not
+     * @author Tran Duc Thang
+     */
+    public function hasEnded() {
+        return $this->end_at <= date('Y-m-d H:i:s');
+    }
 }
