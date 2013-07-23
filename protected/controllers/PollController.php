@@ -24,7 +24,7 @@ class PollController extends Controller
         return array(
             array(
                 'allow',
-                'actions' => array('create', 'index', 'view', 'my', 'update', 'vote'),
+                'actions' => array('create', 'index', 'view', 'my', 'update', 'vote', 'invite'),
                 'users' => array('@'),
             ),
             array(
@@ -38,6 +38,7 @@ class PollController extends Controller
             ),
         );
     }
+
     /**
      * @author Nguyen Van Cuong
      * function view detail poll
@@ -133,6 +134,15 @@ class PollController extends Controller
         ));
     }
 
+    public function actionInvite($poll_id)
+    {
+        $criteria = new CDbCriteria();
+        $users = User::model()->findAll($criteria);
+        $this->render('invite', array('users' => $users,
+            'poll_id' => $poll_id,
+        ));
+    }
+
     /**
      * @author Nguyen Anh Tien
      */
@@ -177,12 +187,13 @@ class PollController extends Controller
                     $vote->save();
                     // TODO : add notification
                 }
-           }
-           $this->redirect(array('poll/view', 'id' => $id));
+            }
+            $this->redirect(array('poll/view', 'id' => $id));
         } else {
             $this->redirect(array('poll/index'));
         }
     }
+
 }
 ?>
 
