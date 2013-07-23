@@ -66,6 +66,8 @@ class ChoiceController extends Controller
             $model->content = $_POST['content_choice'];
             if (!$model->save()) {
                 throw new CHttpException(404, 'The requested page does not exist.');
+            } else {
+                echo json_encode($model->id);
             }
         }
     }
@@ -98,13 +100,18 @@ class ChoiceController extends Controller
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        $this->loadModel($id)->delete();
-
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        if (isset($_POST['choice_id'])) {
+            $choice = Choice::model()->findByPk($_POST['choice_id']);
+            if ($choice) {
+                $choice->delete();
+            } else {
+                throw new CHttpException(404, 'The requested page does not exist.');
+            }
+        } else {
+            throw new CHttpException(404, 'The requested page does not exist.');
         }
     }
 
