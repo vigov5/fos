@@ -10,16 +10,8 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 ));
 ?>
 <div class='row'>
-    <div class='span10'>
+    <div class='span12'>
         <h2> All polls</h2>
-    </div>
-    <div class='span2'>
-        <?php
-        echo CHtml::button('Create Poll', array(
-            'submit' => array('poll/create'),
-            'class' => 'btn btn-success'
-            ));
-        ?>
     </div>
 </div>
 <hr style="color: #808080">

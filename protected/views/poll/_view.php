@@ -7,7 +7,9 @@
     <?php
     echo CHtml::link(CHtml::encode($data->question), array('poll/view', 'id' => $data->id));
     echo "<br/><span class='poll_note'>created by</span>
-         <span class='user_poll'>{$data->user->username}</span> 
-         <span class='poll_note'> at </span>{$data->created_at}";
+         <span class='user_poll'>";
+    echo CHtml::link(CHtml::encode($data->user->username), array('profile/view', 'id' => $data->user->profile->id));
+    echo '</span>';
+    echo "<span class='poll_note'> at </span>{$data->created_at}";
     ?>
 </div>
