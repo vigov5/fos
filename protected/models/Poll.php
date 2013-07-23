@@ -94,13 +94,14 @@ class Poll extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
+            array('question, description, start_at, end_at', 'required'),
             array('user_id, is_multichoice, poll_type, display_type, result_display_type, result_detail_type, result_show_time_type', 'numerical', 'integerOnly' => true),
             array('question', 'length', 'max' => 255),
             array('description, created_at, updated_at, start_at, end_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, question, description, user_id, is_multichoice, poll_type, display_type, result_display_type, result_detail_type, result_show_time_type, created_at, updated_at, start_at, end_at', 'safe', 'on' => 'search'),
-            array('start_at, end_at', 'date', 'format' => 'yyyy-M-d H:m'),
+            array('start_at, end_at', 'date', 'format' => 'yyyy-M-d H:m:s'),
         );
     }
 
