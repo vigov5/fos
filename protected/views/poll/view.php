@@ -199,36 +199,29 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
         echo '</div>';
         echo "<div class='clear2'></div>";
         
+
         if (empty($all_votes)) {
-            echo CHtml::submitButton('Vote');
+            echo CHtml::button(
+                'Vote', 
+                array(
+                    'class' => 'btn btn-primary',
+                    'submit' => array()
+                )
+            );
         } else {
-            echo CHtml::radioButton('choice', false, array('value' => $c->id));
-        }
-        echo $c->content;
-        echo '<br>';
-
-    if (empty($all_votes)) {
-        echo CHtml::button('Vote', array(
-            'class' => 'btn btn-primary',
-            'submit' => array(
+            foreach ($all_votes as $vote) {
+                echo "You voted with \"{$vote->choice->content}\"<br>";
+            }
+            echo CHtml::button(
+                'Re-Vote', 
+                array(
+                    'class' => 'btn btn-primary',
+                    'submit' => array()
                 )
-            )
-        );
-    } else {
-        foreach ($all_votes as $vote) {
-            echo "You voted with \"{$vote->choice->content}\"<br>";
+            );
         }
-        echo CHtml::button('Re-Vote', array(
-            'class' => 'btn btn-primary',
-            'submit' => array(
-                )
-            )
-        );
-    }
-    ?>
-</form>
-
-
+        ?>
+    </form>
 <table>
     <?php
     foreach ($comments as $comment) {
