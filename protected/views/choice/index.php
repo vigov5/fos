@@ -28,23 +28,25 @@
             <div id="choice_content">
 
                 <?php
-                if ($poll->id === Yii::app()->user->id) {
-                    foreach ($choices as $choice) {
-                        echo "<div class='well well-small' data-choice_id={$choice->id}>";
-                        echo $choice->content;
-                        echo "<button class='close close_choice' data-choice_id={$choice->id}>&times;</button>";
-                        echo '</div>';
+                    if ($poll->user_id === Yii::app()->user->id) {
+                        foreach ($choices as $choice)
+                        {
+                            echo "<div class='well well-small' data-choice_id={$choice->id}>";
+                            echo $choice->content;
+                            echo "<button class='close close_choice' data-choice_id={$choice->id}>&times;</button>";
+                            echo '</div>';
+                        }
+                    } else {
+                        foreach ($choices as $choice)
+                        {
+                            echo "<div class='well well-small' data-choice_id={$choice->id}>";
+                            echo $choice->content;
+                            echo '</div>';
+                        }
                     }
-                } else {
-                    foreach ($choices as $choice) {
-                        echo "<div class='well well-small' data-choice_id={$choice->id}>";
-                        echo $choice->content;
-                        echo '</div>';
-                    }
-                }
                 ?>
             </div>
-                <?php
+            <?php
                 if ($poll->user_id === Yii::app()->user->id) {
                     echo '<div class="well form-inline">';
                     echo CHtml::textField('choice_name', '', array('placeholder' => 'Add choice',
@@ -52,7 +54,8 @@
                     echo CHtml::Button('Add', array('class' => 'btn', 'id' => 'add_choice'));
                     echo '</div>';
                 }
-                ?>
+            ?>
+            <?php echo CHtml::link('Next', null, array('class' => 'btn btn-success')); ?>
         </div>
     </div>
 </div>
