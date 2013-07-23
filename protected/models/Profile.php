@@ -69,6 +69,22 @@ class Profile extends ActiveRecord
     }
 
     /**
+     * 
+     * @return array The behaviors attached to Profile
+     * @author Tran Duc Thang
+     */
+    public function behaviors()
+    {
+        return array(            
+            'ViewLinkBehavior' => array(
+                'class' => 'application.components.ViewLinkBehavior',
+                'display_attribute' => 'name',                
+                'controller_name' => 'profile'
+            )
+        );
+    }
+    
+    /**
      * @return array customized attribute labels (name=>label)
      */
     public function attributeLabels()

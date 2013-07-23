@@ -121,6 +121,22 @@ class Poll extends ActiveRecord
     }
 
     /**
+     * 
+     * @return array The behaviors attached to Profile
+     * @author Tran Duc Thang
+     */
+    public function behaviors()
+    {
+        return array(            
+            'ViewLinkBehavior' => array(
+                'class' => 'application.components.ViewLinkBehavior',
+                'display_attribute' => 'question',   
+                'controller_name' => 'poll'
+            )
+        );
+    }
+    
+    /**
      * @return array customized attribute labels (name=>label)
      */
     public function attributeLabels()
