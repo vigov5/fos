@@ -61,16 +61,13 @@ class ChoiceController extends Controller
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
-        if (isset($_POST['Choice'])) {
-            $model->attributes = $_POST['Choice'];
-            if ($model->save()) {
-                $this->redirect(array('view', 'id' => $model->id));
+        if (isset($_POST['poll_id']) && isset($_POST['content_choice'])) {
+            $model->poll_id = $_POST['poll_id'];
+            $model->content = $_POST['content_choice'];
+            if (!$model->save()) {
+                throw new CHttpException(404, 'The requested page does not exist.');
             }
         }
-
-        $this->render('create', array(
-            'model' => $model,
-        ));
     }
 
     /**
