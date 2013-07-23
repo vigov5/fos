@@ -32,7 +32,7 @@
                 ?>
             </div>
             <?php
-                if ($poll->id === Yii::app()->user->id) {
+                if ($poll->user_id === Yii::app()->user->id) {
                     echo '<div class="well form-inline">';
                     echo CHtml::textField('choice_name', '', array('placeholder' => 'Add choice',
                     'class' => 'input-lager', 'id' => 'add_choice_textfield', 'data-poll_id' => $poll->id));

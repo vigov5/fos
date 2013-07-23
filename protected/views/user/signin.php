@@ -14,7 +14,7 @@ $this->widget('bootstrap.widgets.TbAlert');
         <?php echo CHtml::errorSummary($form); ?>
         <div class="row">
             <?php echo CHtml::activeTextField($form, 'username', array('class' => 'span6 offset3', 
-                'placeholder' => 'Username')); ?>
+                'placeholder' => 'Username', 'autofocus' => 'autofocus')); ?>
         </div>
         <div class="row">
             <?php echo CHtml::activePasswordField($form, 'password', array('class' => 'span6 offset3', 
