@@ -106,7 +106,11 @@ class PollController extends Controller
      */
     public function actionIndex()
     {
-        $polls = Poll::model()->canBeSeenBy($this->current_user->id)->findAll();
+        if ($this->current_user->is_admin) {
+            $polls = Poll::model()->findAll();
+        } else {
+            $polls = Poll::model()->canBeSeenBy($this->current_user->id)->findAll();
+        }
 
         $this->render('index', array('polls' => $polls, 'title' => 'All Polls'));
     }
