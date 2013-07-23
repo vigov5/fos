@@ -61,6 +61,7 @@ class UserController extends Controller
                         $signin_form = new SigninForm;
                         $signin_form->attributes = $_POST['SignUpForm'];
                         $signin_form->login();
+                        $this->afterSignIn();
                         $this->redirect(Yii::app()->homeUrl);
                     }
                 }

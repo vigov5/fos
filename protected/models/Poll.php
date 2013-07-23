@@ -20,27 +20,27 @@
  * @property string $end_at
  */
 class Poll extends ActiveRecord
-{   
+{
     const IS_MULTICHOICES_YES = 1;
     const IS_MULTICHOICES_NO = 0;
-    
+
     const POLL_TYPE_SETTINGS_ANONYMOUS = 1;
     const POLL_TYPE_SETTINGS_NON_ANONYMOUS = 2;
-    
+
     const POLL_DISPLAY_SETTINGS_PUBLIC = 1;
     const POLL_DISPLAY_SETTINGS_RESTRICTED = 2;
     const POLL_DISPLAY_SETTINGS_INVITED_ONLY = 3;
-    
+
     const RESULT_DISPLAY_SETTINGS_PUBLIC = 1;
     const RESULT_DISPLAY_SETTINGS_VOTED_ONLY = 2;
     const RESULT_DISPLAY_SETTINGS_OWNER_ONLY = 3;
-    
+
     const RESULT_DETAIL_SETTINGS_ALL = 1;
     const RESULT_DETAIL_SETTINGS_ONLY_PERCENTAGE = 2;
-    
+
     const RESULT_TIME_SETTINGS_AFTER = 1;
     const RESULT_TIME_SETTINGS_DURING = 2;
-    
+
     public static $IS_MULTICHOICES_SETTINGS = array(
         'Yes' => self::IS_MULTICHOICES_YES,
         'No' => self::IS_MULTICHOICES_NO,
@@ -67,7 +67,7 @@ class Poll extends ActiveRecord
         'After' => self::RESULT_TIME_SETTINGS_AFTER,
         'During' => self::RESULT_TIME_SETTINGS_DURING,
     );
-    
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -173,7 +173,7 @@ class Poll extends ActiveRecord
             'criteria' => $criteria,
         ));
     }
-    
+
     /**
      * @author Nguyen Van Cuong
      * after delete poll . Automatic delete comments and choices belong to this poll
@@ -215,4 +215,37 @@ class Poll extends ActiveRecord
     public function hasEnded() {
         return $this->end_at <= date('Y-m-d H:i:s');
     }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @param integer $user_id id of user that can see those polls
+     */
+    public function canBeSeenBy($user_id){
+        // user can see public and restricted poll
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'condition' => 'user_id=:user_id or display_type in (:public, :restricted)',
+                'params' => array(
+                    ':user_id' => $user_id,
+                    ':public' => Poll::POLL_DISPLAY_SETTINGS_PUBLIC,
+                    ':restricted' => Poll::POLL_DISPLAY_SETTINGS_RESTRICTED,
+                ),
+            )
+        );
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'with' => 'invitations',
+                'condition' => 'invitations.receiver_id=:user_id and display_type=:invite_only',
+                'params' => array(
+                    ':user_id' => $user_id,
+                    ':invite_only' => Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY,
+                ),
+            ),
+            'OR'
+        );
+
+        return $this;
+    }
+
 }
+
