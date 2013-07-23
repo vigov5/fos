@@ -137,9 +137,15 @@ class User extends ActiveRecord
         }
     }
 
-
-
     public function getAllVotes($poll_id){
         return Vote::model()->votedBy($this->id)->belongTo($poll_id)->findAll();
+    }
+    
+    public function afterDelete()
+    {
+        foreach ($this->polls as $poll) {
+            $poll->delete();
+        }
+        return parent::afterDelete();
     }
 }
