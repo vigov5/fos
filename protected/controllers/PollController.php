@@ -106,8 +106,7 @@ class PollController extends Controller
      */
     public function actionIndex()
     {
-        $criteria = new CDbCriteria();
-        $polls = Poll::model()->findAll($criteria);
+        $polls = Poll::model()->canBeSeenBy($this->current_user->id)->findAll();
 
         $this->render('index', array('polls' => $polls, 'title' => 'All Polls'));
     }
