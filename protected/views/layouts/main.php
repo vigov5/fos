@@ -12,7 +12,6 @@
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/form.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/datetimepicker.css');
         
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-2.0.3.min.js');
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-ui.js');
         ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -63,7 +62,7 @@
                                 'class' => 'bootstrap.widgets.TbMenu',
                                 'htmlOptions' => array('class' => 'pull-right'),
                                 'items' => array(
-                                    array('label' => 'All Polls', 'url' => array('poll/all')),
+                                    array('label' => 'All Polls', 'url' => array('poll/index')),
                                     array('label' => 'My Polls', 'url' => array('poll/my')),
                                     array('label' => Yii::app()->user->username, 'icon' => 'user white', 'url' => '#',
                                         'items' => array(
