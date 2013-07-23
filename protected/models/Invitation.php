@@ -59,6 +59,7 @@ class Invitation extends ActiveRecord
             'sender' => array(self::BELONGS_TO, 'User', 'sender_id'),
             'receiver' => array(self::BELONGS_TO, 'User', 'receiver_id'),
             'poll' => array(self::BELONGS_TO, 'Poll', 'poll_id'),
+            'activities' => array(self::HAS_MANY, 'Activity', 'invitation_id'),
         );
     }
 
