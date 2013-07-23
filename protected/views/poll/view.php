@@ -131,15 +131,74 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
     </table>
     <form method="post" action="<?php echo Yii::app()->createUrl('poll/vote', array('id' => $poll->id));?>">
         <?php
+        /**
+        * @author Pham Tri Thai
+        * View result vote
+        */
+        $total_votes = 0;
         foreach ($choices as $c) {
-            if ($poll->is_multichoice) {
-                echo CHtml::checkBox('choice['.$c->id.']', false);
-            } else {
-                echo CHtml::radioButton('choice', false, array('value' => $c->id));
-            }
-            echo $c->content;
-            echo '<br>';
+            $votes = $c->votes;
+            $total_votes += sizeof($votes);
         }
+
+        foreach ($choices as $c) {
+            if ($poll->is_multichoice == 1) {
+                echo CHtml::checkBox('choice['.$c->id.']', false, array(
+                    'id' => $c->id,
+                    'class' => 'cb')
+                );
+            } else {
+                echo CHtml::radioButton('choice', false, array(
+                    'value' => $c->id,
+                    'id' => $c->id,
+                    'class' => 'cb')
+                );
+            }
+            $votes = $c->votes;
+            if ($total_votes !== 0) {
+                $percent = sizeof($votes) * 100 / $total_votes;
+            } else {
+                $percent = 0;
+            }
+            echo '<div class="progress progress-striped active bar_choice">';
+            echo '<div class="bar bar-warning" style="width: ' . $percent . '%;"></div>';
+            echo CHtml::label($c->content, $c->id, 
+                array(
+                    'class' => 'content_choice'
+                ));
+            echo '</div>';
+
+            echo sizeof($votes);
+            for ($k = 0; $k < sizeof($votes); $k++) {
+                echo CHtml::link($votes[$k]->user->username, '', array(
+                    'class' => 'user_vote')
+                );
+            }
+            echo "<div class='clear2'></div>";
+        }
+        
+        if ($poll->is_multichoice == 1) {
+            echo CHtml::checkBox('new_choice', false, array(
+                'id' => '', 
+                'class' => 'cb')
+            );
+        } else {
+            echo CHtml::radioButton('choice', false, array(
+                'value' => 'max_id_choice + 1',
+                'id' => 'max_id_choice + 1',
+                'class' => 'cb')
+            );
+        }
+
+        echo '<div class="progress progress-striped active bar_choice">';
+        echo '<div class="bar bar-warning" style="width: 0%;"></div>';
+        echo CHtml::textArea('new_choice', '', array(
+            'placeholder' => 'type new choice...',
+            'class' => 'type_new_choice')
+        );
+        echo '</div>';
+        echo "<div class='clear2'></div>";
+        
         if (empty($all_votes)) {
             echo CHtml::submitButton('Vote');
         } else {
