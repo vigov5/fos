@@ -1,15 +1,29 @@
-<div class='span1' align='center'>
-    <?php
-    echo "<span class='poll_note'>#{$data->id}</span>" . CHtml::image(Yii::app()->baseUrl . '/images/thread.gif', null, array('width' => '30'));
-    ?>
-</div>
-<div class='span9' align='left'>
-    <?php
-    echo CHtml::link(CHtml::encode($data->question), array('poll/view', 'id' => $data->id));
-    echo "<br/><span class='poll_note'>created by</span>
-         <span class='user_poll'>";
-    echo CHtml::link(CHtml::encode($data->user->username), array('profile/view', 'id' => $data->user->profile->id));
-    echo '</span>';
-    echo "<span class='poll_note'> at </span>{$data->created_at}";
+<?php 
+/**
+ * @var Poll $poll 
+ */
+?>
+<?php
+    if ($poll->hasEnded()) {
+        $class = 'poll-end';
+        $alert = "<span class='poll_note'>This poll has ended at</span> {$poll->end_at}";
+    } elseif ($poll->hasStarted()) {
+        $class = 'poll-running';
+        $alert = "<span class='poll_note'>This poll will end at</span> {$poll->end_at}";
+    } else {
+        $class = 'poll-notstart';
+        $alert = "<span class='poll_note'>This poll will start at</span> {$poll->start_at}";
+    }
+?>
+<div class='row well well-small poll-summary <?php echo $class; ?>' align='left'>
+    <?php        
+    echo CHtml::link(CHtml::encode($poll->question), array('poll/view', 'id' => $poll->id));
+    echo <<< DOC
+        <br/>
+        <span class='poll_note'>created by</span>
+        <span class='user_poll'>{$poll->user->profile->name}</span> 
+        <span class='poll_note'>at </span>{$poll->created_at}.
+        {$alert}.
+DOC;
     ?>
 </div>
