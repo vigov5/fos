@@ -74,7 +74,6 @@
         </div>
         <div class="span4" id="result_display_type_content">All user who can access can see result !</div>  
     </div>
-    
     <div class="row">
         <div class="span4">
             <?php echo $form->labelEx($poll,'result_detail_type'); ?>
