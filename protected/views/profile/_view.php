@@ -1,7 +1,7 @@
 <div class="row">    
     <div class="span6">
         <b><?php echo CHtml::encode($data->getAttributeLabel('employee_code')); ?>:</b>
-        <?php echo Chtml::link(CHtml::encode($data->employee_code), array('view', 'id' => $data->id)); ?>
+        <?php echo $data->createViewLink($data->employee_code); ?>
         <br />
         <b><?php echo CHtml::encode('User'); ?>:</b>
             <?php
