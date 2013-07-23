@@ -20,7 +20,7 @@ span.poll_note {
     font-size: 12px;
 }
 
-span.user_poll{
+span.user_poll a{
     font-size: 14px;
     color: red;
 }
