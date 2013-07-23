@@ -15,6 +15,7 @@
         'enctype' => 'multipart/form-data',
     ),
 )); ?>
+    <p class="note">Fields with <span class="required">*</span> are required.</p>
     <?php echo $form->errorSummary($poll); ?>
     <div class="row">
         <div class="span4">
@@ -127,14 +128,14 @@
             <?php echo $form->textField($poll,'start_at',array(
                 'class' => 'text input',
                 'placeholder' => 'From',
-                'class' => 'poll_time',
+                'id' => 'start_at',
             )); ?>        
         </div>
         <div class="span4"> 
             <?php echo $form->textField($poll,'end_at',array(
                 'class' => 'text input',
                 'placeholder' => 'To',
-                'class' => 'poll_time',
+                'id' => 'end_at',
              )); ?>        
         </div>
     </div>
