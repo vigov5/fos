@@ -10,9 +10,10 @@ if (Yii::app()->user->is_admin) {
         'submit' => array(
             'poll/delete',
             'id' => $poll->id),
-            'confirm' => 'Do you want to delete this poll ?')
+        'confirm' => 'Do you want to delete this poll ?')
     );
 }
+echo '</span>&nbsp';
 if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
     echo CHtml::button('Edit Poll', array(
         'class' => 'btn btn-warning',
@@ -189,7 +190,6 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
                 'class' => 'cb')
             );
         }
-
         echo '<div class="progress progress-striped active bar_choice">';
         echo '<div class="bar bar-warning" style="width: 0%;"></div>';
         echo CHtml::textArea('new_choice', '', array(
@@ -202,19 +202,37 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
         if (empty($all_votes)) {
             echo CHtml::submitButton('Vote');
         } else {
-            foreach ($all_votes as $vote) {
-                echo "You voted with \"{$vote->choice->content}\"<br>";
-            }
-            echo CHtml::submitButton('Re-Vote');
+            echo CHtml::radioButton('choice', false, array('value' => $c->id));
         }
-        ?>
-    </form>
+        echo $c->content;
+        echo '<br>';
+
+    if (empty($all_votes)) {
+        echo CHtml::button('Vote', array(
+            'class' => 'btn btn-primary',
+            'submit' => array(
+                )
+            )
+        );
+    } else {
+        foreach ($all_votes as $vote) {
+            echo "You voted with \"{$vote->choice->content}\"<br>";
+        }
+        echo CHtml::button('Re-Vote', array(
+            'class' => 'btn btn-primary',
+            'submit' => array(
+                )
+            )
+        );
+    }
+    ?>
+</form>
 
 
 <table>
-<?php
-foreach ($comments as $m) {
-    $u = $m->user;
-}
-?>
+    <?php
+    foreach ($comments as $comment) {
+        $user = $comment->user;
+    }
+    ?>
 </table>
