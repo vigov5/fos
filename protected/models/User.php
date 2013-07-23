@@ -68,6 +68,7 @@ class User extends ActiveRecord
             'notifications_received' => array(self::HAS_MANY, 'Notification', 'receiver_id'),
             'invitations_sent' => array(self::HAS_MANY, 'Invitation', 'sender_id'),
             'invitations_received' => array(self::HAS_MANY, 'Invitation', 'receiver_id'),
+            'activities' => array(self::HAS_MANY, 'Activity', 'user_id'),
         );
     }
 

@@ -117,6 +117,7 @@ class Poll extends ActiveRecord
             'comments' => array(self::HAS_MANY, 'Comment', 'poll_id'),
             'invitations' => array(self::HAS_MANY, 'Invitation', 'poll_id'),
             'notifications' => array(self::HAS_MANY, 'Notification', 'poll_id'),
+            'activities' => array(self::HAS_MANY, 'Activity', 'poll_id'),
         );
     }
 

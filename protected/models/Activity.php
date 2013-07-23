@@ -1,22 +1,36 @@
 <?php
 
 /**
- * This is the model class for table "votes".
+ * This is the model class for table "activities".
  *
- * The followings are the available columns in table 'votes':
+ * The followings are the available columns in table 'activities':
  * @property integer $id
+ * @property integer $type
  * @property integer $user_id
- * @property integer $choice_id
+ * @property integer $poll_id
+ * @property integer $vote_id
+ * @property integer $invitation_id
+ * @property integer $comment_id
  * @property string $created_at
  * @property string $updated_at
  */
-class Vote extends ActiveRecord
+class Activity extends CActiveRecord
 {
+
+    const CREATE_POLL = 1;
+    const ADD_CHOICE = 2;
+    const CHANGE_POLL_TIME = 3;
+    const CHANGE_POLL_SETTING = 4;
+    const VOTE = 5;
+    const RE_VOTE = 6;
+    const INVITE = 7;
+    const COMMENT = 8;
+    const REPLY_COMMENT = 9;
 
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
-     * @return Vote the static model class
+     * @return Activity the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -28,7 +42,7 @@ class Vote extends ActiveRecord
      */
     public function tableName()
     {
-        return 'votes';
+        return 'activities';
     }
 
     /**
@@ -39,11 +53,11 @@ class Vote extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, choice_id', 'numerical', 'integerOnly' => true),
+            array('type, user_id, poll_id, vote_id, invitation_id, comment_id', 'numerical', 'integerOnly' => true),
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, user_id, choice_id, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, type, user_id, poll_id, vote_id, invitation_id, comment_id, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -56,8 +70,10 @@ class Vote extends ActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
-            'choice' => array(self::BELONGS_TO, 'Choice', 'choice_id'),
-            'activities' => array(self::HAS_MANY, 'Activity', 'vote_id'),
+            'poll' => array(self::BELONGS_TO, 'Poll', 'poll_id'),
+            'vote' => array(self::BELONGS_TO, 'Vote', 'vote_id'),
+            'invitation' => array(self::BELONGS_TO, 'Invitation', 'invitation_id'),
+            'comment' => array(self::BELONGS_TO, 'Comment', 'comment_id'),
         );
     }
 
@@ -68,8 +84,12 @@ class Vote extends ActiveRecord
     {
         return array(
             'id' => 'ID',
+            'type' => 'Type',
             'user_id' => 'User',
-            'choice_id' => 'Choice',
+            'poll_id' => 'Poll',
+            'vote_id' => 'Vote',
+            'invitation_id' => 'Invitation',
+            'comment_id' => 'Comment',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         );
@@ -87,8 +107,12 @@ class Vote extends ActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
+        $criteria->compare('type', $this->type);
         $criteria->compare('user_id', $this->user_id);
-        $criteria->compare('choice_id', $this->choice_id);
+        $criteria->compare('poll_id', $this->poll_id);
+        $criteria->compare('vote_id', $this->vote_id);
+        $criteria->compare('invitation_id', $this->invitation_id);
+        $criteria->compare('comment_id', $this->comment_id);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
@@ -97,34 +121,4 @@ class Vote extends ActiveRecord
         ));
     }
 
-    /**
-     *
-     * @param integer $user_id id of user to search
-     * @return function scope that search votes is voted by user
-     */
-    public function votedBy($user_id){
-        $this->getDbCriteria()->mergeWith(
-            array(
-                'condition' => 'user_id=:user_id',
-                'params' => array(':user_id' => $user_id),
-            )
-        );
-        return $this;
-    }
-
-    /**
-     * @author Nguyen Anh Tien
-     * @param integer $poll_id id of poll to search
-     * @return function search votes that have choices belong to poll
-     */
-    public function belongTo($poll_id){
-        $this->getDbCriteria()->mergeWith(
-            array(
-                'with' => 'choice',
-                'condition' => 'choice.poll_id=:poll_id',
-                'params' => array(':poll_id' => $poll_id),
-            )
-        );
-        return $this;
-    }
 }
