@@ -12,6 +12,7 @@
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/form.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/datetimepicker.css');
         
+        Yii::app()->clientScript->registerCoreScript('jquery');
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-ui.js');
         ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
