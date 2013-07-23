@@ -92,7 +92,7 @@ class PollController extends Controller
             $poll->user_id = Yii::app()->user->getId();
             if ($poll->save()) {
                 Yii::app()->user->setFlash('success', 'You created successfully!');
-                $this->redirect(array('view', 'id' => $poll->id));
+                $this->redirect(array('choice/index', 'poll_id' => $poll->id));
             }
         }
 
