@@ -9,6 +9,7 @@
  * @property integer $user_id
  * @property integer $poll_id
  * @property integer $vote_id
+ * @property integer $display_type
  * @property integer $invitation_id
  * @property integer $comment_id
  * @property string $created_at
@@ -26,6 +27,10 @@ class Activity extends ActiveRecord
     const INVITE = 7;
     const COMMENT = 8;
     const REPLY_COMMENT = 9;
+
+    const DISPLAY_PUBLIC = 1;
+    const DISPLAY_PRIVATE = 2;
+    const DISPLAY_RESTRICTED = 3;
 
     /**
      * Returns the static model of the specified AR class.
@@ -53,7 +58,7 @@ class Activity extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('type, user_id, poll_id, vote_id, invitation_id, comment_id', 'numerical', 'integerOnly' => true),
+            array('type, user_id, poll_id, vote_id, invitation_id, comment_id, display_type, choice_id, target_user_id', 'numerical', 'integerOnly' => true),
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -131,4 +136,43 @@ class Activity extends ActiveRecord
         $activity->attributes = $params;
         $activity->save();
     }
+
+    /**
+     * @author Nguyen Anh Tien
+     */
+    public function defaultScope()
+    {
+        return array(
+            'order'=>"updated_at DESC",
+        );
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @param User current user
+     */
+    public function allActivitiesNotInclude($user){
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'condition' => 'display_type=:public AND user_id!=:user_id',
+                'params' => array(
+                    ':public' => Activity::DISPLAY_PUBLIC,
+                    ':user_id' => $user->id,
+                ),
+            )
+        );
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'condition' => 'display_type=:invited AND poll_id in (select poll_id from invitations where receiver_id=:user_id)',
+                'params' => array(
+                    ':user_id' => $user->id,
+                    ':invited' => Activity::DISPLAY_RESTRICTED,
+                ),
+            ),
+            'OR'
+        );
+
+        return $this;
+    }
+
 }

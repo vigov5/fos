@@ -135,13 +135,16 @@ class Vote extends ActiveRecord
     public function afterSave()
     {
         if (isset(Yii::app()->session['vote_type'])) {
+            $choice = Choice::model()->findByPk($this->choice_id);
             $params = array(
                 'type' => Yii::app()->session['vote_type'],
                 'user_id' => $this->user_id,
-                'poll_id' => Choice::model()->findByPk($this->choice_id)->poll_id,
+                'poll_id' => $choice->poll_id,
                 'choice_id' => $this->choice_id,
                 'vote_id' => $this->id,
+                'display_type' => $choice->poll->getActivityDisplayType(),
             );
+
             Activity::create($params);
         }
         return parent::afterSave();

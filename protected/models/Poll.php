@@ -315,7 +315,9 @@ class Poll extends ActiveRecord
                 'type' => Activity::CREATE_POLL,
                 'user_id' => $this->user_id,
                 'poll_id' => $this->id,
+                'display_type' => $this->getActivityDisplayType(),
             );
+            //die(var_dump($params));
             Activity::create($params);
         } else {
             if (!empty(Yii::app()->session['activity_type'])) {
@@ -324,6 +326,7 @@ class Poll extends ActiveRecord
                         'type' => $type,
                         'user_id' => $this->user_id,
                         'poll_id' => $this->id,
+                        'display_type' => $this->getActivityDisplayType(),
                     );
                     Activity::create($params);
                 }
@@ -331,6 +334,21 @@ class Poll extends ActiveRecord
             unset(Yii::app()->session['activity_type']);
         }
         return parent::afterSave();
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @return integer activity display type of this poll
+     */
+    public function getActivityDisplayType(){
+        if ($this->poll_type == Poll::POLL_TYPE_SETTINGS_ANONYMOUS) {
+            return Activity::DISPLAY_PRIVATE;
+        }
+        if ($this->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
+            return Activity::DISPLAY_RESTRICTED;
+        } else {
+            return Activity::DISPLAY_PUBLIC;
+        }
     }
 
 }
