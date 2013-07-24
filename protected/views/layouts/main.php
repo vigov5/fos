@@ -5,25 +5,24 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="language" content="en" />
         <?php
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/ejs/ejs_production.js');                
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/ejs/ejs_production.js');
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/baseJS.js');
-        
+
         Yii::app()->bootstrap->register();
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/jquery-ui.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/style.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/main.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/form.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/datetimepicker.css');
-        
+
         Yii::app()->clientScript->registerCoreScript('jquery');
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-ui.js');
-                
-        ?>                       
+
        ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
     <body>
-        <div class="row-fluid" id="page">   
+        <div class="row-fluid" id="page">
             <div id="mainmenu">
                 <?php
                 if (Yii::app()->user->isGuest) {
@@ -34,7 +33,7 @@
                         'collapse' => true, // requires bootstrap-responsive.css
                         'items' => array(
                             array(
-                                'class' => 'bootstrap.widgets.TbMenu',                                
+                                'class' => 'bootstrap.widgets.TbMenu',
                             ),
                             array(
                                 'class' => 'bootstrap.widgets.TbMenu',
@@ -91,16 +90,16 @@
                         ),
                     ));
                 }
-                ?>   
+                ?>
             </div>
-            <div class="row-fluid main-page">  
+            <div class="row-fluid main-page">
                 <?php
                 if (Yii::app()->user->isGuest) {
                     echo '<div class="clear"></div>';
                     echo $content;
                 } else {
-                    ?>                  
-                    <div class="span9 content">                            
+                    ?>
+                    <div class="span9 content">
                         <?php echo $content; ?>
                     </div>
                     <div class="span3 stream">
@@ -114,8 +113,8 @@
                         ?>
                     </div>
                 <?php } ?>
-            </div>                        
-        </div><!-- page -->        
+            </div>
+        </div><!-- page -->
     </body>
-    
+
 </html>

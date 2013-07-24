@@ -14,7 +14,7 @@
  * @property string $created_at
  * @property string $updated_at
  */
-class Activity extends CActiveRecord
+class Activity extends ActiveRecord
 {
 
     const CREATE_POLL = 1;
@@ -121,4 +121,14 @@ class Activity extends CActiveRecord
         ));
     }
 
+    /**
+     * @author Nguyen Anh Tien
+     * @param array $params array of addition params for this activity
+     * @return boolean
+     */
+    public static function create($params){
+        $activity = new Activity;
+        $activity->attributes = $params;
+        $activity->save();
+    }
 }

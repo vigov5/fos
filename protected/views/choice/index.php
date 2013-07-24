@@ -55,7 +55,7 @@
                     echo '</div>';
                 }
             ?>
-            <?php echo CHtml::link('Next', null, array('class' => 'btn btn-success')); ?>
+            <?php echo $poll->createViewLink('Finish', array('class' => 'btn btn-success')); ?>
         </div>
     </div>
 </div>
