@@ -27,11 +27,11 @@ class ChoiceController extends Controller
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update'),
+                'actions' => array('create', 'update', 'delete'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
+                'actions' => array('admin'),
                 'users' => array('admin'),
             ),
             array('deny', // deny all users
@@ -58,14 +58,18 @@ class ChoiceController extends Controller
     public function actionCreate()
     {
         $model = new Choice;
-
+        $criteria = new CDbCriteria();
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
         if (isset($_POST['poll_id']) && isset($_POST['content_choice'])) {
+            $criteria->addCondition('poll_id=:poll_id');
+            $criteria->params = array(':poll_id' => $_POST['poll_id']);
+            $count = Choice::model()->count($criteria);
+            
             $model->poll_id = $_POST['poll_id'];
             $model->content = $_POST['content_choice'];
-            if (!$model->save()) {
-                throw new CHttpException(404, 'The requested page does not exist.');
+            if (!$model->save() || $count > 9) {
+                throw new CHttpException(500, 'Internal Server Error.');
             } else {
                 echo json_encode($model->id);
             }
