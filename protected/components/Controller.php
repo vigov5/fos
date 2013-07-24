@@ -45,7 +45,7 @@ class Controller extends CController
     public function beforeAction($action)
     {
         if (!Yii::app()->user->isGuest) {
-            $this->current_user = Yii::app()->session['current_user'];
+            $this->current_user = clone Yii::app()->session['current_user'];
             $this->stream = Activity::model()->allActivitiesNotInclude($this->current_user)->findAll();
         }
         return parent::beforeAction($action);

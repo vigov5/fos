@@ -75,8 +75,10 @@ class Activity extends ActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+            'target_user' => array(self::BELONGS_TO, 'User', 'target_user_id'),
             'poll' => array(self::BELONGS_TO, 'Poll', 'poll_id'),
             'vote' => array(self::BELONGS_TO, 'Vote', 'vote_id'),
+            'choice' => array(self::BELONGS_TO, 'Choice', 'choice_id'),
             'invitation' => array(self::BELONGS_TO, 'Invitation', 'invitation_id'),
             'comment' => array(self::BELONGS_TO, 'Comment', 'comment_id'),
         );
