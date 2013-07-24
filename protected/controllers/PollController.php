@@ -50,14 +50,26 @@ class PollController extends Controller
         $choices = $poll->choices;
         $comments = $poll->comments;
         $all_votes = $this->current_user->getAllVotes($poll->id);
-        $this->render('view', array(
-            'poll' => $poll,
-            'user' => $user,
-            'choices' => $choices,
-            'all_votes' => $all_votes,
-            'comments' => $comments,
-        ));
-    }
+        $can_views = $this->canView($poll);
+        $can_votes = $this->canVote($poll);
+        if ($can_views) {
+            $this->render(
+                'view',
+                array(
+                    'poll' => $poll,
+                    'user' => $user,
+                    'choices' => $choices,
+                    'all_votes' => $all_votes,
+                    'comments' => $comments,
+                    'can_views' => $can_views,
+                    'can_votes' => $can_votes,
+                )
+            );
+        } else {
+            Yii::app()->user->setFlash('warning','Can not acess');
+            $this->redirect(array('index'));
+        }
+    }       
 
     /**
      * @author Nguyen Van Cuong
