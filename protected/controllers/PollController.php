@@ -117,10 +117,9 @@ class PollController extends Controller
     /**
      *  @author Vu Dang Tung , Nguyen Van Cuong
      */
-    public function actionIndex(
-                                $status = null, $poll_type = null,
-                                $display_type = null, $result_display_type = null,
-                                $result_detail_type = null, $result_show_time_type = null)
+    public function actionIndex($status = null, $poll_type = null,
+        $display_type = null, $result_display_type = null,
+        $result_detail_type = null, $result_show_time_type = null)
     {
         $criteria = new CDbCriteria();
         
@@ -142,7 +141,7 @@ class PollController extends Controller
         if ($result_show_time_type != null && $result_show_time_type != 'result_show_time_type') {
             $criteria->addCondition('result_show_time_type='.$result_show_time_type);
         }
-        $polls = Poll::model()->findAll($criteria);
+        $polls = Poll::model()->canBeSeenBy($this->current_user->id)->findAll($criteria);
         $this->render('index', array(
             'polls' => $polls,
             'title' => 'All Polls',
@@ -155,10 +154,41 @@ class PollController extends Controller
         ));
     }
 
-    public function actionMy()
+    public function actionMy($status = null, $poll_type = null,
+        $display_type = null, $result_display_type = null,
+        $result_detail_type = null, $result_show_time_type = null)
     {
-        $polls = $this->current_user->polls;
-        $this->render('index', array('polls' => $polls, 'title' => 'My Polls'));
+        $criteria = new CDbCriteria();
+        if ($status != null && $status != 'is_multichoice') {
+            $criteria->addCondition('is_multichoice='.$status);
+        }
+        if ($poll_type != null && $poll_type != 'poll_type') {
+            $criteria->addCondition('poll_type='.$poll_type);
+        }
+        if ($display_type != null && $display_type != 'display_type') {
+            $criteria->addCondition('display_type='.$display_type);
+        }
+        if ($result_display_type != null && $result_display_type != 'result_display_type') {
+            $criteria->addCondition('result_display_type='.$result_display_type);
+        }
+        if ($result_detail_type != null && $result_detail_type != 'result_detail_type') {
+            $criteria->addCondition('result_detail_type='.$result_detail_type);
+        }
+        if ($result_show_time_type != null && $result_show_time_type != 'result_show_time_type') {
+            $criteria->addCondition('result_show_time_type='.$result_show_time_type);
+        }
+        $criteria->addCondition('user_id='.$this->current_user->id);
+        $polls = Poll::model()->findAll($criteria);
+        $this->render('index', array(
+            'polls' => $polls, 
+            'title' => 'My Polls',
+            'status' => $status,
+            'poll_type' => $poll_type,
+            'display_type' => $display_type,
+            'result_display_type' => $result_display_type,
+            'result_show_time_type' => $result_show_time_type,
+            'result_detail_type' => $result_detail_type,
+        ));
     }
 
     public function actionUpdate($id) // id of poll

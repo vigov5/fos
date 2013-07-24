@@ -57,6 +57,7 @@
                 'display_type',
                 array_flip(Poll::$POLL_DISPLAY_SETTINGS),
                 $poll->isNewRecord ? array('id' => 'display_type') : array('id' => 'displaytype')
+
             ); ?>
             <?php echo '</div>'; ?>
         </div>
