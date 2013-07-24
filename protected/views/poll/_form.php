@@ -32,7 +32,7 @@
                 ?>
                 <?php echo '</div>'; ?>
             </div>
-            <div class="span4" id="is_multichoice_content">This Poll is multichoices or not</div>  
+            <div class="span5 poll-hints" id="is_multichoice_content">This Poll is multichoices or not</div>  
     </div>
     <div class="row">
         <div class="span4">
@@ -42,11 +42,11 @@
                 $poll,
                 'poll_type',
                 array_flip(Poll::$POLL_TYPE_SETTINGS),
-                $poll->isNewRecord ? array('id' => '') : array('id' => 'polltype')
+                $poll->isNewRecord ? array('id' => 'poll_type') : array('id' => 'polltype')
             ); ?>
             <?php echo '</div>'; ?>
         </div>
-        <div class="span4" id="poll_type_content">Owner can view and public voter name !</div>  
+        <div class="span5 poll-hints" id="poll_type_content">Owner can view and public voter name !</div>  
     </div>
     <div class="row">
         <div class="span4">
@@ -56,11 +56,11 @@
                 $poll,
                 'display_type',
                 array_flip(Poll::$POLL_DISPLAY_SETTINGS),
-                $poll->isNewRecord ? array('id' => '') : array('id' => 'displaytype')
+                $poll->isNewRecord ? array('id' => 'display_type') : array('id' => 'displaytype')
             ); ?>
             <?php echo '</div>'; ?>
         </div>
-        <div class="span4" id="display_type_content">All user can see and all user can vote !</div>  
+        <div class="span5 poll-hints" id="display_type_content">All user can see and all user can vote !</div>  
     </div>
     
     <div class="row">
@@ -75,7 +75,7 @@
             ); ?>
             <?php echo '</div>'; ?>
         </div>
-        <div class="span4" id="result_display_type_content">All user who can access can see result !</div>  
+        <div class="span5 poll-hints" id="result_display_type_content">All user who can access can see result !</div>  
     </div>
     <div class="row">
         <div class="span4">
@@ -89,7 +89,7 @@
             ); ?>
             <?php echo '</div>'; ?>
         </div>
-        <div class="span4" id="result_detail_type_content">All result include who voted !</div>  
+        <div class="span5 poll-hints" id="result_detail_type_content">All result include who voted !</div>  
     </div>
     
     <div class="row">
@@ -104,7 +104,7 @@
             ); ?>
             <?php echo '</div>'; ?>
         </div>
-        <div class="span4" id="result_show_time_type_content">Show result only after poll expired !</div>  
+        <div class="span5 poll-hints" id="result_show_time_type_content">Show result only after poll expired !</div>  
     </div>
     
     <div class="none"></div>

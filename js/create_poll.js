@@ -18,7 +18,7 @@ $(function() {
             if (type == '0') {
                 var html = 'All user can see and all user can vote!';
             }
-            else if (type == '1') {
+            else if (type == '2') {
                 var html = 'All user can see and invited user can vote!';
             }
             else {
@@ -34,7 +34,7 @@ $(function() {
             if (type == '0') {
                 var html = 'All user who can access can see result !';
             }
-            else if (type == '1') {
+            else if (type == '2') {
                 var html = 'Only voted user can see result!';
             }
             else {
