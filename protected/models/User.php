@@ -131,16 +131,18 @@ class User extends ActiveRecord
         return crypt($raw_password, $this->password) === $this->password;
     }
 
-    public function deleteAllVote($poll_id){
+    public function deleteAllVote($poll_id)
+    {
         foreach ($this->getAllVotes($poll_id) as $vote) {
             $vote->delete();
         }
     }
 
-    public function getAllVotes($poll_id){
+    public function getAllVotes($poll_id)
+    {
         return Vote::model()->votedBy($this->id)->belongTo($poll_id)->findAll();
     }
-    
+
     public function afterDelete()
     {
         foreach ($this->polls as $poll) {
@@ -148,11 +150,13 @@ class User extends ActiveRecord
         }
         return parent::afterDelete();
     }
+
     /*
      * @author Cao Thanh Luc
      * can view display setting
      */
-    public function canViewPoll ($poll)
+
+    public function canViewPoll($poll)
     {
         $invited = false;
         $invitations = $poll->invitations;
@@ -162,17 +166,14 @@ class User extends ActiveRecord
                 break;
             }
         }
-        if ($poll->user_id == $this->id 
-            || $poll->display_type == 1 
-            || $poll->display_type == 2 
-            || $invited) {
+        if ($poll->user_id == $this->id || $poll->display_type == 1 || $poll->display_type == 2 || $invited) {
             return true;
         } else {
             return false;
         }
     }
-    
-    public function canVotePoll ($poll)
+
+    public function canVotePoll($poll)
     {
         $invited = false;
         $invitations = $poll->invitations;
@@ -182,13 +183,23 @@ class User extends ActiveRecord
                 break;
             }
         }
-        if ($poll->user_id == $this->id 
-            || $poll->display_type == 1 
-            || $invited) {
+        if ($poll->user_id == $this->id || $poll->display_type == 1 || $invited) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
+
+    public function notInvitedTo($poll_id, $user_id)
+    {
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'condition' => 'id not in (select receiver_id from invitations where poll_id=:poll_id)
+                AND id !=:user_id',
+                'params' => array('poll_id' => $poll_id, ':user_id' => $user_id),
+            )
+        );
+        return $this;
+    }
+
 }
