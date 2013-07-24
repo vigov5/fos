@@ -1,5 +1,6 @@
 <script src='<?php echo Yii::app()->baseUrl; ?>/js/datetime_picker.js'></script> 
-<script src='<?php echo Yii::app()->baseUrl; ?>/js/create_poll.js'></script> 
+<script src='<?php echo Yii::app()->baseUrl; ?>/js/create_poll.js'></script>
+<script src='<?php echo Yii::app()->baseUrl; ?>/js/poll_index.js'></script> 
 <?php
 /* @var $this PollController */
 /* @var $poll Poll */
@@ -17,18 +18,21 @@
 )); ?>
     <p class="note">Fields with <span class="required">*</span> are required.</p>
     <?php echo $form->errorSummary($poll); ?>
+ 
     <div class="row">
-        <div class="span4">
-            <?php echo $form->labelEx($poll, 'is_multichoice'); ?>
-            <?php echo '<div class="wide picker">'; ?>
-            <?php echo CHtml::activeDropDownList(
-                $poll,
-               'is_multichoice',
-                array_flip(Poll::$IS_MULTICHOICES_SETTINGS)
-            ); ?>
-            <?php echo '</div>'; ?>
-        </div>
-        <div class="span4" id="is_multichoice_content">This Poll is multichoices or not</div>  
+            <div class="span4">
+                <?php echo $form->labelEx($poll, 'is_multichoice'); ?>
+                <?php echo '<div class="wide picker">'; ?>
+                <?php
+                echo CHtml::activeDropDownList(
+                    $poll, 'is_multichoice', 
+                    array_flip(Poll::$IS_MULTICHOICES_SETTINGS), 
+                    $poll->isNewRecord ? array('id' => '') : array('id' => 'multichoice')
+                );
+                ?>
+                <?php echo '</div>'; ?>
+            </div>
+            <div class="span4" id="is_multichoice_content">This Poll is multichoices or not</div>  
     </div>
     <div class="row">
         <div class="span4">
@@ -38,13 +42,12 @@
                 $poll,
                 'poll_type',
                 array_flip(Poll::$POLL_TYPE_SETTINGS),
-                array('id' => 'poll_type')
+                $poll->isNewRecord ? array('id' => '') : array('id' => 'polltype')
             ); ?>
             <?php echo '</div>'; ?>
         </div>
         <div class="span4" id="poll_type_content">Owner can view and public voter name !</div>  
     </div>
-    
     <div class="row">
         <div class="span4">
             <?php echo $form->labelEx($poll,'display_type'); ?>
@@ -53,7 +56,7 @@
                 $poll,
                 'display_type',
                 array_flip(Poll::$POLL_DISPLAY_SETTINGS),
-                array('id' => 'display_type')
+                $poll->isNewRecord ? array('id' => '') : array('id' => 'displaytype')
             ); ?>
             <?php echo '</div>'; ?>
         </div>

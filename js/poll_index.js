@@ -6,4 +6,7 @@ $(function() {
             $('#form_search').hide(HIDE_TIME);
         }
     });
+    $('#multichoice').prop('disabled', true);
+    $('#polltype').prop('disabled', true);
+    $('#displaytype').prop('disabled', true);
 });

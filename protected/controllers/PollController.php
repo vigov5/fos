@@ -123,6 +123,7 @@ class PollController extends Controller
                                 $result_detail_type = null, $result_show_time_type = null)
     {
         $criteria = new CDbCriteria();
+        
         if ($status != null && $status != 'is_multichoice') {
             $criteria->addCondition('is_multichoice='.$status);
         }
