@@ -167,6 +167,9 @@ class PollController extends Controller
         if (isset($_POST['Poll'])) {
             $model->logChangedAttributes($_POST['Poll']);
             $model->attributes = $_POST['Poll'];
+            if ($model->poll_type == Poll::POLL_TYPE_SETTINGS_ANONYMOUS) {
+                $model->result_detail_type = Poll::RESULT_DETAIL_SETTINGS_ONLY_PERCENTAGE;
+            }
             if ($model->save()) {
                 Yii::app()->user->setFlash('success', 'Poll is updated !');
                 $this->redirect(array('view', 'id' => $model->id));
