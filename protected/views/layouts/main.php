@@ -5,6 +5,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="language" content="en" />
         <?php
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/ejs/ejs_production.js');                
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/baseJS.js');
+        
         Yii::app()->bootstrap->register();
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/jquery-ui.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/style.css');
@@ -14,7 +17,9 @@
         
         Yii::app()->clientScript->registerCoreScript('jquery');
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-ui.js');
-        ?>
+                
+        ?>                       
+       ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
     <body>
