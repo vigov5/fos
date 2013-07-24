@@ -11,12 +11,17 @@ foreach ($users as $usr) {
         $usr->username, 
         array(
             'sender_id' => $this->current_user->id,
-            'check' => '0',
             'poll_id' => $poll_id,
-            'class' => 'btn btn-info btn-check',
+            'class' => 'btn btn-info',
             'receiver_id' => $usr->id,
         )
     );
     echo '&nbsp;';
 }
 ?>
+<hr style='color: #808080'>
+<div class='row'>
+    <div class='span12'>
+        <a id='close-window' href='#'>Close</a>
+    </div>
+</div>
