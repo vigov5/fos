@@ -96,7 +96,7 @@ class Choice extends ActiveRecord
             'criteria' => $criteria,
         ));
     }
-    
+
     /*
      * @author Nguyen Van Cuong
      * after delete choice . Automatic delete vote belong to choice
@@ -108,4 +108,20 @@ class Choice extends ActiveRecord
         }
     }
 
+    /**
+     * @author Nguyen Anh Tien
+     */
+    public function afterSave()
+    {
+        if ($this->isNewRecord && !isset(Yii::app()->session['poll_creating'])) {
+            $params = array(
+                'type' => Activity::ADD_CHOICE,
+                'choice_id' => $this->id,
+                'poll_id' => $this->poll_id,
+                'user_id' => $this->poll->user_id,
+                'display_type' => $this->poll->getActivityDisplayType(),
+            );
+            Activity::create($params);
+        }
+    }
 }

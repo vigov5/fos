@@ -107,11 +107,14 @@ class Invitation extends ActiveRecord
      */
     public function afterSave(){
         if ($this->isNewRecord) {
+            $poll = Poll::model()->findByPk($this->poll_id);
             $params = array(
                 'type' => Activity::INVITE,
                 'user_id' => $this->sender_id,
                 'poll_id' => $this->poll_id,
+                'target_user_id' => $this->receiver_id,
                 'invitation_id' => $this->id,
+                'display_type' => $poll->getActivityDisplayType(),
             );
             Activity::create($params);
         }

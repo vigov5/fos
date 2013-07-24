@@ -46,6 +46,7 @@ class PollController extends Controller
      */
     public function actionView($id)
     {
+        unset(Yii::app()->session['poll_creating']);
         $poll = Poll::model()->findbyAttributes(array('id' => $id));
         $user = $poll->user;
         $choices = $poll->choices;
@@ -100,6 +101,7 @@ class PollController extends Controller
      */
     public function actionCreate()
     {
+        Yii::app()->session['poll_creating'] = true;
         $poll = new Poll;
         if (isset($_POST['Poll'])) {
             $poll->attributes = $_POST['Poll'];
