@@ -1,21 +1,28 @@
 $(function() {
+    if ($('#poll_type').val() == 1) {
+        $('#poll_type_content').html('Owner can\'t view and public voter name !').fadeIn();
+        $('#result_detail_type').val(2);
+        $('#result_detail_type_content').html('Show only percentage of each choice!').fadeIn();
+        $('#result_detail_type').attr('disabled', 'true');
+    }
     $('#poll_type').change(function() {
         var type = $(this).val();
-        $('#poll_type_content').fadeOut(function() {
-            if (type != '1') {
-                var html = 'Owner can view and public voter name !';
-            }
-            else {
-                var html = 'Owner can not view and public voter name !';
-            }
-            $('#poll_type_content').html(html).fadeIn();
-        });
+        if (type == 1) {
+            $("#result_detail_type").val(2);
+            $('#result_detail_type').attr('disabled', 'true');
+            $('#result_detail_type_content').html('Show only percentage of each choice!').fadeIn();
+            $('#poll_type_content').html('Owner can\'t view and public voter name !').fadeIn();
+        }
+        else {
+            $('#poll_type_content').html('Owner can view and public voter name !').fadeIn();
+            $('#result_detail_type').removeAttr('disabled');
+        }
     });
 
     $('#display_type').change(function() {
         var type = $(this).val();
         $('#display_type_content').fadeOut(function() {
-            if (type == '0') {
+            if (type == '1') {
                 var html = 'All user can see and all user can vote!';
             }
             else if (type == '2') {
@@ -31,7 +38,7 @@ $(function() {
     $('#result_display_type').change(function() {
         var type = $(this).val();
         $('#result_display_type_content').fadeOut(function() {
-            if (type == '0') {
+            if (type == '1') {
                 var html = 'All user who can access can see result !';
             }
             else if (type == '2') {
@@ -47,7 +54,7 @@ $(function() {
     $('#result_detail_type').change(function() {
         var type = $(this).val();
         $('#result_detail_type_content').fadeOut(function() {
-            if (type == '0') {
+            if (type == '1') {
                 var html = 'All result include who voted !';
             }
             else {
