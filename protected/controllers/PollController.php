@@ -50,8 +50,8 @@ class PollController extends Controller
         $choices = $poll->choices;
         $comments = $poll->comments;
         $all_votes = $this->current_user->getAllVotes($poll->id);
-        $can_views = $this->canView($poll);
-        $can_votes = $this->canVote($poll);
+        $can_views = $this->current_user->canViewPoll($poll);
+        $can_votes = $this->current_user->canVotePoll($poll);
         if ($can_views) {
             $this->render(
                 'view',
