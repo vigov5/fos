@@ -123,14 +123,16 @@
     </div>
     
     <div class="row">
-        <div class="span4"> 
+        <div class="span4">
+            <?php echo $form->labelEx($poll,'start_at'); ?>
             <?php echo $form->textField($poll,'start_at',array(
                 'class' => 'text input',
                 'placeholder' => 'From',
                 'id' => 'start_at',
             )); ?>        
         </div>
-        <div class="span4"> 
+        <div class="span4">
+            <?php echo $form->labelEx($poll,'end_at'); ?>
             <?php echo $form->textField($poll,'end_at',array(
                 'class' => 'text input',
                 'placeholder' => 'To',
