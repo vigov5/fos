@@ -144,6 +144,9 @@ span.user_poll a{
     margin-top: -15px;
 }
 
+.content-item {
+    margin-top: -15px;
+}
 .poll-hints {
     margin-top: 30px; 
 }

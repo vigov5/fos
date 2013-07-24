@@ -15,6 +15,7 @@ return array(
         'application.models.*',
         'application.components.*',
         'application.extensions.yii-mail.*',
+        'application.extensions.yiinfinite-scroll.*',
     ),
     'defaultController' => 'home/index',
     'modules' => array(
