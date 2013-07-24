@@ -35,7 +35,7 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
     </div>
 </div>
 
-<?php echo CHtml::beginForm(array('poll/index'), 'get', array('id' => 'form_search', 'hidden' => 'hidden')); ?>
+<?php echo CHtml::beginForm('', 'get', array('id' => 'form_search', 'hidden' => 'hidden')); ?>
 <div>
     <ul>
         <li>
