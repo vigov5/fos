@@ -3,6 +3,14 @@
 <?php
 $this->widget('bootstrap.widgets.TbAlert');
 ?>
+<script>
+    $(function() {
+        $(".invite").click(function() {
+            window.open('index.php?r=poll/addinvite&poll_id=<?php echo $poll->id ?>', 'mywindow', 'width=600,height=400');
+        });
+    });
+</script>
+
 <?php
 if (Yii::app()->user->is_admin) {
     echo CHtml::button('Delete Poll', array(
@@ -21,6 +29,13 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
             'poll/update',
             'id' => $poll->id)
         )
+    );
+}
+
+if ($poll->display_type == 3) {
+    echo CHtml::button(
+        'Invite More',
+         array('class' => 'btn btn-info invite')
     );
 }
 ?>
