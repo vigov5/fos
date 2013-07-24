@@ -21,23 +21,19 @@
  */
 class Poll extends ActiveRecord
 {
+
     const IS_MULTICHOICES_YES = 1;
     const IS_MULTICHOICES_NO = 0;
-
     const POLL_TYPE_SETTINGS_ANONYMOUS = 1;
     const POLL_TYPE_SETTINGS_NON_ANONYMOUS = 2;
-
     const POLL_DISPLAY_SETTINGS_PUBLIC = 1;
     const POLL_DISPLAY_SETTINGS_RESTRICTED = 2;
     const POLL_DISPLAY_SETTINGS_INVITED_ONLY = 3;
-
     const RESULT_DISPLAY_SETTINGS_PUBLIC = 1;
     const RESULT_DISPLAY_SETTINGS_VOTED_ONLY = 2;
     const RESULT_DISPLAY_SETTINGS_OWNER_ONLY = 3;
-
     const RESULT_DETAIL_SETTINGS_ALL = 1;
     const RESULT_DETAIL_SETTINGS_ONLY_PERCENTAGE = 2;
-
     const RESULT_TIME_SETTINGS_AFTER = 1;
     const RESULT_TIME_SETTINGS_DURING = 2;
 
@@ -123,21 +119,21 @@ class Poll extends ActiveRecord
     }
 
     /**
-     * 
+     *
      * @return array The behaviors attached to Profile
      * @author Tran Duc Thang
      */
     public function behaviors()
     {
-        return array(            
+        return array(
             'ViewLinkBehavior' => array(
                 'class' => 'application.components.ViewLinkBehavior',
-                'display_attribute' => 'question',   
+                'display_attribute' => 'question',
                 'controller_name' => 'poll'
             )
         );
     }
-    
+
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -209,28 +205,30 @@ class Poll extends ActiveRecord
     /**
      * @author Nguyen Anh Tien
      */
-    public function hasChoice($choice_id){
+    public function hasChoice($choice_id)
+    {
         return Choice::model()->exists(
-            'id=:id AND poll_id=:poll_id',
-            array(':id' => $choice_id, ':poll_id' => $this->id)
+                'id=:id AND poll_id=:poll_id', array(':id' => $choice_id, ':poll_id' => $this->id)
         );
     }
 
     /**
-     * 
+     *
      * @return boolean poll has started or not
      * @author Tran Duc Thang
      */
-    public function hasStarted() {
+    public function hasStarted()
+    {
         return $this->start_at <= date('Y-m-d H:i:s');
     }
-    
+
     /**
-     * 
+     *
      * @return boolean poll has ended or not
      * @author Tran Duc Thang
      */
-    public function hasEnded() {
+    public function hasEnded()
+    {
         return $this->end_at <= date('Y-m-d H:i:s');
     }
 
@@ -238,7 +236,8 @@ class Poll extends ActiveRecord
      * @author Nguyen Anh Tien
      * @param integer $user_id id of user that can see those polls
      */
-    public function canBeSeenBy($user_id){
+    public function canBeSeenBy($user_id)
+    {
         // user can see public and restricted poll
         $this->getDbCriteria()->mergeWith(
             array(
@@ -252,16 +251,87 @@ class Poll extends ActiveRecord
         );
         $this->getDbCriteria()->mergeWith(
             array(
-                'with' => 'invitations',
-                'condition' => 'invitations.receiver_id=:user_id and display_type=:invite_only',
-                'params' => array(
-                    ':user_id' => $user_id,
-                    ':invite_only' => Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY,
-                ),
+            'with' => 'invitations',
+            'condition' => 'invitations.receiver_id=:user_id and display_type=:invite_only',
+            'params' => array(
+                ':user_id' => $user_id,
+                ':invite_only' => Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY,
             ),
-            'OR'
+            ), 'OR'
         );
 
         return $this;
     }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @param Poll $new edited poll model
+     */
+    public function logChangedAttributes($new)
+    {
+        $other_settings_attr = array(
+            'result_detail_type',
+            'result_display_type',
+            'result_show_time_type',
+        );
+        $types = array();
+        foreach ($new as $attr => $value) {
+            if ($value !== $this->attributes[$attr]) {
+                if (!in_array(Activity::CHANGE_POLL_TIME, $types)
+                    && ($attr == 'start_at' || $attr == 'end_at')
+                ) {
+                    $types[] = Activity::CHANGE_POLL_TIME;
+                } else if (!in_array(Activity::CHANGE_POLL_SETTING, $types)
+                    && in_array($attr, $other_settings_attr)
+                ) {
+                    $types[] = Activity::CHANGE_POLL_SETTING;
+                }
+            }
+        }
+        Yii::app()->session['activity_type'] = $types;
+    }
+
+    /**
+     * record vote type vote or re-vote
+     * @author Nguyen Anh Tien
+     */
+    public function logVoteType($user){
+        $votes = $user->getAllVotes($this->id);
+        if (empty($votes)) {
+            Yii::app()->session['vote_type'] = Activity::VOTE;
+        } else {
+            Yii::app()->session['vote_type'] = Activity::RE_VOTE;
+        }
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @return function afterSave
+     */
+    public function afterSave()
+    {
+        if ($this->isNewRecord) {
+            $params = array(
+                'type' => Activity::CREATE_POLL,
+                'user_id' => $this->user_id,
+                'poll_id' => $this->id,
+            );
+            Activity::create($params);
+        } else {
+            if (!empty(Yii::app()->session['activity_type'])) {
+                foreach (Yii::app()->session['activity_type'] as $type) {
+                    $params = array(
+                        'type' => $type,
+                        'user_id' => $this->user_id,
+                        'poll_id' => $this->id,
+                    );
+                    Activity::create($params);
+                }
+            }
+            unset(Yii::app()->session['activity_type']);
+        }
+        return parent::afterSave();
+    }
+
 }
+

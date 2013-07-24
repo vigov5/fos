@@ -101,4 +101,21 @@ class Invitation extends ActiveRecord
         ));
     }
 
+    /**
+     * @author Nguyen Anh Tien
+     * @return function afterSave
+     */
+    public function afterSave(){
+        if ($this->isNewRecord) {
+            $params = array(
+                'type' => Activity::INVITE,
+                'user_id' => $this->sender_id,
+                'poll_id' => $this->poll_id,
+                'invitation_id' => $this->id,
+            );
+            Activity::create($params);
+        }
+        return parent::afterSave();
+    }
+
 }

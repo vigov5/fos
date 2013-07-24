@@ -69,7 +69,7 @@ class PollController extends Controller
             Yii::app()->user->setFlash('warning','Can not acess');
             $this->redirect(array('index'));
         }
-    }       
+    }
 
     /**
      * @author Nguyen Van Cuong
@@ -164,6 +164,7 @@ class PollController extends Controller
     {
         $model = $this->loadModel($id);
         if (isset($_POST['Poll'])) {
+            $model->logChangedAttributes($_POST['Poll']);
             $model->attributes = $_POST['Poll'];
             if ($model->save()) {
                 Yii::app()->user->setFlash('success', 'Poll is updated !');
@@ -212,6 +213,8 @@ class PollController extends Controller
                         $this->redirect(array('poll/view', 'id' => $id));
                     }
                 }
+                // log vote type
+                $poll->logVoteType($this->current_user);
                 // delete previous vote record
                 $this->current_user->deleteAllVote($poll->id);
 
@@ -220,17 +223,18 @@ class PollController extends Controller
                     Yii::app()->user->setFlash('error', 'You can select only one  choice !');
                     $this->redirect(array('poll/view', 'id' => $id));
                 }
-
+                // save vote to db
                 foreach ($valid_choice_ids as $choice_id) {
                     $vote = new Vote;
                     // ensure current user is voting
-                    $vote->user_id = Yii::app()->user->id;
+                    $vote->user_id = $this->current_user->id;
                     $vote->choice_id = $choice_id;
                     $vote->save();
                     // TODO : add notification
                 }
-            }
-            $this->redirect(array('poll/view', 'id' => $id));
+                unset(Yii::app()->session['vote-type']);
+           }
+           $this->redirect(array('poll/view', 'id' => $id));
         } else {
             $this->redirect(array('poll/index'));
         }

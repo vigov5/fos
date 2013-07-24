@@ -181,22 +181,7 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
             }
             echo "<div class='clear2'></div>";
         }
-        
-        if ($poll->is_multichoice == 1) {
-            echo CHtml::checkBox('new_choice', false, array(
-                'id' => '', 
-                'class' => 'cb',
-                'disabled' => !$can_votes)
-            );
-        } else {
-            echo CHtml::radioButton('choice', false, array(
-                'value' => 'max_id_choice + 1',
-                'id' => 'max_id_choice + 1',
-                'class' => 'cb',
-                'disabled' => !$can_votes)
-            );
-        }
-        
+
         if (empty($all_votes)) {
             echo CHtml::button(
                 'Vote', 
