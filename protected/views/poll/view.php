@@ -196,32 +196,24 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
                 'disabled' => !$can_votes)
             );
         }
-        echo '<div class="progress progress-striped active bar_choice">';
-        echo '<div class="bar bar-warning" style="width: 0%;"></div>';
-        echo CHtml::textArea('new_choice', '', array(
-            'placeholder' => 'type new choice...',
-            'class' => 'type_new_choice')
-        );
-        echo '</div>';
-        echo "<div class='clear2'></div>";
         
         if (empty($all_votes)) {
             echo CHtml::button(
                 'Vote', 
                 array(
                     'class' => 'btn btn-primary',
-                    'submit' => array()
+                    'type' => 'submit'
                 )
             );
         } else {
             foreach ($all_votes as $vote) {
-                echo "You voted with \"{$vote->choice->content}\"<br>";
+                echo "You voted with {$vote->choice->content}<br>";
             }
             echo CHtml::button(
                 'Re-Vote', 
                 array(
                     'class' => 'btn btn-primary',
-                    'submit' => array()
+                    'type' => 'submit'
                 )
             );
         }
