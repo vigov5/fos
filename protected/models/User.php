@@ -210,4 +210,71 @@ class User extends ActiveRecord
         return Activity::model()->allVisibleActivitiesNotInclude($this->id)->findAll($criteria);
     }
 
+     /**
+     * @author Pham Tri Thai
+     * return view vorter permission
+     */
+    public function canViewVoter ($poll)
+    {
+        if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_ANONYMOUS) {
+            return false;
+        } else {
+            if ($poll->result_detail_type == Poll::RESULT_DETAIL_SETTINGS_ALL 
+                || $poll->user_id == $this->id) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    
+    /**
+     * @author Pham Tri Thai
+     * check user is voted?
+     */
+    public function checkVoted($poll_id) {
+        if (Vote::model()->votedBy($this->id)->belongTo($poll_id)->find()) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
+    /**
+     * @author Pham Tri Thai
+     * return view result permission
+     */
+    public function canViewResult ($poll)
+    {        
+        $start_at = strtotime($poll->start_at);
+        $end_at = strtotime($poll->end_at);
+        $current_time = time();
+        if ($current_time >= $start_at && $current_time <= $end_at) {
+            $votting = true;
+        } else {
+            $votting = false;
+        }
+        
+        $show_result = false;
+        
+        if ($poll->result_show_time_type == Poll::RESULT_TIME_SETTINGS_AFTER && $votting) {
+            $show_result = false;
+        } elseif ($poll->user_id == $this->id) {
+            $show_result = true;
+        } else {
+            switch ($poll->result_display_type) {
+                case Poll::RESULT_DISPLAY_SETTINGS_PUBLIC:
+                    $show_result = true;
+                    break;
+                case Poll::RESULT_DISPLAY_SETTINGS_VOTED_ONLY:
+                    // check this user is voter
+                    if ($this->checkVoted($poll->id)) {
+                        $show_result = true;
+                    }
+                    break;
+            }
+        }
+        return $show_result;
+    }
 }

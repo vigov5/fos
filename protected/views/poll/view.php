@@ -151,6 +151,13 @@ if ($poll->display_type == 3) {
         * @author Pham Tri Thai
         * View result vote
         */
+        
+        if (!$can_show_result) {
+            Yii::app()->user->setFlash('warning', 'You can not view result of poll.');
+        } elseif (!$can_show_voter) {
+            Yii::app()->user->setFlash('warning', 'You can not view voter.');
+        }
+        
         $total_votes = 0;
         foreach ($choices as $c) {
             $votes = $c->votes;
@@ -174,6 +181,7 @@ if ($poll->display_type == 3) {
                     )
                 );
             }
+            
             $votes = $c->votes;
             if ($total_votes !== 0) {
                 $percent = sizeof($votes) * 100 / $total_votes;
@@ -181,18 +189,26 @@ if ($poll->display_type == 3) {
                 $percent = 0;
             }
             echo '<div class="progress progress-striped active bar_choice">';
-            echo '<div class="bar bar-warning" style="width: ' . $percent . '%;"></div>';
+            if ($can_show_result) {
+                echo '<div class="bar bar-warning" style="width: ' . $percent . '%;"></div>';
+            }
             echo CHtml::label($c->content, $c->id, 
                 array(
                     'class' => 'content_choice'
                 ));
             echo '</div>';
 
-            echo sizeof($votes);
-            for ($k = 0; $k < sizeof($votes); $k++) {
-                echo CHtml::link($votes[$k]->user->username, '', array(
-                    'class' => 'user_vote')
-                );
+            if ($can_show_result) {
+                echo sizeof($votes);
+                if ($can_show_voter) {
+                    for ($k = 0; $k < sizeof($votes); $k++) {
+                        $user_link = $votes[$k]->user->profile->createViewLink();
+        //                echo $user_link;
+                        echo CHtml::link($votes[$k]->user->username, 'lo', array(
+                            'class' => 'user_vote')
+                        );
+                    }
+                }
             }
             echo "<div class='clear2'></div>";
         }
@@ -217,12 +233,53 @@ if ($poll->display_type == 3) {
                 )
             );
         }
-        ?>
-    </form>
-<table>
-    <?php
-    foreach ($comments as $comment) {
-        $user = $comment->user;
-    }
     ?>
-</table>
+</form>
+
+<?php
+    echo '<div class="comment_area">';
+        for ($j = 0; $j < sizeof($comments); $j++) {
+            if (!$comments[$j]->parent_id) {
+                echo '<div class="comment">';
+                echo CHtml::link($comments[$j]->user->username, '', array(
+                    'class' => 'user_comment')
+                );
+                echo $comments[$j]->content;
+                echo '<br>';
+                echo CHtml::label($comments[$j]->updated_at, '',
+                    array('class' => 'time_update'));
+                echo CHtml::link('Comment', '',
+                    array('class' => 'btn_comment'));
+                echo "<div class='clear2'></div>";
+                echo '</div>';
+                $childrens = $comments[$j]->children;
+                for ($k = 0; $k < sizeof($childrens); $k++) {
+                    echo '<div class="comment_children">';
+                    echo CHtml::link($childrens[$j]->user->username, '',
+                        array('class' => 'user_comment'));
+                    echo $childrens[$j]->content;
+                    echo '<br>';
+                    echo CHtml::label($childrens[$j]->updated_at, '',
+                        array('class' => 'time_update'));
+                    echo "<div class='clear2'></div>";
+                    echo '</div>';
+                }
+            }
+        }
+        echo "<div class='clear2'></div>";
+        echo CHtml::textArea('your_comment', '', array(
+            'placeholder' => 'type your comment...',
+            'rows' => 1,
+            'class' => 'type_new_comment')
+         );
+        //echo CHtml::inputFeild('text-area', '', array('placeholder' => 'type your comment...'));
+        echo '<hr>';
+        echo '</div>';
+    echo '</div>';
+?>
+
+<script>
+    $().ready(function() {
+        $('textarea').autosize();
+    });
+</script>
