@@ -157,6 +157,7 @@ class Activity extends ActiveRecord
         $this->getDbCriteria()->mergeWith(
             array(
                 'condition' => 'display_type=:public AND user_id!=:user_id',
+                //  params :public and :user_id in condition             
                 'params' => array(
                     ':public' => Activity::DISPLAY_PUBLIC,
                     ':user_id' => $user_id,
@@ -176,5 +177,35 @@ class Activity extends ActiveRecord
 
         return $this;
     }
-    
+
+    /*
+     * @author Nguyen Van Cuong
+     * scope limit , non condition
+     */
+
+    public function recently($limit = 10)
+    {
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'limit' => $limit,
+            )
+        );
+        return $this;
+    }
+
+    /*
+     * @author Nguyen Van Cuong
+     * scope offset
+     */
+
+    public function offset($index = 0)
+    {
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'offset' => $index,
+            )
+        );
+        return $this;
+    }
+     
 }
