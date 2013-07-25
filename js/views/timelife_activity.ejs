@@ -1,0 +1,62 @@
+<% 
+    CREATE_POLL = 1;
+    ADD_CHOICE = 2;
+    CHANGE_POLL_TIME = 3;
+    CHANGE_POLL_SETTING = 4;
+    VOTE = 5;
+    RE_VOTE = 6;
+    INVITE = 7;
+    COMMENT = 8;
+    REPLY_COMMENT = 9;
+%>
+<div class="alert content-item">
+    <% if (activity_type == CREATE_POLL) { %>
+    <%= link_to(user, 'index.php?r=profile/view&id='+user_id) %> created poll 
+    <%= link_to(poll, 'index.php?r=poll/view&id='+poll_id) %> at 
+    <%= time %>
+    <% } %>
+    <% if (activity_type == ADD_CHOICE) { %>
+    <%= link_to(user, 'index.php?r=profile/view&id='+user_id) %> added choice
+    <%= link_to(choice, 'index.php?r=poll/view&id='+poll_id) %> for poll
+    <%= link_to(poll, 'index.php?r=poll/view&id='+poll_id) %> at
+    <%= time %>
+    <% } %>
+    <% if (activity_type == CHANGE_POLL_TIME) { %>
+    <%= link_to(user, 'index.php?r=profile/view&id='+user_id) %> changed time settings of poll 
+    <%= link_to(poll, 'index.php?r=poll/view&id='+poll_id) %> at 
+    <%= time %>
+    <% } %>
+    <% if (activity_type == CHANGE_POLL_SETTING) { %>
+    <%= link_to(user, 'index.php?r=profile/view&id='+user_id) %> changed settings of poll 
+    <%= link_to(poll, 'index.php?r=poll/view&id='+poll_id) %> at 
+    <%= time %>
+    <% } %>
+    <% if (activity_type == VOTE) { %>
+    <%= link_to(user, 'index.php?r=profile/view&id='+user_id) %> voted in poll
+    <%= link_to(poll, 'index.php?r=poll/view&id='+poll_id) %> with
+    <%= link_to(choice, 'index.php?r=poll/view&id='+poll_id) %> at 
+    <%= time %>
+    <% } %>
+    <% if (activity_type == RE_VOTE) { %>
+    <%= link_to(user, 'index.php?r=profile/view&id='+user_id) %> re-voted in poll 
+    <%= link_to(poll, 'index.php?r=poll/view&id='+poll_id) %> with 
+    <%= link_to(choice, 'index.php?r=poll/view&id='+poll_id) %> at 
+    <%= time %>
+    <% } %>
+    <% if (activity_type == INVITE) { %>
+    <%= link_to(user, 'index.php?r=profile/view&id='+user_id) %> invited 
+    <%= link_to(target_user, 'index.php?r=profile/view&id='+target_user_id) %> to vote in poll 
+    <%= link_to(poll, 'index.php?r=poll/view&id='+poll_id) %> at 
+    <%= time %>
+    <% } %>
+    <% if (activity_type == COMMENT) { %>
+    <%= link_to(user, 'index.php?r=profile/view&id='+user_id) %> commented in poll 
+    <%= link_to(poll, 'index.php?r=poll/view&id='+poll_id) %> at 
+    <%= time %>
+    <% } %>
+    <% if (activity_type == REPLY_COMMENT) { %>
+    <%= link_to(user, 'index.php?r=profile/view&id='+user_id) %> replied a comment in poll 
+    <%= link_to(poll, 'index.php?r=poll/view&id='+poll_id) %> at 
+    <%= time %>
+    <% } %>
+</div>
