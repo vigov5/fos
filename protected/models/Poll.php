@@ -189,7 +189,7 @@ class Poll extends ActiveRecord
     }
 
     /**
-     * @author Nguyen Van Cuong
+     * @author Nguyen Van Cuong , Vu Dang Tung
      * after delete poll . Automatic delete comments and choices belong to this poll
      */
     public function afterDelete()
@@ -199,6 +199,9 @@ class Poll extends ActiveRecord
         }
         foreach ($this->choices as $choice) {
             $choice->delete();
+        }
+        foreach ($this->activities as $activity) {
+            $activity->delete();
         }
     }
 
