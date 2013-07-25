@@ -225,20 +225,23 @@ class PollController extends Controller
 
     public function actionInvite($poll_id)
     {
-        $criteria = new CDbCriteria();
-        $criteria->condition = 'id!=:user_id';
-        $criteria->params = array(':user_id' => $this->current_user->id);
-        $users = User::model()->findAll($criteria);
-        $this->render('invite', array('users' => $users,
-            'poll_id' => $poll_id,
-        ));
+        $user_id = $this->current_user->id;
+        $poll = Poll::model()->findByPk($poll_id);
+        if($user_id == $poll->user_id) {
+            $criteria = new CDbCriteria();
+            $criteria->condition = 'id!=:user_id';
+            $criteria->params = array(':user_id' => $this->current_user->id);
+            $users = User::model()->findAll($criteria);
+            $this->render('invite', array('users' => $users,
+                'poll_id' => $poll_id,
+            ));
+        }
     }
     
     public function actionAddinvite($poll_id)
     {
         $user_id = $this->current_user->id;
         $poll = Poll::model()->findByPk($poll_id);
-        
         $users = User::model()->notInvitedTo($poll_id, $user_id)->findAll();
         $this->render('addinvite', array('users' => $users,
             'poll' => $poll,
