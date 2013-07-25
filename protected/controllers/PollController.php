@@ -163,7 +163,10 @@ class PollController extends Controller
             'result_detail_type' => $result_detail_type,
         ));
     }
-
+    
+    /*
+     * @author Nguyen Van Cuong
+     */
     public function actionMy($status = null, $poll_type = null,
         $display_type = null, $result_display_type = null,
         $result_detail_type = null, $result_show_time_type = null)
