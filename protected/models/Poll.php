@@ -38,12 +38,12 @@ class Poll extends ActiveRecord
     const RESULT_TIME_SETTINGS_DURING = 2;
 
     public static $IS_MULTICHOICES_SETTINGS = array(
-        'Yes' => self::IS_MULTICHOICES_YES,
         'No' => self::IS_MULTICHOICES_NO,
+        'Yes' => self::IS_MULTICHOICES_YES,        
     );
     public static $POLL_TYPE_SETTINGS = array(
-        'Anonymous' => self::POLL_TYPE_SETTINGS_ANONYMOUS,
         'Non-anonymous' => self::POLL_TYPE_SETTINGS_NON_ANONYMOUS,
+        'Anonymous' => self::POLL_TYPE_SETTINGS_ANONYMOUS,        
     );
     public static $POLL_DISPLAY_SETTINGS = array(
         'Public' => self::POLL_DISPLAY_SETTINGS_PUBLIC,
