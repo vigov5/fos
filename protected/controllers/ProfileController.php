@@ -44,8 +44,28 @@ class ProfileController extends Controller
      */
     public function actionView($id)
     {
+        $profile = $this->loadModel($id);
+        $criteria = new CDbCriteria;
+        if ($profile->user->id === $this->current_user->id){
+            $criteria->condition = "user_id = {$this->current_user->id}";
+            $total = Activity::model()->count($criteria);
+            $pages = new CPagination($total);
+            $pages->pageSize = 10;
+            $pages->applyLimit($criteria);
+            $activities = Activity::model()->findAll($criteria);
+        } else {
+            $criteria->condition = 'user_id=:target_user_id';
+            $criteria->params = array('target_user_id' => $profile->user->id);
+            $total = Activity::model()->allVisibleActivitiesNotInclude($this->current_user->id)->count($criteria);
+            $pages = new CPagination($total);
+            $pages->pageSize = 10;
+            $pages->applyLimit($criteria);
+            $activities = Activity::model()->allVisibleActivitiesNotInclude($this->current_user->id)->findAll($criteria);
+        }
         $this->render('view', array(
-            'profile' => $this->loadModel($id),
+            'profile' => $profile,
+            'activities' => $activities,
+            'pages' => $pages,
         ));
     }
 

@@ -81,7 +81,7 @@ class YiinfiniteScroller extends CBasePager {
 
     private function renderNavigation() {
         $next_link = CHtml::link('next',$this->createPageUrl($this->getCurrentPage(false)+1));
-        echo '<div class="infinite_navigation">'.$next_link.'</div>';
+        echo '<div class="infinite_navigation" hidden="hidden">'.$next_link.'</div>';
     }
 
     private function theresNoMorePages() {
