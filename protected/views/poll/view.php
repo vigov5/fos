@@ -8,17 +8,23 @@ $this->widget('bootstrap.widgets.TbAlert');
         $(".invite").click(function() {
             window.open('index.php?r=poll/addinvite&poll_id=<?php echo $poll->id ?>', 'mywindow', 'width=600,height=400');
         });
+        $('.hidden_info').hide();
         $('.invited').hide();
         $('.view_invited').click(function(){
             $('.invited').slideToggle();
         });
+        $('.more').click(function(){
+            $('.hidden_info').slideToggle();
+        });
     });
 </script>
-
+<?php echo CHtml::link('Show More','',array('class' => 'more')); 
+?>
+<br/>
 <?php
 if (Yii::app()->user->is_admin) {
     echo CHtml::button('Delete Poll', array(
-        'class' => 'btn btn-danger',
+        'class' => 'btn btn-danger hidden_info',
         'submit' => array(
             'poll/delete',
             'id' => $poll->id),
@@ -28,7 +34,7 @@ if (Yii::app()->user->is_admin) {
 echo '</span>&nbsp';
 if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
     echo CHtml::button('Edit Poll', array(
-        'class' => 'btn btn-warning',
+        'class' => 'btn btn-warning hidden_info',
         'submit' => array(
             'poll/update',
             'id' => $poll->id)
@@ -38,7 +44,7 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
 echo '</span>&nbsp';
 if (Yii::app()->user->getId() === $user->id) {
     echo CHtml::button('Edit Choice', array(
-        'class' => 'btn btn-warning',
+        'class' => 'btn btn-warning hidden_info',
         'submit' => array(
             'choice/index',
             'poll_id' => $poll->id)
@@ -51,22 +57,22 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
     echo '</span>&nbsp';
     echo CHtml::button(
         'Invite More',
-         array('class' => 'btn btn-info invite')
+         array('class' => 'btn btn-info invite hidden_info')
     );
 } elseif ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_RESTRICTED && Yii::app()->user->getId() == $user->id) {
     echo Chtml::button(
             'Invite More People',
-            array('class' => 'btn btn-info invite')
+            array('class' => 'btn btn-info invite hidden_info')
     );
 }
 ?>
 <table class='detail-view table table-striped table-condensed' id='yw1'>
     <tbody>
-        <tr class='odd'>
+        <tr class='odd hidden_info'>
             <th>User</th>
             <td><?php echo $user->username ?></td>
         </tr>
-        <tr class='even'>
+        <tr class='even hidden_info'>
             <th>Setting</th>
             <td>
                 <b> Multi-choice :</b>
@@ -79,7 +85,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                 ?>
             </td>
         </tr>
-        <tr class='even'>
+        <tr class='even hidden_info'>
             <th></th>
             <td>
                 <b> Poll Type :</b>
@@ -92,7 +98,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                 ?>
             </td>
         </tr>
-        <tr class='even'>
+        <tr class='even hidden_info'>
             <th></th>
             <td>
                 <b>Poll Display :</b>
@@ -132,7 +138,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
             ?>
             </td>
         </tr>
-        <tr class='odd'>
+        <tr class='odd hidden_info'>
             <th></th>
             <td>
                 <b>Result Display :</b>
@@ -151,7 +157,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                 ?>
             </td>
         </tr>
-        <tr class='even'>
+        <tr class='even hidden_info'>
             <th></th>
             <td>
                 <b>Result Details :</b>
@@ -164,7 +170,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                 ?>
             </td>
         </tr>
-        <tr class='odd'>
+        <tr class='odd hidden_info'>
             <th></th>
             <td>
                 <b>Result Show Time :</b>
