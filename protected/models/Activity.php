@@ -153,13 +153,13 @@ class Activity extends ActiveRecord
      * @author Nguyen Anh Tien
      * @param User current user
      */
-    public function allActivitiesNotInclude($user){
+    public function allVisibleActivitiesNotInclude($user_id){
         $this->getDbCriteria()->mergeWith(
             array(
                 'condition' => 'display_type=:public AND user_id!=:user_id',
                 'params' => array(
                     ':public' => Activity::DISPLAY_PUBLIC,
-                    ':user_id' => $user->id,
+                    ':user_id' => $user_id,
                 ),
             )
         );
@@ -167,7 +167,7 @@ class Activity extends ActiveRecord
             array(
                 'condition' => 'display_type=:invited AND poll_id in (select poll_id from invitations where receiver_id=:user_id)',
                 'params' => array(
-                    ':user_id' => $user->id,
+                    ':user_id' => $user_id,
                     ':invited' => Activity::DISPLAY_RESTRICTED,
                 ),
             ),
@@ -176,5 +176,5 @@ class Activity extends ActiveRecord
 
         return $this;
     }
-
+    
 }

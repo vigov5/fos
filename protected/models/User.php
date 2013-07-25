@@ -201,5 +201,13 @@ class User extends ActiveRecord
         );
         return $this;
     }
+    
+    public function getAllVisibleActivitesOfUser($user_id)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'user_id=:user_id';
+        $criteria->params = array('user_id' => $user_id);
+        return Activity::model()->allVisibleActivitiesNotInclude($this->id)->findAll($criteria);
+    }
 
 }
