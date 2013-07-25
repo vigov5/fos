@@ -148,6 +148,11 @@ class User extends ActiveRecord
         foreach ($this->polls as $poll) {
             $poll->delete();
         }
+        
+        foreach ($this->activities as $activity) {
+            $activity->delete();
+        }
+        
         return parent::afterDelete();
     }
 
