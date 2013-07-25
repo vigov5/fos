@@ -56,7 +56,11 @@
                             array(
                                 'class' => 'bootstrap.widgets.TbMenu',
                                 'items' => array(
-                                    array('label' => 'Home', 'icon' => 'home white', 'url' => array('home/index')),
+                                    array(
+                                        'label' => 'Home',
+                                        'icon' => 'home white',
+                                        'url' => array('profile/view', 'id' => Yii::app()->user->profile_id),
+                                    ),
                                     array('label' => 'Notifications', 'icon' => 'globe white', 'url' => '#'),
                                 ),
                             ),
@@ -72,11 +76,6 @@
                                     array('label' => 'My Polls', 'url' => array('poll/my')),
                                     array('label' => Yii::app()->user->username, 'icon' => 'user white', 'url' => '#',
                                         'items' => array(
-                                            array(
-                                                'label' => 'Profile',
-                                                'icon' => 'pencil',
-                                                'url' => array('profile/view', 'id' => Yii::app()->user->profile_id),
-                                            ),
                                             array(
                                                 'label' => 'Change password',
                                                 'icon' => 'cog',
