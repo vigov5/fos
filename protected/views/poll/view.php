@@ -31,6 +31,16 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
         )
     );
 }
+echo '</span>&nbsp';
+if (Yii::app()->user->getId() === $user->id) {
+    echo CHtml::button('Edit Choice', array(
+        'class' => 'btn btn-warning',
+        'submit' => array(
+            'choice/index',
+            'poll_id' => $poll->id)
+        )
+    );
+}
 
 if ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
     echo CHtml::button(
