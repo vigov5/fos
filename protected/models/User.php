@@ -202,6 +202,25 @@ class User extends ActiveRecord
         return $this;
     }
     
+    /**
+     * 
+     * @author Vu Dang Tung
+     * @param integer $poll_id The id of the poll
+     * @param integer $user_id The id of the user
+     * @return list all user invited in this poll
+     */
+    public function invitedTo($poll_id, $user_id)
+    {
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'condition' => 'id in (select receiver_id from invitations where poll_id=:poll_id)
+                AND id !=:user_id',
+                'params' => array('poll_id' => $poll_id, ':user_id' => $user_id),
+            )
+        );
+        return $this;
+    }
+       
     public function getAllVisibleActivitesOfUser($user_id)
     {
         $criteria = new CDbCriteria();
