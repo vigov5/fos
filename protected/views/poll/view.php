@@ -32,10 +32,15 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
     );
 }
 
-if ($poll->display_type == 3) {
+if ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
     echo CHtml::button(
         'Invite More',
          array('class' => 'btn btn-info invite')
+    );
+} elseif ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_RESTRICTED && Yii::app()->user->getId() == $user->id) {
+    echo Chtml::button(
+            'Invite More People',
+            array('class' => 'btn btn-info invite')
     );
 }
 ?>
