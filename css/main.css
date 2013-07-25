@@ -48,6 +48,7 @@ body
     border: #C9E0ED solid 1px;
     border-bottom: none;
     position:fixed;
+    top: 55px;
     right: 5%;
 }
 

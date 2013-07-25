@@ -103,7 +103,6 @@
                         <?php echo $content; ?>
                     </div>
                     <div class="span3 stream">
-                        <div class="alert alert-info">Stream</div>
                         <?php
                         foreach ($this->stream as $activity) {
                             $this->renderPartial(
