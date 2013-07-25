@@ -86,7 +86,7 @@
                 $poll,
                 'result_detail_type',
                 array_flip(Poll::$RESULT_DETAIL_SETTINGS),
-                array('id' => 'result_detail_type')
+                $poll->poll_type == '1' ?  array('disabled' => 'true') : array('id' => 'result_detail_type')
             ); ?>
             <?php echo '</div>'; ?>
         </div>
