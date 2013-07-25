@@ -298,7 +298,7 @@ class PollController extends Controller
             $this->redirect(array('poll/index'));
         }
     }
-
+    
 }
 ?>
 

@@ -42,7 +42,8 @@ if (Yii::app()->user->getId() === $user->id) {
     );
 }
 
-if ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
+
+if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app()->user->getId() == $user->id) {
     echo CHtml::button(
         'Invite More',
          array('class' => 'btn btn-info invite')
@@ -97,9 +98,17 @@ if ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
                         break;
                     case Poll::POLL_DISPLAY_SETTINGS_RESTRICTED:
                         echo ' Restricted (All user can see but only invited user can vote) ';
+                        if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_NON_ANONYMOUS) {
+                            echo CHtml::link(' (view invited)', '#', array(
+                                'class' => 'view_invited',
+                            ));
+                        }
                         break;
                     default:
                         echo ' Invited Only (Only invited user can see and vote) ';
+                        if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_NON_ANONYMOUS) {
+                            echo CHtml::link('View invited');
+                        }
                         break;
                 }
                 ?>
