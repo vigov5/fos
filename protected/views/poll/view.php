@@ -79,9 +79,9 @@ if ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
                 <b> Poll Type :</b>
                 <?php
                 if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_ANONYMOUS) {
-                    echo ' Anonymous ';
+                    echo ' Anonymous (Owner can\'t view and public voter name) ';
                 } else {
-                    echo ' Non-Anonymous ';
+                    echo ' Non-Anonymous (Owner can view and public voter name) ';
                 }
                 ?>
             </td>
@@ -93,13 +93,13 @@ if ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
                 <?php
                 switch ($poll->display_type) {
                     case Poll::POLL_DISPLAY_SETTINGS_PUBLIC:
-                        echo ' Public ';
+                        echo ' Public (All user can see and vote) ';
                         break;
                     case Poll::POLL_DISPLAY_SETTINGS_RESTRICTED:
-                        echo ' Restricted ';
+                        echo ' Restricted (All user can see but only invited user can vote) ';
                         break;
                     default:
-                        echo ' Invited Only ';
+                        echo ' Invited Only (Only invited user can see and vote) ';
                         break;
                 }
                 ?>
@@ -112,13 +112,13 @@ if ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
                 <?php
                 switch ($poll->result_display_type) {
                     case Poll::RESULT_DISPLAY_SETTINGS_PUBLIC:
-                        echo 'Pulic';
+                        echo 'Pulic (All user who can access can see result) ';
                         break;
                     case Poll::RESULT_DISPLAY_SETTINGS_VOTED_ONLY:
-                        echo 'Voted Only';
+                        echo 'Voted Only (Only voted user can see result) ';
                         break;
                     default:
-                        echo 'Owner Only';
+                        echo 'Owner Only (Only owner can see result) ';
                         break;
                 }
                 ?>
@@ -130,9 +130,9 @@ if ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
                 <b>Result Details :</b>
                 <?php
                 if ($poll->result_detail_type == Poll::RESULT_DETAIL_SETTINGS_ALL) {
-                    echo ' All ';
+                    echo ' All (All result include who voted) ';
                 } else {
-                    echo ' Only Percentage ';
+                    echo ' Only Percentage (Show only percentage of each choice) ';
                 }
                 ?>
             </td>
@@ -143,9 +143,9 @@ if ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
                 <b>Result Show Time :</b>
                 <?php
                 if ($poll->result_show_time_type == Poll::RESULT_TIME_SETTINGS_AFTER) {
-                    echo ' After vote finish';
+                    echo ' After vote finish (Show result only after poll expired) ';
                 } else {
-                    echo ' During ';
+                    echo ' During (Show result during votting time) ';
                 }
                 ?>
             </td>
@@ -166,12 +166,6 @@ if ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
         * @author Pham Tri Thai
         * View result vote
         */
-        
-        if (!$can_show_result) {
-            Yii::app()->user->setFlash('warning', 'You can not view result of poll.');
-        } elseif (!$can_show_voter) {
-            Yii::app()->user->setFlash('warning', 'You can not view voter.');
-        }
         
         $total_votes = 0;
         foreach ($choices as $c) {

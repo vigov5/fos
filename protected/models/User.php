@@ -258,10 +258,10 @@ class User extends ActiveRecord
         
         $show_result = false;
         
-        if ($poll->result_show_time_type == Poll::RESULT_TIME_SETTINGS_AFTER && $votting) {
-            $show_result = false;
-        } elseif ($poll->user_id == $this->id) {
+        if ($poll->user_id == $this->id) {
             $show_result = true;
+        } elseif ($poll->result_show_time_type == Poll::RESULT_TIME_SETTINGS_AFTER && $votting) {
+            $show_result = false;
         } else {
             switch ($poll->result_display_type) {
                 case Poll::RESULT_DISPLAY_SETTINGS_PUBLIC:
