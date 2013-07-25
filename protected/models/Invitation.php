@@ -120,15 +120,5 @@ class Invitation extends ActiveRecord
         }
         return parent::afterSave();
     }
-    
-    /**
-     * @author Vu Dang Tung
-     */
-    public function showAllInvited($poll_id)
-    {
-        $criteria = new CDbCriteria;
-        $criteria->condition = 'poll_id=:poll_id';
-        return Invitation::model()->findAll($criteria);   
-    }
 
 }

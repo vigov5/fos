@@ -8,6 +8,10 @@ $this->widget('bootstrap.widgets.TbAlert');
         $(".invite").click(function() {
             window.open('index.php?r=poll/addinvite&poll_id=<?php echo $poll->id ?>', 'mywindow', 'width=600,height=400');
         });
+        $('.invited').hide();
+        $('.view_invited').click(function(){
+            $('.invited').slideToggle();
+        });
     });
 </script>
 
@@ -44,6 +48,7 @@ if (Yii::app()->user->getId() === $user->id) {
 
 
 if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app()->user->getId() == $user->id) {
+    echo '</span>&nbsp';
     echo CHtml::button(
         'Invite More',
          array('class' => 'btn btn-info invite')
@@ -107,11 +112,24 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                     default:
                         echo ' Invited Only (Only invited user can see and vote) ';
                         if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_NON_ANONYMOUS) {
-                            echo CHtml::link('View invited');
+                            echo CHtml::link('(view invited)', '#', array(
+                                'class' => 'view_invited',
+                            ));
                         }
                         break;
                 }
                 ?>
+            </td>
+        </tr>
+        <tr class="invited">
+            <th></th>
+            <td>
+            <?php
+                foreach($users_invited as $user) {
+                    echo CHtml::link($user->username, '#');
+                    echo '&nbsp;&nbsp;&nbsp;';
+                }
+            ?>
             </td>
         </tr>
         <tr class='odd'>

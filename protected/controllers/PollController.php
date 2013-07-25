@@ -46,6 +46,7 @@ class PollController extends Controller
      */
     public function actionView($id)
     {
+        $users_invited = User::model()->invitedTo($id, $this->current_user->id)->findAll();
         unset(Yii::app()->session['poll_creating']);
         $poll = Poll::model()->findbyAttributes(array('id' => $id));
         $user = $poll->user;
@@ -69,6 +70,7 @@ class PollController extends Controller
                     'can_votes' => $can_votes,
                     'can_show_result' => $can_show_result,
                     'can_show_voter' => $can_show_voter,
+                    'users_invited' => $users_invited,
                 )
             );
         } else {
