@@ -57,22 +57,27 @@ class ChoiceController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Choice;
-        $criteria = new CDbCriteria();
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-        if (isset($_POST['poll_id']) && isset($_POST['content_choice'])) {
-            $criteria->addCondition('poll_id=:poll_id');
-            $criteria->params = array(':poll_id' => $_POST['poll_id']);
-            $count = Choice::model()->count($criteria);
-            
-            $model->poll_id = $_POST['poll_id'];
-            $model->content = $_POST['content_choice'];
-            if (!$model->save() || $count > 9) {
-                throw new CHttpException(500, 'Internal Server Error.');
-            } else {
-                echo json_encode($model->id);
+        $poll = Poll::model()->findByPk($_POST['poll_id']);
+        if ($poll && $this->current_user->id == $poll->id) {
+            $model = new Choice;
+            $criteria = new CDbCriteria();
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
+            if (isset($_POST['poll_id']) && isset($_POST['content_choice'])) {
+                $criteria->addCondition('poll_id=:poll_id');
+                $criteria->params = array(':poll_id' => $_POST['poll_id']);
+                $count = Choice::model()->count($criteria);
+
+                $model->poll_id = $_POST['poll_id'];
+                $model->content = $_POST['content_choice'];
+                if (!$model->save() || $count > 9) {
+                    throw new CHttpException(500, 'Internal Server Error.');
+                } else {
+                    echo json_encode($model->id);
+                }
             }
+        } else {
+            throw new CHttpException(500, 'Internal Server Error.');
         }
     }
 
