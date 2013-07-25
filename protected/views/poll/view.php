@@ -314,14 +314,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
             'rows' => 1,
             'class' => 'type_new_comment')
          );
-        //echo CHtml::inputFeild('text-area', '', array('placeholder' => 'type your comment...'));
         echo '<hr>';
         echo '</div>';
     echo '</div>';
 ?>
-
-<script>
-    $().ready(function() {
-        $('textarea').autosize();
-    });
-</script>
