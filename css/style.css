@@ -148,6 +148,10 @@ span.user_poll a{
     margin-top: -15px;
 }
 
+.stream-item:first-child {
+    margin-top: 0px;
+}
+
 .content-item {
     margin-top: -15px;
 }

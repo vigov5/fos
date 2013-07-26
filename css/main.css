@@ -44,11 +44,12 @@ body
 .stream 
 {
     width: 20%;        
-    height: 100%;    
+    height: 100%;
+    overflow-y: scroll;
     border: #C9E0ED solid 1px;
     border-bottom: none;
     position:fixed;
-    top: 55px;
+    top: 40px;
     right: 5%;
 }
 
