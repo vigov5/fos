@@ -51,7 +51,7 @@ if (Yii::app()->user->is_admin) {
     );
 }
 echo '</span>&nbsp';
-if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
+if (Yii::app()->user->getId() == $user->id) {
     echo CHtml::button('Edit Poll', array(
         'class' => 'btn btn-warning',
         'submit' => array(
