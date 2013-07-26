@@ -154,3 +154,7 @@ span.user_poll a{
 .poll-hints {
     margin-top: 30px; 
 }
+
+.more {
+    cursor: pointer;
+}

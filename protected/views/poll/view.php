@@ -211,7 +211,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                 echo CHtml::checkBox('choice['.$c->id.']', false, array(
                     'id' => $c->id,
                     'class' => 'cb',
-                    'disabled' => !$can_votes
+                    'disabled' => !($can_votes && $voting)
                     )
                 );
             } else {
@@ -219,7 +219,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                     'value' => $c->id,
                     'id' => $c->id,
                     'class' => 'cb',
-                    'disabled' => !$can_votes
+                    'disabled' => !($can_votes && $voting)
                     )
                 );
             }
@@ -260,7 +260,8 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                 'Vote', 
                 array(
                     'class' => 'btn btn-primary',
-                    'type' => 'submit'
+                    'type' => 'submit',
+                    'disabled' => ! $voting,
                 )
             );
         } else {
@@ -271,7 +272,8 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                 'Re-Vote', 
                 array(
                     'class' => 'btn btn-primary',
-                    'type' => 'submit'
+                    'type' => 'submit',
+                    'disabled' => ! $voting,
                 )
             );
         }
@@ -312,7 +314,9 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
         echo CHtml::textArea('your_comment', '', array(
             'placeholder' => 'type your comment...',
             'rows' => 1,
-            'class' => 'type_new_comment')
+            'class' => 'type_new_comment',
+            'disabled' => ! $voting,
+            )
          );
         echo '<hr>';
         echo '</div>';
