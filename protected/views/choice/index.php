@@ -31,9 +31,11 @@
                     if ($poll->user_id === Yii::app()->user->id) {
                         foreach ($choices as $choice)
                         {
-                            echo "<div class='well well-small' data-choice_id={$choice->id}>";
+                            echo "<div id='choice_{$choice->id}' class='well well-small' data-choice_id={$choice->id}>";
                             echo $choice->content;
-                            echo "<button class='close close_choice' data-choice_id={$choice->id}>&times;</button>";
+                            if (empty($choice->votes)) {
+                                echo "<button class='close close_choice' data-choice_id={$choice->id}>&times;</button>";
+                            }
                             echo '</div>';
                         }
                     } else {

@@ -114,13 +114,19 @@ class ChoiceController extends Controller
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (isset($_POST['choice_id'])) {
             $choice = Choice::model()->findByPk($_POST['choice_id']);
-            if ($choice) {
-                $choice->delete();
+            if ($choice && $this->current_user->id == $choice->poll->user_id) {
+                $votes = $choice->votes;
+                if (empty($votes)) {
+                    $choice->delete();
+                    echo header('HTTP/1.1 200 OK');
+                } else {
+                    CHttpException(500, 'Internal Server Error.');
+                }
             } else {
-                throw new CHttpException(404, 'The requested page does not exist.');
+                CHttpException(500, 'Internal Server Error.');
             }
         } else {
-            throw new CHttpException(404, 'The requested page does not exist.');
+            CHttpException(500, 'Internal Server Error.');
         }
     }
 
