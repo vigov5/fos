@@ -58,6 +58,7 @@ class Choice extends ActiveRecord
             'votes' => array(self::HAS_MANY, 'Vote', 'choice_id'),
             'notifications' => array(self::HAS_MANY, 'Notification', 'choice_id'),
             'poll' => array(self::BELONGS_TO, 'Poll', 'poll_id'),
+            'activities' =>array(self::HAS_MANY, 'Activity', 'choice_id'),
         );
     }
 
@@ -98,14 +99,20 @@ class Choice extends ActiveRecord
     }
 
     /*
-     * @author Nguyen Van Cuong
-     * after delete choice . Automatic delete vote belong to choice
+     * @author Nguyen Van Cuong, Nguyen Thi Huyen
+     * after delete choice . Automatic delete vote and activity belong to choice
      */
     public function afterDelete()
     {
         foreach ($this->votes as $vote) {
             $vote->delete();
         }
+        
+        foreach ($this->activities as $activity) {
+            $activity->delete();
+        }
+       
+        return parent::afterDelete();
     }
 
     /**
