@@ -2,6 +2,7 @@ var HIDE_TIME = 500;
 
 var HtmlElement = function(element_name, data) {
     this.views_dir = 'js/views/';
+    this.element_name = element_name;
     this.setElement(element_name);
     this.setData(data);    
     this.render();
@@ -14,7 +15,7 @@ HtmlElement.prototype.setElement = function(element_name) {
 
 HtmlElement.prototype.setData = function(data) {
     this.data = data;
-    this.element_id = data.id;
+    this.element_id = this.element_name + "_" + data.id;
 };
 
 HtmlElement.prototype.render = function() {        
@@ -26,21 +27,25 @@ HtmlElement.prototype.appendTo = function(container) {
     $(container).append(this.html);
 };
 
-HtmlElement.prototype.toggle = function(callback) {
+HtmlElement.prototype.prependTo = function(container) {
+    $(container).prepend(this.html);
+};
+
+HtmlElement.prototype.toggleMe = function(callback) {
     $('#' + this.element_id).toggle(HIDE_TIME);
     if (callback !== undefined) {
         callback();
     }
 };
 
-HtmlElement.prototype.show = function(callback) {
-    $('#' + this.element_id).show(HIDE_TIME);
+HtmlElement.prototype.showMe = function(callback) {
+    $('#' + this.element_id).slideDown(HIDE_TIME);
     if (callback !== undefined) {
         callback();
     }
 };
 
-HtmlElement.prototype.hide = function(callback) {
+HtmlElement.prototype.hideMe = function(callback) {
     $('#' + this.element_id).hide(HIDE_TIME);
     if (callback !== undefined) {
         callback();

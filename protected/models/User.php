@@ -301,4 +301,21 @@ class User extends ActiveRecord
         }
         return $show_result;
     }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @param Activity a restricted activity
+     * @return array list of user_id that can view this activity
+     */
+    public function listUsersCanViewRestrictedActivity($activity){
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'condition' => 'id in (select receiver_id from invitations where poll_id=:poll_id)',
+                'params' => array(
+                    ':poll_id' => $activity->poll_id,
+                ),
+            )
+        );
+        return $this;
+    }
 }
