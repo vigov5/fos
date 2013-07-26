@@ -10,6 +10,7 @@ $(function(){
     });
     
     addCloseListener();
+    checkNumberChoices();
 });
 
 function addChoice() {
