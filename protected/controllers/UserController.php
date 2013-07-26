@@ -31,9 +31,6 @@ class UserController extends Controller
     private function afterSignIn()
     {
         Yii::app()->session['current_user'] = User::model()->findByPk(Yii::app()->user->id);
-        $connection = new RedisConnection();
-        $channel = $connection->checkIn(Yii::app()->user->id);
-        Yii::app()->user->setState('StreamChannel', $channel);
     }
 
     /*
@@ -87,7 +84,7 @@ class UserController extends Controller
         $connection = new RedisConnection();
         $connection->checkOut($this->current_user->id);
         Yii::app()->user->logout();
-        Yii::app()->request->redirect($this->createUrl('home/index'));
+        Yii::app()->request->redirect($this->createUrl('user/signin'));
     }
 
     /*

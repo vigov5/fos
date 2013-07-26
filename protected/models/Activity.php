@@ -214,10 +214,14 @@ class Activity extends ActiveRecord
      */
     public function getJSON(){
         $data = $this->attributes;
+        $data['profile_id'] = $this->user->profile_id;
+        $data['target_profile_id'] = $this->target_user_id ? $this->target_user->profile_id : null;
         $data['poll_question'] = $this->poll->question;
         $data['choice_content'] = $this->choice_id ? $this->choice->content : null;
         $data['profile_name'] = $this->user->profile->name;
-        $data['target_profile_name'] = $this->target_user_id ? $this->user->profile->name : null;
+        $data['target_profile_name'] = $this->target_user_id ? $this->target_user->profile->name : null;
+        unset($data['target_user_id']);
+        unset($data['user_id']);
         unset($data['display_type']);
         return json_encode($data);
     }
@@ -231,7 +235,7 @@ class Activity extends ActiveRecord
             return array();
         } else if ($this->display_type == Activity::DISPLAY_RESTRICTED) {
             return User::model()->listUsersCanViewRestrictedActivity($this)->selectID()->findAll(
-                'user_id!=:user_id',
+                'id!=:user_id',
                 array(':user_id' => $this->user_id)
             );
         } else {
