@@ -231,7 +231,7 @@ class Activity extends ActiveRecord
             return array();
         } else if ($this->display_type == Activity::DISPLAY_RESTRICTED) {
             return User::model()->listUsersCanViewRestrictedActivity($this)->selectID()->findAll(
-                'user_id!=:user_id',
+                'id!=:user_id',
                 array(':user_id' => $this->user_id)
             );
         } else {

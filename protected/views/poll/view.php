@@ -10,21 +10,22 @@ $this->widget('bootstrap.widgets.TbAlert');
         });
         $('.hidden_info').hide();
         $('.invited').hide();
-        $('.view_invited').click(function(){
-            $('.invited').slideToggle();
+        $('.view_invited').click(function(){            
+            $('.invited').toggle(500);
         });
         $('.more').click(function(){
-            $('.hidden_info').slideToggle();
+            $('.invited').hide();
+            $('.hidden_info').toggle(500);
         });
     });
 </script>
-<?php echo CHtml::link('Show More','',array('class' => 'more')); 
-?>
+
 <br/>
+<div class="row">
 <?php
 if (Yii::app()->user->is_admin) {
     echo CHtml::button('Delete Poll', array(
-        'class' => 'btn btn-danger hidden_info',
+        'class' => 'btn btn-danger',
         'submit' => array(
             'poll/delete',
             'id' => $poll->id),
@@ -34,7 +35,7 @@ if (Yii::app()->user->is_admin) {
 echo '</span>&nbsp';
 if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
     echo CHtml::button('Edit Poll', array(
-        'class' => 'btn btn-warning hidden_info',
+        'class' => 'btn btn-warning',
         'submit' => array(
             'poll/update',
             'id' => $poll->id)
@@ -44,7 +45,7 @@ if (Yii::app()->user->is_admin || Yii::app()->user->getId() == $user->id) {
 echo '</span>&nbsp';
 if (Yii::app()->user->getId() === $user->id) {
     echo CHtml::button('Edit Choice', array(
-        'class' => 'btn btn-warning hidden_info',
+        'class' => 'btn btn-warning',
         'submit' => array(
             'choice/index',
             'poll_id' => $poll->id)
@@ -57,17 +58,22 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
     echo '</span>&nbsp';
     echo CHtml::button(
         'Invite More',
-         array('class' => 'btn btn-info invite hidden_info')
+         array('class' => 'btn btn-info invite')
     );
 } elseif ($poll->display_type == POLL::POLL_DISPLAY_SETTINGS_RESTRICTED && Yii::app()->user->getId() == $user->id) {
+    echo '</span>&nbsp';
     echo Chtml::button(
             'Invite More People',
-            array('class' => 'btn btn-info invite hidden_info')
+            array('class' => 'btn btn-info invite')
     );
 }
 ?>
+
+<?php echo CHtml::button('Show More', array('class' => 'more btn btn-primary')); ?>
+</div>
+
 <table class='detail-view table table-striped table-condensed' id='yw1'>
-    <tbody>
+    <tbody>        
         <tr class='odd hidden_info'>
             <th>User</th>
             <td><?php echo $user->username ?></td>
@@ -110,16 +116,16 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                     case Poll::POLL_DISPLAY_SETTINGS_RESTRICTED:
                         echo ' Restricted (All user can see but only invited user can vote) ';
                         if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_NON_ANONYMOUS) {
-                            echo CHtml::link(' (view invited)', '#', array(
-                                'class' => 'view_invited',
+                            echo CHtml::button('view invited', array(
+                                'class' => 'view_invited btn btn-primary btn-mini',
                             ));
                         }
                         break;
                     default:
                         echo ' Invited Only (Only invited user can see and vote) ';
                         if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_NON_ANONYMOUS) {
-                            echo CHtml::link('(view invited)', '#', array(
-                                'class' => 'view_invited',
+                            echo CHtml::button('view invited', array(
+                                'class' => 'view_invited btn btn-primary btn-mini',
                             ));
                         }
                         break;
