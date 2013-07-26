@@ -33,7 +33,7 @@ body
     margin: auto;
 }
 
-.content
+#main-content
 {    
     width: 75%;
     float: left;
@@ -41,16 +41,22 @@ body
     border-bottom: none;
 }
 
-.stream 
+#stream 
 {
     width: 20%;        
-    height: 100%;
-    overflow-y: scroll;
+    height: 100%;    
     border: #C9E0ED solid 1px;
     border-bottom: none;
     position:fixed;
     top: 40px;
     right: 5%;
+    border-left-color: rgb(178, 185, 201);
+    border-left-width: 1px;
+    border-right-color: rgb(178, 185, 201);
+    border-right-width: 1px;
+    box-shadow: rgb(178, 185, 201) 2px 0px 2px -2px inset;
+    overflow-y: scroll;
+    padding-bottom: 30px;
 }
 
 
