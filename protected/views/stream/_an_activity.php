@@ -5,7 +5,7 @@
  * @var array $activity
  */
 ?>
-<div class="alert alert-success stream-item">
+<div class="alert stream-item">
     <?php
         $poll = $activity->poll->createViewLink();
         $user = $activity->user->profile->createViewLink();

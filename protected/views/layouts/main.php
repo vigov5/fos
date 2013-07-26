@@ -17,6 +17,7 @@
 
         Yii::app()->clientScript->registerCoreScript('jquery');
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-ui.js');
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/main.js');
 
        ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -99,7 +100,7 @@
                     echo $content;
                 } else {
                     ?>
-                    <div class="span9 content">
+                    <div class="span9 content" id="main-content">
                         <?php echo $content; ?>
                     </div>
                     <div class="span3 stream" id="stream">
