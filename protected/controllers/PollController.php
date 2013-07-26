@@ -57,6 +57,7 @@ class PollController extends Controller
         $can_votes = $this->current_user->canVotePoll($poll);
         $can_show_result = $this->current_user->canViewResult($poll);
         $can_show_voter = $this->current_user->canViewVoter($poll);
+        $voting = $poll->isVoting();
         if ($can_views) {
             $this->render(
                 'view',
@@ -71,6 +72,7 @@ class PollController extends Controller
                     'can_show_result' => $can_show_result,
                     'can_show_voter' => $can_show_voter,
                     'users_invited' => $users_invited,
+                    'voting' => $voting,
                 )
             );
         } else {

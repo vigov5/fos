@@ -353,6 +353,21 @@ class Poll extends ActiveRecord
             return Activity::DISPLAY_PUBLIC;
         }
     }
-
+    
+    /**
+     * @author Vu Dang Tung
+     * 
+     */
+    public function isVoting(){
+        $current = time();
+        $start = strtotime($this->start_at);
+        $end = strtotime($this->end_at);
+        if($start <= $current && $current <= $end)
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
