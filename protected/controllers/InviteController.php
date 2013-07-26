@@ -19,9 +19,12 @@ class InviteController extends Controller
             $this->render('/site/error', array('code' => 403, 'message' => 'Forbidden'));
             Yii::app()->end();
         }
-        $poll = Poll::findBypk($_POST['invite']->poll_id);
+        $poll = Poll::model()->findByPk($_POST['invite']['poll_id']);
         $user_id = $this->current_user->id;
-        if (isset($_POST['invite']) && $user_id == $poll->user_id) {
+        if (isset($_POST['invite']) 
+            && $user_id == $poll->user_id 
+            && $user_id == $_POST['invite']['sender_id']
+        ) {
             $invitation = new Invitation;
             $invitation->attributes = $_POST['invite'];
             if ($invitation->save()) {
