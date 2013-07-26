@@ -189,6 +189,16 @@ class Poll extends ActiveRecord
     }
 
     /**
+     * @author Nguyen Anh Tien
+     */
+    public function defaultScope()
+    {
+        return array(
+            'order'=> $this->getTableAlias(false, false).".`created_at` DESC",
+        );
+    }
+
+    /**
      * @author Nguyen Van Cuong , Vu Dang Tung
      * after delete poll . Automatic delete comments and choices belong to this poll
      */

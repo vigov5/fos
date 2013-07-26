@@ -16,6 +16,15 @@ class ActiveRecord extends CActiveRecord
         return parent::beforeSave();
     }
 
+    /**
+     * @author Nguyen Anh Tien
+     * @return scope select only id of active record
+     */
+    public function selectID(){
+        $this->getDbCriteria()->mergeWith(array('select' => 'id'));
+        return $this;
+    }
+
 }
 
 ?>

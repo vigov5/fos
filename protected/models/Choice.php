@@ -57,6 +57,7 @@ class Choice extends ActiveRecord
         return array(
             'votes' => array(self::HAS_MANY, 'Vote', 'choice_id'),
             'notifications' => array(self::HAS_MANY, 'Notification', 'choice_id'),
+            'activities' => array(self::HAS_MANY, 'Activity', 'choice_id'),
             'poll' => array(self::BELONGS_TO, 'Poll', 'poll_id'),
             'activities' =>array(self::HAS_MANY, 'Activity', 'choice_id'),
         );
@@ -130,5 +131,6 @@ class Choice extends ActiveRecord
             );
             Activity::create($params);
         }
+        return parent::afterSave();
     }
 }

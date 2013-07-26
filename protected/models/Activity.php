@@ -145,7 +145,7 @@ class Activity extends ActiveRecord
     public function defaultScope()
     {
         return array(
-            'order'=>"updated_at DESC",
+            'order'=>"created_at DESC",
         );
     }
 
@@ -157,7 +157,7 @@ class Activity extends ActiveRecord
         $this->getDbCriteria()->mergeWith(
             array(
                 'condition' => 'display_type=:public AND user_id!=:user_id',
-                //  params :public and :user_id in condition             
+                //  params :public and :user_id in condition
                 'params' => array(
                     ':public' => Activity::DISPLAY_PUBLIC,
                     ':user_id' => $user_id,
@@ -207,5 +207,51 @@ class Activity extends ActiveRecord
         );
         return $this;
     }
-     
+
+    /**
+     * @author Nguyen Anh Tien
+     * @return string json of activity
+     */
+    public function getJSON(){
+        $data = $this->attributes;
+        $data['poll_question'] = $this->poll->question;
+        $data['choice_content'] = $this->choice_id ? $this->choice->content : null;
+        $data['profile_name'] = $this->user->profile->name;
+        $data['target_profile_name'] = $this->target_user_id ? $this->user->profile->name : null;
+        unset($data['display_type']);
+        return json_encode($data);
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @return array array of subscribers's id
+     */
+    public function getSubscriberIDs(){
+        if ($this->display_type == Activity::DISPLAY_PRIVATE) {
+            return array();
+        } else if ($this->display_type == Activity::DISPLAY_RESTRICTED) {
+            return User::model()->listUsersCanViewRestrictedActivity($this)->selectID()->findAll(
+                'user_id!=:user_id',
+                array(':user_id' => $this->user_id)
+            );
+        } else {
+            return User::model()->selectID()->findAll(
+                'id!=:user_id',
+                array(':user_id' => $this->user_id)
+            );
+        }
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @return afterSave
+     */
+    public function afterSave()
+    {
+        $subscribers = CHtml::listData($this->getSubscriberIDs(), 'id', 'id');
+        $subscribers = array_keys($subscribers);
+        $connection = new RedisConnection($this->getJSON());
+        $connection->publish($subscribers);
+        return parent::afterSave();
+    }
 }

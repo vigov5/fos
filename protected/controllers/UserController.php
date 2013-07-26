@@ -31,6 +31,9 @@ class UserController extends Controller
     private function afterSignIn()
     {
         Yii::app()->session['current_user'] = User::model()->findByPk(Yii::app()->user->id);
+        $connection = new RedisConnection();
+        $channel = $connection->checkIn(Yii::app()->user->id);
+        Yii::app()->user->setState('StreamChannel', $channel);
     }
 
     /*
@@ -81,6 +84,8 @@ class UserController extends Controller
      */
     public function actionSignOut()
     {
+        $connection = new RedisConnection();
+        $connection->checkOut($this->current_user->id);
         Yii::app()->user->logout();
         Yii::app()->request->redirect($this->createUrl('home/index'));
     }
@@ -97,7 +102,7 @@ class UserController extends Controller
             $profile = ProfileOrUserFinder::findProfile($_POST['ForgetPasswordForm']['arg']);
             if ($profile != null && $profile->user != null) {
                 $profile->sendResetPasswordLink();
-                Yii::app()->user->setFlash('success', 'We have sent you a link to reset your password. 
+                Yii::app()->user->setFlash('success', 'We have sent you a link to reset your password.
                     Please check your email');
                 $this->redirect(Yii::app()->user->loginUrl);
             } else {
@@ -106,28 +111,28 @@ class UserController extends Controller
         }
         $this->render('forget_password');
     }
-   
-    /* 
+
+    /*
      *@author Nguyen Van Cuong
      * action reset password
      */
      public function actionResetPassword()
-    {       
+    {
         $profile = Profile::model()->findByAttributes(
             array('email' => $_GET['email'], ));
-        if ($profile != null) {   
-            $form = new ResetPasswordForm;   
-            if (isset($_POST['ResetPasswordForm'])) {             
+        if ($profile != null) {
+            $form = new ResetPasswordForm;
+            if (isset($_POST['ResetPasswordForm'])) {
                 $form->attributes = $_POST['ResetPasswordForm'];
                 $form->validate();
                 if (!$form->hasErrors()) {
                     $user = $profile->user;
                     $user->password = $user->generatePasswordHash($form->password);
                     $user->save();
-                    $profile->updateKey(); 
+                    $profile->updateKey();
                     Yii::app()->user->setFlash('success', 'Your password has been changed !');
                     $this->redirect(Yii::app()->homeUrl);
-                }  
+                }
             }
             $this->render('reset_password', array('form' => $form));
         } else {
@@ -162,9 +167,9 @@ class UserController extends Controller
         }
         $this->render('change_password', array('form' => $form));
     }
-    
+
     /**
-     * @author Nguyen Thi Huyen 
+     * @author Nguyen Thi Huyen
      * @param integer $id of the model to be delete
      */
     public function actionDelete($id) {
@@ -177,7 +182,7 @@ class UserController extends Controller
         }
         $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('/profile/index'));
     }
-    
+
     /*
      * @author Cao Thanh Luc
      * @ fuction test user can acess and can vote

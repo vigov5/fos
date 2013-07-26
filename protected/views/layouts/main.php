@@ -102,7 +102,7 @@
                     <div class="span9 content">
                         <?php echo $content; ?>
                     </div>
-                    <div class="span3 stream">
+                    <div class="span3 stream" id="stream">
                         <?php
                         foreach ($this->stream as $activity) {
                             $this->renderPartial(
@@ -114,6 +114,19 @@
                 <?php } ?>
             </div>
         </div><!-- page -->
+        <script src='<?php echo Yii::app()->baseUrl; ?>/js/socket.io.min.js'></script>
+        <script src='<?php echo Yii::app()->baseUrl; ?>/js/client.js'></script>
+        <?php
+            if (!Yii::app()->user->isGuest) {
+        ?>
+                <script>
+                    $(function(){
+                        socket_client = new SocketClient("<?php echo Yii::app()->user->getState('StreamChannel') ?>");
+                    });
+                </script>
+        <?php
+            }
+        ?>
     </body>
 
 </html>
