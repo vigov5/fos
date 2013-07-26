@@ -58,7 +58,7 @@ class ChoiceController extends Controller
     public function actionCreate()
     {
         $poll = Poll::model()->findByPk($_POST['poll_id']);
-        if ($poll && $this->current_user->id == $poll->id) {
+        if ($poll && $this->current_user->id == $poll->user_id) {
             $model = new Choice;
             $criteria = new CDbCriteria();
             // Uncomment the following line if AJAX validation is needed
