@@ -45,7 +45,14 @@ class Controller extends CController
     public function beforeAction($action)
     {
         if (!Yii::app()->user->isGuest) {
+            if (isset(Yii::app()->session['current_user'])) {
+                // broken state
+                Yii::app()->session['current_user'] = User::model()->findByPk(Yii::app()->user->id);
+            }
             $this->current_user = clone Yii::app()->session['current_user'];
+            $conn = new RedisConnection();
+            $channel = $conn->checkIn($this->current_user->id);
+            Yii::app()->user->setState('StreamChannel', $channel);
             $this->stream = Activity::model()->allVisibleActivitiesNotInclude(Yii::app()->user->id)->findAll();
         }
         return parent::beforeAction($action);
