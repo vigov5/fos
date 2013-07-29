@@ -133,7 +133,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                         break;
                     default:
                         echo ' Invited Only (Only invited user can see and vote) ';
-                        if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_NON_ANONYMOUS) {
+                        if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_NON_ANONYMOUS || $poll->user_id == $this->current_user->id) {
                             echo CHtml::button('view invited', array(
                                 'class' => 'view_invited btn btn-primary btn-mini',
                             ));
