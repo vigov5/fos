@@ -1,0 +1,61 @@
+<%
+    CREATE_POLL = 1;
+    ADD_CHOICE = 2;
+    CHANGE_POLL_TIME = 3;
+    CHANGE_POLL_SETTING = 4;
+    VOTE = 5;
+    RE_VOTE = 6;
+    INVITE = 7;
+    COMMENT = 8;
+    REPLY_COMMENT = 9;
+    if (is_correct_user == true) {
+        name = "<b>You</b>";
+    } else {
+        name = '<b>' + link_to(profile_name, 'index.php?r=profile/view&id='+profile_id) + '</b>';
+    }
+    created_at = '<i>' + created_at + '</i>';
+    poll_link = '<b>' + link_to(poll_question, 'index.php?r=poll/view&id='+poll_id) + '</b>';
+    choice = '<b>' + link_to(choice_content, 'index.php?r=poll/view&id='+poll_id) + '</b>';
+%>
+<div id="activity_<%= id %>" class="alert content-item" hidden="hidden">
+    <% if (type == CREATE_POLL) { %>
+    <%= name %> created poll 
+    <%= poll_link %> at <%= created_at %>
+    <% } %>
+    <% if (type == ADD_CHOICE) { %>
+    <%= name %> added choice
+    <%= choice %> for poll
+    <%= poll_link %> at <%= created_at %>
+    <% } %>
+    <% if (type == CHANGE_POLL_TIME) { %>
+    <%= name %> changed 
+    <%= poll_link %> time at <i><%= created_at %></i>
+    <% } %>
+    <% if (type == CHANGE_POLL_SETTING) { %>
+    <%= name %> changed 
+    <%= poll_link %> setting at <%= created_at %>
+    <% } %>
+    <% if (type == VOTE) { %>
+    <%= name %> voted for 
+    <%= choice %> in poll 
+    <%= poll_link %> at <%= created_at %>
+    <% } %>
+    <% if (type == RE_VOTE) { %>
+    <%= name %> revoted for 
+    <%= choice %> in poll 
+    <%= poll_link %> at <%= created_at %>
+    <% } %>
+    <% if (type == INVITE) { %>
+    <%= name %> invited 
+    <b><%= link_to(target_profile_name, 'index.php?r=profile/view&id='+target_profile_id) %></b> in poll 
+    <%= poll_link %> at <%= created_at %>
+    <% } %>
+    <% if (type == COMMENT) { %>
+    <%= name %> commented in poll 
+    <%= poll_link %> at <%= created_at %>
+    <% } %>
+    <% if (type == REPLY_COMMENT) { %>
+    <%= name %> replied a comment in poll 
+    <%= poll_link %> at <%= created_at %>
+    <% } %>
+</div>

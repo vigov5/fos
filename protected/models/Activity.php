@@ -27,7 +27,6 @@ class Activity extends ActiveRecord
     const INVITE = 7;
     const COMMENT = 8;
     const REPLY_COMMENT = 9;
-
     const DISPLAY_PUBLIC = 1;
     const DISPLAY_PRIVATE = 2;
     const DISPLAY_RESTRICTED = 3;
@@ -137,7 +136,8 @@ class Activity extends ActiveRecord
      * @param array $params array of addition params for this activity
      * @return boolean
      */
-    public static function create($params){
+    public static function create($params)
+    {
         $activity = new Activity;
         $activity->attributes = $params;
         $activity->save();
@@ -149,7 +149,7 @@ class Activity extends ActiveRecord
     public function defaultScope()
     {
         return array(
-            'order'=>"created_at DESC",
+            'order' => "id DESC",
         );
     }
 
@@ -157,7 +157,8 @@ class Activity extends ActiveRecord
      * @author Nguyen Anh Tien
      * @param User current user
      */
-    public function allVisibleActivitiesNotInclude($user_id){
+    public function allVisibleActivitiesNotInclude($user_id)
+    {
         $this->getDbCriteria()->mergeWith(
             array(
                 'condition' => 'display_type=:public AND user_id!=:user_id',
@@ -170,13 +171,12 @@ class Activity extends ActiveRecord
         );
         $this->getDbCriteria()->mergeWith(
             array(
-                'condition' => 'display_type=:invited AND poll_id in (select poll_id from invitations where receiver_id=:user_id)',
-                'params' => array(
-                    ':user_id' => $user_id,
-                    ':invited' => Activity::DISPLAY_RESTRICTED,
-                ),
+            'condition' => 'display_type=:invited AND poll_id in (select poll_id from invitations where receiver_id=:user_id)',
+            'params' => array(
+                ':user_id' => $user_id,
+                ':invited' => Activity::DISPLAY_RESTRICTED,
             ),
-            'OR'
+            ), 'OR'
         );
 
         return $this;
@@ -216,7 +216,8 @@ class Activity extends ActiveRecord
      * @author Nguyen Anh Tien
      * @return string json of activity
      */
-    public function getJSON(){
+    public function getJSON($current_user_id = null)
+    {
         $data = $this->attributes;
         $data['profile_id'] = $this->user->profile_id;
         $data['target_profile_id'] = $this->target_user_id ? $this->target_user->profile_id : null;
@@ -224,6 +225,12 @@ class Activity extends ActiveRecord
         $data['choice_content'] = $this->choice_id ? $this->choice->content : null;
         $data['profile_name'] = $this->user->profile->name;
         $data['target_profile_name'] = $this->target_user_id ? $this->target_user->profile->name : null;
+        $data['created_at'] = DateAndTime::humanReadableTime($data['created_at']);
+        if ($data['user_id'] == $current_user_id) {
+            $data['is_correct_user'] = true;
+        } else {
+            $data['is_correct_user'] = false;
+        }
         unset($data['target_user_id']);
         unset($data['user_id']);
         unset($data['display_type']);
@@ -234,18 +241,17 @@ class Activity extends ActiveRecord
      * @author Nguyen Anh Tien
      * @return array array of subscribers's id
      */
-    public function getSubscriberIDs(){
+    public function getSubscriberIDs()
+    {
         if ($this->display_type == Activity::DISPLAY_PRIVATE) {
             return array();
         } else if ($this->display_type == Activity::DISPLAY_RESTRICTED) {
             return User::model()->listUsersCanViewRestrictedActivity($this)->selectID()->findAll(
-                'id!=:user_id',
-                array(':user_id' => $this->user_id)
+                    'id!=:user_id', array(':user_id' => $this->user_id)
             );
         } else {
             return User::model()->selectID()->findAll(
-                'id!=:user_id',
-                array(':user_id' => $this->user_id)
+                    'id!=:user_id', array(':user_id' => $this->user_id)
             );
         }
     }
@@ -262,4 +268,5 @@ class Activity extends ActiveRecord
         $connection->publish($subscribers);
         return parent::afterSave();
     }
+
 }
