@@ -199,6 +199,20 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                 ?>
             </td>
         </tr>
+        <tr class='odd hidden_info'>
+            <th></th>
+            <td>
+                <b>Start at:</b>
+                <?php echo $poll->start_at; ?>
+            </td>
+        </tr>
+        <tr class='odd hidden_info'>
+            <th></th>
+            <td>
+                <b>End at :</b>
+                <?php echo $poll->end_at; ?>
+            </td>
+        </tr>
         <tr class='even'>
             <th>Question</th>
             <td><?php echo $poll->question ?></td>
