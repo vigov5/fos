@@ -3,6 +3,8 @@
 /* @var $model Profile */
 ?>
 <script src='<?php echo Yii::app()->baseUrl; ?>/js/show_profile.js'></script>
+<script src='<?php echo Yii::app()->baseUrl; ?>/js/timeline_scroll.js'></script> 
+
 <?php $this->widget('bootstrap.widgets.TbAlert'); ?>
 
 <h1><?php echo $profile->name; ?>'s timeline</h1>
