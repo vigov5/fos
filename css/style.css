@@ -174,3 +174,15 @@ span.poll_link {
 .more {
     cursor: pointer;
 }
+
+.ajax-loading {
+    padding: 10px 0px;    
+    background-color: #EDEFF4;
+    margin: auto;
+}
+
+.ajax-loading-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
