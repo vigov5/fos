@@ -1,9 +1,19 @@
-<h1>Poll Detail </h1>
-<div style='height:50px;'></div>
 <?php
+Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/jquery.countdown.css');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.countdown.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/countdown.js');
 $this->widget('bootstrap.widgets.TbAlert');
 ?>
+<h1>Poll Detail </h1>
+<div class="row">
+    <div id="countdown"></div>
+    <h4 id="note" style="text-align: center"></h4>
+</div>
 <script>
+    var start = <?php echo strtotime($poll->start_at) ?>;
+    var end = <?php echo strtotime($poll->end_at) ?>;
+    countDown(start * 1000, end * 1000);
+
     $(function() {
         $(".invite").click(function() {
             window.open('index.php?r=poll/addinvite&poll_id=<?php echo $poll->id ?>', 'mywindow', 'width=600,height=400');
