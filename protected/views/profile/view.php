@@ -47,11 +47,3 @@
         ));
     }
     ?>
-</div>
-<?php $this->widget('ext.yiinfinite-scroll.YiinfiniteScroller', array(
-    'contentSelector' => '#activity',
-    'itemSelector' => 'div.content-item',
-    'loadingText' => 'Loading...',
-    'donetext' => 'This is the end...',
-    'pages' => $pages,
-)); ?>
