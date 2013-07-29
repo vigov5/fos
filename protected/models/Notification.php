@@ -44,11 +44,11 @@ class Notification extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('sender_id, receiver_id, poll_id, viewed, type, comment_id, choice_id', 'numerical', 'integerOnly' => true),
+            array('sender_id, receiver_id, poll_id, viewed', 'numerical', 'integerOnly' => true),
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, sender_id, receiver_id, poll_id, viewed, type, comment_id, choice_id, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, sender_id, receiver_id, poll_id, viewed, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -63,8 +63,7 @@ class Notification extends ActiveRecord
             'poll' => array(self::BELONGS_TO, 'Poll', 'poll_id'),
             'sender' => array(self::BELONGS_TO, 'User', 'sender_id'),
             'receiver' => array(self::BELONGS_TO, 'User', 'receiver_id'),
-            'comment' => array(self::BELONGS_TO, 'Comment', 'comment_id'),
-            'choice' => array(self::BELONGS_TO, 'Choice', 'choice_id'),
+            'activities' => array(self::HAS_MANY, 'Activity', 'notification_id'),
         );
     }
 
@@ -79,9 +78,6 @@ class Notification extends ActiveRecord
             'receiver_id' => 'Receiver',
             'poll_id' => 'Poll',
             'viewed' => 'Viewed',
-            'type' => 'Type',
-            'comment_id' => 'Comment',
-            'choice_id' => 'Choice',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         );
@@ -103,9 +99,6 @@ class Notification extends ActiveRecord
         $criteria->compare('receiver_id', $this->receiver_id);
         $criteria->compare('poll_id', $this->poll_id);
         $criteria->compare('viewed', $this->viewed);
-        $criteria->compare('type', $this->type);
-        $criteria->compare('comment_id', $this->comment_id);
-        $criteria->compare('choice_id', $this->choice_id);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 

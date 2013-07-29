@@ -61,7 +61,6 @@ class Comment extends ActiveRecord
             'parent' => array(self::BELONGS_TO, 'Comment', 'parent_id'),
             'children' => array(self::HAS_MANY, 'Comment', 'parent_id'),
             'poll' => array(self::BELONGS_TO, 'Poll', 'poll_id'),
-            'notifications' => array(self::HAS_MANY, 'Notification', 'comment_id'),
             'activities' => array(self::HAS_MANY, 'Activity', 'comment_id'),
         );
     }
