@@ -104,7 +104,7 @@ $(function() {
             }
         },
         onSelect: function(selectedDateTime) {
-            endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate'));
+          //  endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate'));
         }
     });
     endDateTextBox.datetimepicker({
