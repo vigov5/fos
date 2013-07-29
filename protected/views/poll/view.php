@@ -1,3 +1,5 @@
+<script src='<?php echo Yii::app()->baseUrl; ?>/js/comment.js'></script> 
+
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/jquery.countdown.css');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.countdown.js');
@@ -296,6 +298,14 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
     ?>
 </form>
 
+<div class="row">
+    <div class="a-comment span7">
+        <textarea class ="span12 comment-textarea" 
+            placeholder="Write a comment..." rows="1" 
+            id="comment-all" wrap="off" style="overflow:hidden"></textarea>
+    </div>
+</div>
+
 <?php
     echo '<div class="comment_area">';
         for ($j = 0; $j < sizeof($comments); $j++) {
@@ -326,15 +336,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                 }
             }
         }
-        echo "<div class='clear2'></div>";
-        echo CHtml::textArea('your_comment', '', array(
-            'placeholder' => 'type your comment...',
-            'rows' => 1,
-            'class' => 'type_new_comment',
-            'disabled' => ! $voting,
-            )
-         );
-        echo '<hr>';
+        echo "<div class='clear2'></div>";        
         echo '</div>';
     echo '</div>';
 ?>

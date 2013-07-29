@@ -1,16 +1,6 @@
 <script src='<?php echo Yii::app()->baseUrl; ?>/js/poll_index.js'></script> 
 <div class='clear'></div>
 <?php
-$this->widget('zii.widgets.CBreadcrumbs', array(
-    'links' => array(
-        'Home' => array('home/index'),
-    ),
-    'links' => array(
-        'Poll' => array('poll/index'),
-    ),
-));
-?>
-<?php
     $this->widget('bootstrap.widgets.TbAlert');
 ?>
 

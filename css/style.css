@@ -186,3 +186,14 @@ span.poll_link {
     margin-left: auto;
     margin-right: auto;
 }
+
+.a-comment {
+    background-color: #EDEFF4;
+    padding: 5px;    
+}
+
+.comment-textarea {    
+    resize: none;    
+    border-radius: 0px;
+    margin-bottom: 0px;
+}
