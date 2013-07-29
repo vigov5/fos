@@ -95,3 +95,7 @@ body
 .navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus{
     background: #3B5998;
 }
+
+a {
+    color: rgb(59, 89, 152);
+}

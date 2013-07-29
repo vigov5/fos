@@ -17,7 +17,7 @@
 ?>
 <div class='row well well-small poll-summary <?php echo $class; ?>' align='left'>
     <?php      
-    echo $poll->createViewLink();
+    echo '<span class="poll_link">' . $poll->createViewLink() . '</span>';
     $user_link = $poll->user->profile->createViewLink();
     echo <<< DOC
         <br/>
