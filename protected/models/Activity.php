@@ -58,7 +58,7 @@ class Activity extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('type, user_id, poll_id, vote_id, invitation_id, comment_id, display_type, choice_id, target_user_id', 'numerical', 'integerOnly' => true),
+            array('type, user_id, poll_id, vote_id, invitation_id, comment_id, display_type, choice_id, target_user_id, notification_id', 'numerical', 'integerOnly' => true),
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -80,6 +80,7 @@ class Activity extends ActiveRecord
             'vote' => array(self::BELONGS_TO, 'Vote', 'vote_id'),
             'choice' => array(self::BELONGS_TO, 'Choice', 'choice_id'),
             'invitation' => array(self::BELONGS_TO, 'Invitation', 'invitation_id'),
+            'notification' => array(self::BELONGS_TO, 'Notification', 'notification_id'),
             'comment' => array(self::BELONGS_TO, 'Comment', 'comment_id'),
         );
     }
@@ -93,6 +94,8 @@ class Activity extends ActiveRecord
             'id' => 'ID',
             'type' => 'Type',
             'user_id' => 'User',
+            'target_user_id' => 'Target User',
+            'notification_id' => 'Notification',
             'poll_id' => 'Poll',
             'vote_id' => 'Vote',
             'invitation_id' => 'Invitation',
@@ -119,6 +122,7 @@ class Activity extends ActiveRecord
         $criteria->compare('poll_id', $this->poll_id);
         $criteria->compare('vote_id', $this->vote_id);
         $criteria->compare('invitation_id', $this->invitation_id);
+        $criteria->compare('notification_id', $this->notification_id);
         $criteria->compare('comment_id', $this->comment_id);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
