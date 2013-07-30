@@ -1,7 +1,7 @@
 $(function(){
     $('.comment-textarea').each(function(index) {
         addConmmentInputHandler($(this));
-    });    
+    });
 });
 
 function addConmmentInputHandler(dom) {
