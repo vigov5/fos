@@ -384,5 +384,20 @@ class Poll extends ActiveRecord
             return false;
         }
     }
+    
+    /**
+     * @author Pham Tri Thai
+     * 
+     */
+    public function isVoted(){
+        $current = time();
+        $end = strtotime($this->end_at);
+        if($current >= $end)
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
