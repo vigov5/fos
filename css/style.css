@@ -200,3 +200,7 @@ div.end_activity {
     border-radius: 0px;
     margin-bottom: 0px;
 }
+
+.voter_area {
+    display: none;
+}
