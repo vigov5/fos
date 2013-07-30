@@ -7,7 +7,13 @@
 
 <script type="text/javascript"> 
     var profile_id = <?php echo $profile->id; ?>;
-    var activity_id_global = <?php echo end($activities)->id; ?>
+    var activity_id_global = <?php 
+    if (!(empty($activities))) {
+        echo end($activities)->id;
+    } else {
+        echo 0;
+    }
+    ?>
 </script>
 
 <?php $this->widget('bootstrap.widgets.TbAlert'); ?>
