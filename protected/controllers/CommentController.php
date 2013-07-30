@@ -23,10 +23,19 @@ class CommentController extends Controller
         $comment = new Comment;
         if (isset($_POST['comment_data']) ) {
             $comment->attributes = $_POST['comment_data'];
-            if ($comment->save()) {
-              echo json_encode($comment->id);
+            $comment->user_id = $this->current_user->id;
+            $poll = Poll::model()->findbyPk($_POST['comment_data']['poll_id']);
+            $cancomment = User::model()->canViewPoll($poll);
+            $user = User::model()->findbyPk($this->current_user->id);
+            if ($cancomment && $comment->save()) {
+              echo json_encode(array (
+                  'user_name' => $user->username,
+                  'content' => $comment->content,
+                  'created_at' => $comment->created_at,
+                  'profile_link' => $user->profile->createViewlink(),
+              ));
             } else {
-                echo header('HTTP/1.1 405 Method Not Allowed');
+                echo header('HTTP/1.1 404 Method Not Allowed');
             } 
         } else {
             echo header('HTTP/1.1 405 Method Not Allowed');

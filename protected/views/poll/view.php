@@ -156,7 +156,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
             <td>
             <?php
                 foreach($users_invited as $user) {
-                    echo CHtml::link($user->username, '#');
+                    echo $user->profile->createViewlink();
                     echo '&nbsp;&nbsp;&nbsp;';
                 }
             ?>
@@ -327,22 +327,13 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
     ?>
 </form>
 
-<div class="row">
-    <div class="a-comment span7">
-        <textarea class ="span12 comment-textarea" 
-            placeholder="Write a comment..." rows="1" 
-            id="comment-all" wrap="off" style="overflow:hidden"></textarea>
-    </div>
-</div>
-
 <?php
+    
     echo '<div class="comment_area">';
         for ($j = 0; $j < sizeof($comments); $j++) {
             if (!$comments[$j]->parent_id) {
                 echo '<div class="comment">';
-                echo CHtml::link($comments[$j]->user->username, '', array(
-                    'class' => 'user_comment')
-                );
+                echo "<div class='user_comment'>{$user->profile->createViewlink()}</div>";
                 echo $comments[$j]->content;
                 echo '<br>';
                 echo CHtml::label($comments[$j]->updated_at, '',
@@ -369,3 +360,10 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
         echo '</div>';
     echo '</div>';
 ?>
+<div class="row">
+    <div class="a-comment span7">
+        <textarea class ="span12 comment-textarea" 
+            placeholder="Write a comment..." rows="1" data-poll-id= "<?php echo $poll->id; ?>"
+            id="comment-all" wrap="off" style="overflow:hidden "></textarea>
+    </div>
+</div>

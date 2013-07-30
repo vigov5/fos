@@ -20,15 +20,15 @@ function addConmmentInputHandler(dom) {
             dom.attr('rows', rows);
        }
        if(event.keyCode === 13 && !event.shiftKey) {
-            comment = $('.comment-textarea').val();
-            addComment(comment, 1, 1);
-            alert($(this).attr('poll_id'));
-            $('.comment-textarea').val("");
+            content = $('.comment-textarea').val();
+            poll_id = $('.comment-textarea').attr('data-poll-id');
+            addComment(content, poll_id);
+            $('.comment-textarea').val('');
        }
     });   
 }
 
-function addComment(content, user_id, poll_id) {
+function addComment(content, poll_id) {
     var url = 'index.php?r=comment/create';
     $.ajax({
         type: 'POST',
@@ -39,17 +39,11 @@ function addComment(content, user_id, poll_id) {
                 poll_id: poll_id
             }
         }
-    }).success(function(id) {
-        var comment_id = jQuery.parseJSON(id);
-        var tmp = toHtml(content, user_id);
-        $('.comment_area').append(tmp);
+    }).success(function(msg) {
+        var arr = jQuery.parseJSON(msg);
+        var tmp = new HtmlElement('comment', arr);
+             tmp.appendTo('.comment_area');
     }).fail(function() {
         alert('Fail!');
     });
-}
-
-function toHtml(content, user_id) {
-    return "<div class='comment'>" +
-            "<a href='#'>"+user_id+"</a>"+
-            content + "<br/></div>";
 }
