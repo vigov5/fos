@@ -337,7 +337,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                 echo CHtml::label($comments[$j]->updated_at, '',
                     array('class' => 'time_update'));
                 echo CHtml::link('Comment', '',
-                    array('class' => 'btn_comment'));
+                    array('class' => 'reply_comment', 'comment_id' => $comments[$j]->id));
                 echo "<div class='clear2'></div>";
                 echo '</div>';
                 $childrens = $comments[$j]->children;
@@ -352,6 +352,12 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                     echo "<div class='clear2'></div>";
                     echo '</div>';
                 }
+                echo "<div class='row'>";
+                echo "<textarea class='span8 offset1 children_comment_textarea id_{$comments[$j]->id}'
+                      placeholder='' rows='1' data-poll-id= '{$poll->id}'
+                      'parrent_comment'= '{$comments[$j]->id}'  wrap='off' style='overflow:hidden '>
+                      </textarea>";
+                echo "</div>";
             }
         }
         echo "<div class='clear2'></div>";        
@@ -361,7 +367,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
 <div class="row">
     <div class="a-comment span7">
         <textarea class ="span12 comment-textarea" 
-            placeholder="Write a comment..." rows="1" data-poll-id= "<?php echo $poll->id; ?>"
+            placeholder="Write a comment..." rows="2" data-poll-id= "<?php echo $poll->id; ?>"
             id="comment-all" wrap="off" style="overflow:hidden "></textarea>
     </div>
 </div>
