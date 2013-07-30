@@ -22,6 +22,7 @@ function addConmmentInputHandler(dom) {
        if(event.keyCode === 13 && !event.shiftKey) {
             comment = $('.comment-textarea').val();
             addComment(comment, 1, 1);
+            alert($(this).attr('poll_id'));
             $('.comment-textarea').val("");
        }
     });   
@@ -35,7 +36,6 @@ function addComment(content, user_id, poll_id) {
         data: {
             comment_data: {
                 content: content,
-                user_id: user_id,
                 poll_id: poll_id
             }
         }
