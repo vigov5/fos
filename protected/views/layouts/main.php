@@ -14,11 +14,13 @@
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/main.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/form.css');
         Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/datetimepicker.css');
+        Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/jquery-bubble-popup-v3.css');
 
         Yii::app()->clientScript->registerCoreScript('jquery');
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-ui.js');
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/main.js');
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-ui.js');        
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/stream_scroll.js');
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-bubble-popup-v3.min.js');
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/main.js');
        ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
@@ -56,13 +58,24 @@
                         'items' => array(
                             array(
                                 'class' => 'bootstrap.widgets.TbMenu',
+                                'htmlOptions' => array('class' => 'home-menu'),
                                 'items' => array(
                                     array(
                                         'label' => 'Home',
                                         'icon' => 'home white',
                                         'url' => array('profile/view', 'id' => Yii::app()->user->profile_id),
+                                    ),                                    
+                                ),
+                            ),
+                            array(
+                                'class' => 'bootstrap.widgets.TbMenu',
+                                'htmlOptions' => array('class' => 'notification-menu'),
+                                'items' => array(                                    
+                                    array(                                        
+                                        'label' => 'Notifications',
+                                        'icon' => 'globe white', 
+                                        'url' => '#',
                                     ),
-                                    array('label' => 'Notifications', 'icon' => 'globe white', 'url' => '#'),
                                 ),
                             ),
                             '<form class="navbar-search pull-left" action=""><input type="text"
