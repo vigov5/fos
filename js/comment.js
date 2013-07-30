@@ -1,5 +1,5 @@
 $(function(){
-    $('.comment-textarea').each(function(index) {        
+    $('.comment-textarea').each(function(index) {
         addConmmentInputHandler($(this));
     });    
 });
@@ -19,5 +19,31 @@ function addConmmentInputHandler(dom) {
             }                 
             dom.attr('rows', rows);
        }
+       if(event.keyCode === 13 && !event.shiftKey) {
+            content = $('.comment-textarea').val();
+            poll_id = $('.comment-textarea').attr('data-poll-id');
+            addComment(content, poll_id);
+            $('.comment-textarea').val('');
+       }
     });   
+}
+
+function addComment(content, poll_id) {
+    var url = 'index.php?r=comment/create';
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            comment_data: {
+                content: content,
+                poll_id: poll_id
+            }
+        }
+    }).success(function(msg) {
+        var arr = jQuery.parseJSON(msg);
+        var tmp = new HtmlElement('comment', arr);
+             tmp.appendTo('.comment_area');
+    }).fail(function() {
+        alert('Fail!');
+    });
 }
