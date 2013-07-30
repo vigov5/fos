@@ -3,7 +3,12 @@
 /* @var $model Profile */
 ?>
 <script src='<?php echo Yii::app()->baseUrl; ?>/js/show_profile.js'></script>
-<script src='<?php echo Yii::app()->baseUrl; ?>/js/timeline_scroll.js'></script> 
+<script src='<?php echo Yii::app()->baseUrl; ?>/js/timeline_scroll.js'></script>
+
+<script type="text/javascript"> 
+    var profile_id = <?php echo $profile->id; ?>;
+    var activity_id_global = <?php echo end($activities)->id; ?>
+</script>
 
 <?php $this->widget('bootstrap.widgets.TbAlert'); ?>
 
@@ -41,7 +46,6 @@
 </div>
 <div id="activity">
     <?php
-
     foreach ($activities as $activity) {
         $this->renderPartial('_activity', array(
             'activity' => $activity,
@@ -49,3 +53,4 @@
         ));
     }
     ?>
+</div>

@@ -187,6 +187,9 @@ span.poll_link {
     margin-right: auto;
 }
 
+div.end_activity {
+    text-align: center;
+}
 .a-comment {
     background-color: #EDEFF4;
     padding: 5px;    
