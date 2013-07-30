@@ -330,7 +330,6 @@ class Poll extends ActiveRecord
                 'poll_id' => $this->id,
                 'display_type' => $this->getActivityDisplayType(),
             );
-            //die(var_dump($params));
             Activity::create($params);
         } else {
             if (!empty(Yii::app()->session['activity_type'])) {

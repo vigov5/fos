@@ -9,15 +9,13 @@
  * @property integer $receiver_id
  * @property integer $poll_id
  * @property integer $viewed
- * @property integer $type
- * @property integer $comment_id
- * @property integer $choice_id
  * @property string $created_at
  * @property string $updated_at
  */
 class Notification extends ActiveRecord
 {
-
+    const NOT_VIEWED = 0;
+    const VIEWED = 1;
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -63,7 +61,8 @@ class Notification extends ActiveRecord
             'poll' => array(self::BELONGS_TO, 'Poll', 'poll_id'),
             'sender' => array(self::BELONGS_TO, 'User', 'sender_id'),
             'receiver' => array(self::BELONGS_TO, 'User', 'receiver_id'),
-            'activities' => array(self::HAS_MANY, 'Activity', 'notification_id'),
+            'notify_activities' => array(self::HAS_MANY, 'NotifyActivity', 'notification_id'),
+            'activities'=>array(self::HAS_MANY, 'Activity', array('activity_id' => 'id'), 'through' => 'notifiy_activities'),
         );
     }
 
@@ -107,4 +106,68 @@ class Notification extends ActiveRecord
         ));
     }
 
+    public static function getNotifyReceiverIDs($params){
+        $receivers = array(Poll::model()->findByPk($params['poll_id'])->user_id);
+        if (isset($params['target_user_id'])) {
+            $receivers[] = $params['target_user_id'];
+        }
+        return $receivers;
+    }
+
+    public function getRecentNotification($params){
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'condition' => 'poll_id=:poll_id AND receiver_id=:receiver_id AND viewed=:viewed',
+                'params' => array(
+                    ':poll_id' => $params['poll_id'],
+                    ':receiver_id' => $params['receiver_id'],
+                    ':viewed' => Notification::NOT_VIEWED,
+                ),
+            )
+        );
+        return $this;
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @param array $params array of addition params for this notification
+     */
+    public static function create($params){
+        $notification = new Notification;
+        $notification->attributes = $params;
+        $notification->save();
+        return $notification->id;
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @return afterSave
+     */
+    public function afterSave()
+    {
+        // publish notification
+        $connection = new RedisConnection($this->getJSON());
+        $connection->publish(array($this->receiver_id));
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @return array data of this notification
+     */
+    public function getData(){
+        $data = $this->attributes;
+        return $data;
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @return string json of notification
+     */
+    public function getJSON(){
+        return json_encode(array(
+            'msg_type' => 'notification',
+            'data' => $this->getData(),
+            )
+        );
+    }
 }

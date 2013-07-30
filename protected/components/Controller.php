@@ -54,7 +54,7 @@ class Controller extends CController
             $this->current_user = clone Yii::app()->session['current_user'];
             $conn = new RedisConnection();
             $channel = $conn->checkIn($this->current_user->id);
-            Yii::app()->user->setState('StreamChannel', $channel);
+            Yii::app()->user->setState('RedisChannel', $channel);
             $this->stream = Activity::model()->allVisibleActivitiesNotInclude(Yii::app()->user->id)->findAll($criteria);
         }
         return parent::beforeAction($action);

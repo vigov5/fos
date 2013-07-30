@@ -73,7 +73,7 @@
                                 'items' => array(                                    
                                     array(                                        
                                         'label' => 'Notifications',
-                                        'icon' => 'globe white', 
+                                        'icon' => 'globe white',
                                         'url' => '#',
                                     ),
                                 ),
@@ -135,8 +135,9 @@
         ?>
                 <script>
                     $(function(){
-                        socket_client = new SocketClient("<?php echo Yii::app()->user->getState('StreamChannel') ?>");
+                        socket_client = new SocketClient("<?php echo Yii::app()->user->getState('RedisChannel') ?>");
                     });
+                    var notify_num = 0;
                     var stream_id_global = <?php echo end($this->stream)->id; ?>;
                 </script>
         <?php

@@ -2,7 +2,6 @@
 
 class RedisConnection
 {
-
     private $_server = 'localhost';
     private $_port = 6379;
     public static $redis = null;

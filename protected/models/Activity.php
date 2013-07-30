@@ -10,6 +10,7 @@
  * @property integer $poll_id
  * @property integer $vote_id
  * @property integer $display_type
+ * @property integer $target_user_id
  * @property integer $invitation_id
  * @property integer $comment_id
  * @property string $created_at
@@ -57,7 +58,7 @@ class Activity extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('type, user_id, poll_id, vote_id, invitation_id, comment_id, display_type, choice_id, target_user_id, notification_id', 'numerical', 'integerOnly' => true),
+            array('type, user_id, poll_id, vote_id, invitation_id, comment_id, display_type, choice_id, target_user_id', 'numerical', 'integerOnly' => true),
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -79,7 +80,8 @@ class Activity extends ActiveRecord
             'vote' => array(self::BELONGS_TO, 'Vote', 'vote_id'),
             'choice' => array(self::BELONGS_TO, 'Choice', 'choice_id'),
             'invitation' => array(self::BELONGS_TO, 'Invitation', 'invitation_id'),
-            'notification' => array(self::BELONGS_TO, 'Notification', 'notification_id'),
+            'notify_activities' => array(self::HAS_MANY, 'NotifyActivity', 'activity_id'),
+            'notifications'=>array(self::HAS_MANY, 'Notification', array('notification_id' => 'id'), 'through' => 'notifiy_activities'),
             'comment' => array(self::BELONGS_TO, 'Comment', 'comment_id'),
         );
     }
@@ -94,7 +96,6 @@ class Activity extends ActiveRecord
             'type' => 'Type',
             'user_id' => 'User',
             'target_user_id' => 'Target User',
-            'notification_id' => 'Notification',
             'poll_id' => 'Poll',
             'vote_id' => 'Vote',
             'invitation_id' => 'Invitation',
@@ -134,14 +135,43 @@ class Activity extends ActiveRecord
     /**
      * @author Nguyen Anh Tien
      * @param array $params array of addition params for this activity
-     * @return boolean
      */
     public static function create($params)
     {
+        $notify_receiver_ids = Notification::getNotifyReceiverIDs($params);
+        foreach ($notify_receiver_ids  as $receiver_id) {
+            $params['receiver_id'] = $receiver_id;
+            $recent_notification = Notification::model()->getRecentNotification($params)->find();
+            if (!$recent_notification) {
+                // create new notification
+                $poll_owner_id = Poll::model()->findByPk($params['poll_id'])->user_id;
+                $notify_params = array(
+                        'poll_id' => $params['poll_id'],
+                        'sender_id' => $params['user_id'],
+                        'receiver_id' => $params['receiver_id'],
+                        'viewed' => 0,
+                );
+                $notify_id = Notification::create($notify_params);
+                $activity_id = Activity::_createActivity($params);
+                NotifyActivity::create($activity_id, $notify_id);
+            } else {
+                $activity_id = Activity::_createActivity($params);
+                NotifyActivity::create($activity_id, $recent_notification->id);
+            }
+        }
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @param array $params array of addition params for this activity
+     * @return integer newly created activity
+     */
+   private static function _createActivity($params){
         $activity = new Activity;
         $activity->attributes = $params;
         $activity->save();
-    }
+        return $activity->id;
+   }
 
     /**
      * @author Nguyen Anh Tien
@@ -218,6 +248,19 @@ class Activity extends ActiveRecord
      */
     public function getJSON($current_user_id = null)
     {
+        return json_encode(array(
+                'msg_type' => 'stream',
+                'data' => $this->getData($current_user_id),
+            )
+        );
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @param integer current_user_id
+     * @return array data of this activity
+     */
+    public function getData($current_user_id = null){
         $data = $this->attributes;
         $data['profile_id'] = $this->user->profile_id;
         $data['target_profile_id'] = $this->target_user_id ? $this->target_user->profile_id : null;
@@ -234,7 +277,7 @@ class Activity extends ActiveRecord
         unset($data['target_user_id']);
         unset($data['user_id']);
         unset($data['display_type']);
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -262,6 +305,7 @@ class Activity extends ActiveRecord
      */
     public function afterSave()
     {
+        // publish activity
         $subscribers = CHtml::listData($this->getSubscriberIDs(), 'id', 'id');
         $subscribers = array_keys($subscribers);
         $connection = new RedisConnection($this->getJSON());
@@ -270,3 +314,4 @@ class Activity extends ActiveRecord
     }
 
 }
+

@@ -8,8 +8,13 @@ function SocketClient(channel) {
         socket.emit('subscribe', channel);
     });
 
-    socket.on('stream', function(msg){
-        addNewStream($.parseJSON(msg));
+    socket.on('data', function(msg){
+        var packet = $.parseJSON(msg);
+        if (packet.msg_type == 'stream') {
+            addNewStream(packet.data);
+        } else if (packet.msg_type == 'notification') {
+            addNewNotification(packet.data);
+        }
     });
 
     socket.on('disconnect', function() {
@@ -20,4 +25,18 @@ function addNewStream(data){
     var stream_html = new HtmlElement('stream', data);
     stream_html.prependTo('#stream');
     stream_html.showMe();
+}
+
+function addNewNotification(data){
+    notify_num++;
+    if ($('.notify_num').length) {
+        $('.notify_num').fadeOut(250, function(){
+            $('.notify_num').html(notify_num);
+            $('.notify_num').fadeIn(250);
+        });
+    } else {
+        var txt = $(".notification-menu").children().children().html();
+        txt += ' <span class="notify_num badge badge-important">1</span>'
+        $(".notification-menu").children().children().html(txt);
+    }
 }

@@ -7,7 +7,7 @@ io.configure(function() {
     io.set('close timeout', 60 * 60 * 24);
 });
 
-function RedisConnection(redis_channel) {
+function RedisConnection(redis_channel, type) {
     this.redis_conn = redis.createClient();
     this.redis_channel = redis_channel;
 }
@@ -15,7 +15,8 @@ function RedisConnection(redis_channel) {
 RedisConnection.prototype.subscribe = function(socket) {
     this.redis_conn.subscribe(this.redis_channel);
     this.redis_conn.on('message', function(channel, message) {
-        socket.emit('stream', message);
+        console.log(message);
+        socket.emit('data', message);
     });
 };
 
@@ -30,16 +31,16 @@ RedisConnection.prototype.destroy = function() {
 };
 
 io.sockets.on('connection', function(socket) {
-    var redis_conn;
+    var redis_connection;
     socket.on('subscribe', function(redis_channel) {
-        redis_conn = new RedisConnection(redis_channel);
-        redis_conn.subscribe(socket);
+        redis_connection = new RedisConnection(redis_channel);
+        redis_connection.subscribe(socket);
     });
     socket.on('disconnect', function() {
-        if (redis_conn === null) {
+        if (!redis_connection) {
             return;
         }
-        redis_conn.unsubscribe();
-        redis_conn.destroy();
+        redis_connection.unsubscribe();
+        redis_connection.destroy();
     });
 });
