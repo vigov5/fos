@@ -114,8 +114,8 @@
                 } else {
                     ?>
                     <div class="span9 content" id="main-content">
-                        <?php echo $content; ?>                        
-                    </div>                    
+                        <?php echo $content; ?>
+                    </div>
                     <div class="span3 stream" id="stream">
                         <?php
                         foreach ($this->stream as $activity) {
@@ -137,6 +137,7 @@
                     $(function(){
                         socket_client = new SocketClient("<?php echo Yii::app()->user->getState('StreamChannel') ?>");
                     });
+                    var stream_id_global = <?php echo end($this->stream)->id; ?>;
                 </script>
         <?php
             }

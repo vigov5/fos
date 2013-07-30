@@ -47,7 +47,7 @@ class ProfileController extends Controller
         $profile = $this->loadModel($id);
         if (isset($profile->user)) {
             $criteria = new CDbCriteria;
-            $criteria->limit = 10;
+            $criteria->limit = 20;
             if ($profile->user->id === $this->current_user->id){
                 $criteria->condition = "user_id = {$this->current_user->id}";
                 $activities = Activity::model()->findAll($criteria);

@@ -45,6 +45,8 @@ class Controller extends CController
     public function beforeAction($action)
     {
         if (!Yii::app()->user->isGuest) {
+            $criteria = new CDbCriteria;
+            $criteria->limit = 15;
             if (isset(Yii::app()->session['current_user'])) {
                 // broken state
                 Yii::app()->session['current_user'] = User::model()->findByPk(Yii::app()->user->id);
@@ -53,7 +55,7 @@ class Controller extends CController
             $conn = new RedisConnection();
             $channel = $conn->checkIn($this->current_user->id);
             Yii::app()->user->setState('StreamChannel', $channel);
-            $this->stream = Activity::model()->allVisibleActivitiesNotInclude(Yii::app()->user->id)->findAll();
+            $this->stream = Activity::model()->allVisibleActivitiesNotInclude(Yii::app()->user->id)->findAll($criteria);
         }
         return parent::beforeAction($action);
     }
