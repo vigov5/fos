@@ -40,4 +40,27 @@ class ActivityController extends Controller
             }
         }
     }
+    
+    public function actionLoadStream()
+    {
+        if (!Yii::app()->request->isAjaxRequest) {
+            $this->render('/site/error', array('code' => 403, 'message' => 'Forbidden'));
+            Yii::app()->end();
+        }
+        if (isset($_POST['stream_id'])) {
+            $criteria = new CDbCriteria;
+            $criteria->limit = 10;
+            $criteria->condition = "id < {$_POST['stream_id']}";
+            $stream = Activity::model()->allVisibleActivitiesNotInclude($this->current_user->id)->findAll($criteria);
+            if (!empty($stream)) {
+                $result = array();
+                foreach($stream as $item) {
+                    $result[] = $item->getJSON($this->current_user->id);
+                }
+                echo json_encode($result);
+            } else {
+                echo json_encode(array());
+            }
+        }
+    }
 }

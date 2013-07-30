@@ -35,7 +35,6 @@ function load_activity(activity_id, loading_image){
             $('#loading_timeline').remove();
             timeline_scrolled = false;
             if (obj.length < 10) {
-                $('#load_more').attr('hidden', 'hidden');
                 timeline_scrolled = true;
                 $('#activity').append(end_activity);
             }
