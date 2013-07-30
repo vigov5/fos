@@ -331,7 +331,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
         for ($j = 0; $j < sizeof($comments); $j++) {
             if (!$comments[$j]->parent_id) {
                 echo '<div class="comment">';
-                echo "<div class='user_comment'>{$user->profile->createViewlink()}</div>";
+                echo "<div class='user_comment'>{$comments[$j]->user->profile->createViewlink()}</div>";
                 echo $comments[$j]->content;
                 echo '<br>';
                 echo CHtml::label($comments[$j]->updated_at, '',

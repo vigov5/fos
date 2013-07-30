@@ -25,7 +25,7 @@ class CommentController extends Controller
             $comment->attributes = $_POST['comment_data'];
             $comment->user_id = $this->current_user->id;
             $poll = Poll::model()->findbyPk($_POST['comment_data']['poll_id']);
-            $cancomment = User::model()->canViewPoll($poll);
+            $cancomment = $this->current_user->canViewPoll($poll);
             $user = User::model()->findbyPk($this->current_user->id);
             if ($cancomment && $comment->save()) {
               echo json_encode(array (
