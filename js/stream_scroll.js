@@ -26,9 +26,9 @@ function load_stream(stream_id, loading_image){
             var obj = $.parseJSON(msg);
             if (obj.length > 0) {
                 $.each(obj, function(index, value){
-                    addStream($.parseJSON(value));
+                    addStream($.parseJSON(value).data);
                 });
-                var last_stream_id = $.parseJSON(obj[obj.length-1]).id;
+                var last_stream_id = $.parseJSON(obj[obj.length-1]).data.id;
                 stream_id_global = last_stream_id;
             }
             $('#loading_stream').remove();

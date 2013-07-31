@@ -27,9 +27,9 @@ function load_activity(activity_id, loading_image){
             var obj = $.parseJSON(msg);
             if (obj.length > 0) {
                 $.each(obj, function(index, value){
-                    addNewActivity($.parseJSON(value));
+                    addNewActivity($.parseJSON(value).data);
                 });
-                var last_activity_id = $.parseJSON(obj[obj.length-1]).id;
+                var last_activity_id = $.parseJSON(obj[obj.length-1]).data.id;
                 activity_id_global = last_activity_id;
             }
             $('#loading_timeline').remove();

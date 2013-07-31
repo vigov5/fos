@@ -138,7 +138,13 @@
                         socket_client = new SocketClient("<?php echo Yii::app()->user->getState('RedisChannel') ?>");
                     });
                     var notify_num = 0;
-                    var stream_id_global = <?php echo end($this->stream)->id; ?>;
+                    var stream_id_global = <?php
+                        if (!empty($this->stream)) {
+                            echo end($this->stream)->id;
+                        } else {
+                            echo 0;
+                        }
+                    ?>;
                 </script>
         <?php
             }
