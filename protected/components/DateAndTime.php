@@ -20,22 +20,22 @@ class DateAndTime
         $result = '';
         switch (true) {
             case ($second < 10):
-                $result = 'a few second ago';
+                $result = 'about a few seconds ago';
                 break;
             case ($second < 60 * 2):
-                $result = 'one minute ago';
+                $result = 'about one minute ago';
                 break;
             case ($second < 60 * 50):
-                $result = (integer)($second / 60).' minute ago';
+                $result = 'about '.(integer)($second / 60).' minutes ago';
                 break;
             case ($second < 60 * 60 * 2):
-                $result = 'one hour ago';
+                $result = 'about one hour ago';
                 break;
             case ($second < 60 * 60 * 24):
-                $result = (integer)($second / (60 * 60)).' hour ago';
+                $result = 'about '.(integer)($second / (60 * 60)).' hours ago';
                 break;
             default:
-                $result = date('d/m/Y', strtotime($time));
+                $result = 'at '.date('d/m/Y', strtotime($time));
                 break;
         }
         return $result;

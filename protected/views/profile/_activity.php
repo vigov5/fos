@@ -8,7 +8,7 @@
 <div class="alert content-item">
     <?php
     $view_poll = "<b>{$activity->poll->createViewLink()}</b>";
-    $time = ' at <i>' . DateAndTime::humanReadableTime($activity->created_at) . '</i>';
+    $time = ' <i>' . DateAndTime::humanReadableTime($activity->created_at) . '</i>';
     if (isset($activity->choice)) {
         $choice_content = "<b>{$activity->poll->createViewLink($activity->choice->content)}</b>";
     } else {
