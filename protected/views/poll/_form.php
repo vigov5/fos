@@ -19,18 +19,22 @@
     <?php echo $form->errorSummary($poll); ?>
  
     <div class="row">
-            <div class="span4">
-                <?php echo $form->labelEx($poll, 'is_multichoice'); ?>
-                <?php echo '<div class="wide picker">'; ?>
-                <?php
-                echo CHtml::activeDropDownList(
-                    $poll, 'is_multichoice', 
-                    array_flip(Poll::$IS_MULTICHOICES_SETTINGS), 
-                    $poll->isNewRecord ? array('id' => 'select_multichoice', 'class' => 'select_option') : array('id' => 'multichoice', 'class' => 'select_option')
-                );
-                ?>
-                <?php echo '</div>'; ?>
-            </div>
+        <div class="span4">
+            <?php echo $form->labelEx($poll, 'is_multichoice'); ?>
+            <?php echo '<div class="wide picker">'; ?>
+            <?php
+            echo CHtml::activeDropDownList(
+                $poll, 'is_multichoice', 
+                array_flip(Poll::$IS_MULTICHOICES_SETTINGS),
+                array(
+                    'id' => 'select_multichoice', 
+                    'class' => 'select_option',
+                    'disabled' => !($poll->isNewRecord),
+                )
+            );
+            ?>
+            <?php echo '</div>'; ?>
+        </div>
           
     </div>    
     <div class="row">
@@ -41,7 +45,11 @@
                 $poll,
                 'poll_type',
                 array_flip(Poll::$POLL_TYPE_SETTINGS),
-                $poll->isNewRecord ? array('id' => 'poll_type', 'class' => 'select_option') : array('id' => 'polltype', 'class' => 'select_option')
+                array(
+                    'id' => 'poll_type', 
+                    'class' => 'select_option',
+                    'disabled' => !($poll->isNewRecord),
+                )
             ); ?>
             <?php echo '</div>'; ?>
         </div>
@@ -55,8 +63,11 @@
                 $poll,
                     'display_type',
                 array_flip(Poll::$POLL_DISPLAY_SETTINGS),
-                $poll->isNewRecord ? array('id' => 'display_type', 'class' => 'select_option') : array('id' => 'displaytype', 'class' => 'select_option')
-
+                array(
+                    'id' => 'display_type', 
+                    'class' => 'select_option',
+                    'disabled' => !($poll->isNewRecord),
+                )
             ); ?>
             <?php echo '</div>'; ?>
         </div>        

@@ -5,7 +5,7 @@ $(function() {
        "This Poll is multichoices !");
     var poll_type = new Array("", "Owner can't view and public voter name !", 
        "Owner can view and public voter name !");
-    var display_type = new Array("", "All user can see and all user can vote !", 
+    var display_type = new Array("", "All user can see and all user can vote !",
        "All user can see and invited user can vote!", "Invited user can see and invited user can vote!");
     var result_display_type = new Array("", "All user who can access can see result !", 
        "Only voted user can see result!", "Only owner can see result!");
@@ -25,6 +25,7 @@ $(function() {
          themePath: 'images/jquerybubblepopup-themes',
          mouseOut: 'show'
     });
+    
     for (i=0; i<list_option.length; i++) {
         var arr = eval(list_option[i]);
         $('#' + list_option[i]).SetBubblePopupInnerHtml(arr[parseInt($('#' + list_option[i]).val())]);
@@ -37,7 +38,6 @@ $(function() {
         $(this).SetBubblePopupInnerHtml(arr[parseInt($(this).val())]);
         $(this).ShowAllBubblePopups();
     });
-    
     
     if ($('#poll_type').val() == 1) {
         $('#poll_type_content').html('Owner can\'t view and public voter name !').fadeIn();
