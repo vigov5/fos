@@ -213,6 +213,12 @@ class Poll extends ActiveRecord
         foreach ($this->activities as $activity) {
             $activity->delete();
         }
+        foreach ($this->invitations as $invitation) {
+            $invitation->delete();
+        }
+        foreach ($this->notifications as $notification) {
+            $notification->delete();
+        }
     }
 
     /**

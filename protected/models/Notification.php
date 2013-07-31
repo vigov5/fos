@@ -149,7 +149,17 @@ class Notification extends ActiveRecord
         $connection = new RedisConnection($this->getJSON());
         $connection->publish(array($this->receiver_id));
     }
-
+    
+    /**
+     * @author Cao Thanh Luc
+     * @return afterSave
+     */
+    public function afterDelete()
+    {
+        foreach ($this->notify_activities as $notify_activity) {
+            $notify_activity->delete();
+        }
+    }
     /**
      * @author Nguyen Anh Tien
      * @return array data of this notification

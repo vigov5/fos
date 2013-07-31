@@ -199,6 +199,18 @@ class Profile extends ActiveRecord
     {
         $user = $this->user;
         $user->delete();
+    }    
+    /*
+     * @author Cao Thanh Luc
+     * after delete user
+     */
+    public function afterDelete()
+    {
+        $user = $this->user;
+        if (isset($user)) {
+            $user->delete();
+        }
+        return parent::afterDelete();
     }
     /*
      * @author Vu Dang Tung
