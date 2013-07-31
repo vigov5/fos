@@ -1,4 +1,44 @@
 $(function() {
+    var list_option = new Array("select_multichoice", "poll_type", "display_type", 
+        "result_display_type", "result_detail_type", "result_show_time_type");
+    var select_multichoice = new Array("This Poll is not multichoices !", 
+       "This Poll is multichoices !");
+    var poll_type = new Array("", "Owner can't view and public voter name !", 
+       "Owner can view and public voter name !");
+    var display_type = new Array("", "All user can see and all user can vote !", 
+       "All user can see and invited user can vote!", "Invited user can see and invited user can vote!");
+    var result_display_type = new Array("", "All user who can access can see result !", 
+       "Only voted user can see result!", "Only owner can see result!");
+    var result_detail_type = new Array("", "All result include who voted !", 
+       "Show only percentage of each choice!");
+    var result_show_time_type = new Array("", "Show result only after poll expired!", 
+       "Show result during voting time!");
+
+    $('.select_option').CreateBubblePopup({
+         position: 'right',
+         align: 'center',
+         innerHtmlStyle: {
+             color: '#FFFFFF',
+             'text-align': 'center'
+         },
+         themeName: 'all-black',
+         themePath: 'images/jquerybubblepopup-themes',
+         mouseOut: 'show'
+    });
+    for (i=0; i<list_option.length; i++) {
+        var arr = eval(list_option[i]);
+        $('#' + list_option[i]).SetBubblePopupInnerHtml(arr[parseInt($('#' + list_option[i]).val())]);
+    }
+    $('.select_option').ShowAllBubblePopups();
+
+    $('.select_option').change(function(){
+        var id = $(this).attr('id');
+        var arr = eval(id);
+        $(this).SetBubblePopupInnerHtml(arr[parseInt($(this).val())]);
+        $(this).ShowAllBubblePopups();
+    });
+    
+    
     if ($('#poll_type').val() == 1) {
         $('#poll_type_content').html('Owner can\'t view and public voter name !').fadeIn();
         $('#result_detail_type').val(2);
@@ -10,6 +50,8 @@ $(function() {
         if (type == 1) {
             $("#result_detail_type").val(2);
             $('#result_detail_type').attr('disabled', 'true');
+            $("#result_detail_type").SetBubblePopupInnerHtml(result_detail_type[parseInt($("#result_detail_type").val())]);
+            $("#result_detail_type").ShowAllBubblePopups();
             $('#result_detail_type_content').html('Show only percentage of each choice!').fadeIn();
             $('#poll_type_content').html('Owner can\'t view and public voter name !').fadeIn();
         }
