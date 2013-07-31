@@ -1,3 +1,9 @@
+VOTE = 5;
+RE_VOTE = 6;
+INVITE = 7;
+COMMENT = 8;
+REPLY_COMMENT = 9;
+
 $(function() {
     checkWindowWidth();
     $(window).resize(function() {
@@ -19,7 +25,8 @@ function checkWindowWidth() {
 
 function notificationDropDown() {
     loading_image = new HtmlElement('loading', {id: 'notification'});
-    $('.notification-menu').CreateBubblePopup({         
+    $('.notification-menu').CreateBubblePopup({
+        width: '250px',
         innerHtml: '<img id="loading-notification" src="images/ajax-loader-circle.gif">',
         themeName: 'blue',
         themePath: 'images/jquerybubblepopup-themes',
@@ -34,7 +41,96 @@ function notificationDropDown() {
         if ($(this).IsBubblePopupOpen()) {
             $(this).HideBubblePopup();
         } else {
+            if (localStorage.getItem('is_new_notify') == null
+                ||localStorage.getItem('is_new_notify') == 'true') {
+                loadNotification();
+                localStorage.setItem('is_new_notify', 'false');
+            } else {
+                $('.notification-menu').SetBubblePopupInnerHtml(localStorage.getItem('loaded_notify'));
+            }
             $(this).ShowBubblePopup();
+            addNotifyListenner();
         }
-    });     
+    });
+}
+
+function loadNotification(){
+    var url = 'index.php?r=notification/getnotify';
+    $.ajax({
+        type: 'GET',
+        url: url,
+    }).success(function(msg) {
+        var all_notify = '';
+        var packet = $.parseJSON(msg);
+        if (packet.length) {
+            $.each($.parseJSON(msg), function (index, notify) {
+                var txt = createNotifyText(notify.activities);
+                var notify_html = new HtmlElement('notify_dropdown', {txt: txt, viewed: notify.viewed, poll_id: notify.poll_id});
+                all_notify += notify_html.html;
+            });
+            $('.notification-menu').SetBubblePopupInnerHtml(all_notify);
+        } else {
+            all_notify = 'No notification.';
+            $('.notification-menu').SetBubblePopupInnerHtml(all_notify);
+        }
+        localStorage.setItem('loaded_notify', all_notify);
+    }).fail(function() {
+    });
+}
+
+function createNotifyText(data){
+    var voters = [];
+    var commenters = [];
+    var inviter;
+    var notify_txt = '';
+    var activity;
+    var total_cmt = 0;
+
+    var activities = [];
+    $.each(data, function(index, act) {
+        activity = $.parseJSON(act);
+        if (activity.type == VOTE || activity.type == RE_VOTE) {
+            if (voters.indexOf(activity.profile_name) == -1) {
+                voters.push(activity.profile_name);
+            }
+        } else if (activity.type == INVITE) {
+            inviter = activity.profile_name;
+        } else if (activity.type == COMMENT || activity.type == REPLY_COMMENT){
+            total_cmt++;
+            if (commenters.indexOf(activity.profile_name) == -1) {
+                commenters.push(activity.profile_name);
+            }
+        }
+    });
+    console.log(voters);
+
+    if (voters.length == 1) {
+        notify_txt += '<b>' + voters[0] + '</b> voted ';
+    } else if (voters.length == 2) {
+        notify_txt += '<b>' + voters[0] + '</b> and <b>' + voters[1] + '</b> voted ';
+    } else if (voters.length > 2) {
+        notify_txt += '<b>' + voters[0] + '</b> and ' + (voters.length-1) + ' others voted ';
+    }
+
+    if (commenters.length == 1) {
+        notify_txt += '<b>' + commenters[0] + '</b> wrote ' + total_cmt + (total_cmt > 1 ?' comments ':' comment ');
+    } else if (commenters.length == 2) {
+        notify_txt += '<b>' + commenters[0] + '</b> and <b>' + commenters[1] + '</b> wrote ' + total_cmt + ' comments ';
+    } else if (commenters.length > 2) {
+        notify_txt += '<b>' + commenters[0] + '</b> and ' + (commenters.length - 1) + ' wrote ' + total_cmt + ' comments ';
+    }
+
+    if (inviter) {
+        notify_txt = '<b>' + inviter + '</b> has invited you to vote '
+    }
+
+    notify_txt += 'in your poll <b>' + activity.poll_question + '</b>';
+    return notify_txt;
+}
+
+function addNotifyListenner(){
+    $('.notify_element').click(function(){
+       var poll_id = $(this).attr('data-poll_id');
+      window.location.href='index.php?r=poll/view&id=' + poll_id;
+    });
 }

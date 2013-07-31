@@ -62,7 +62,7 @@ class Notification extends ActiveRecord
             'sender' => array(self::BELONGS_TO, 'User', 'sender_id'),
             'receiver' => array(self::BELONGS_TO, 'User', 'receiver_id'),
             'notify_activities' => array(self::HAS_MANY, 'NotifyActivity', 'notification_id'),
-            'activities'=>array(self::HAS_MANY, 'Activity', array('activity_id' => 'id'), 'through' => 'notifiy_activities'),
+            'activities'=>array(self::HAS_MANY, 'Activity', array('activity_id' => 'id'), 'through' => 'notify_activities'),
         );
     }
 

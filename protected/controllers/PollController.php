@@ -55,7 +55,7 @@ class PollController extends Controller
             ':id' => $id, ':viewed' => 0, ':receiver_id' => $this->current_user->id
         );
         Notification::model()->updateAll(array('viewed' => 1),$criteria);
-        
+
         $users_invited = User::model()->invitedTo($id, $this->current_user->id)->findAll();
         unset(Yii::app()->session['poll_creating']);
         $poll = Poll::model()->findbyAttributes(array('id' => $id));
@@ -146,7 +146,7 @@ class PollController extends Controller
         $result_detail_type = null, $result_show_time_type = null)
     {
         $criteria = new CDbCriteria();
-        
+
         if ($status != null && $status != 'is_multichoice') {
             $criteria->addCondition('is_multichoice='.$status);
         }
@@ -177,7 +177,7 @@ class PollController extends Controller
             'result_detail_type' => $result_detail_type,
         ));
     }
-    
+
     /*
      * @author Nguyen Van Cuong
      */
@@ -207,7 +207,7 @@ class PollController extends Controller
         $criteria->addCondition('user_id='.$this->current_user->id);
         $polls = Poll::model()->findAll($criteria);
         $this->render('index', array(
-            'polls' => $polls, 
+            'polls' => $polls,
             'title' => 'My Polls',
             'status' => $status,
             'poll_type' => $poll_type,
@@ -251,7 +251,7 @@ class PollController extends Controller
             ));
         }
     }
-    
+
     public function actionAddinvite($poll_id)
     {
         $user_id = $this->current_user->id;
@@ -315,7 +315,7 @@ class PollController extends Controller
             $this->redirect(array('poll/index'));
         }
     }
-    
+
 }
 ?>
 
