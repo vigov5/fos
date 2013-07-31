@@ -13,7 +13,7 @@ function SocketClient(channel) {
         if (packet.msg_type == 'stream') {
             addNewStream(packet.data);
         } else if (packet.msg_type == 'notification') {
-            localStorage.setItem('is_new_notify', 'true');
+            sessionStorage.setItem('is_new_notify', 'true');
             addNewNotification(packet.data);
         }
     });
@@ -30,14 +30,14 @@ function addNewStream(data){
 
 function addNewNotification(data){
     notify_num++;
-    if ($('.notify_num').length) {
+    if (notify_num > 1) {
         $('.notify_num').fadeOut(250, function(){
             $('.notify_num').html(notify_num);
             $('.notify_num').fadeIn(250);
         });
-    } else {
+    } else if (notify_num === 1) {
         var txt = $(".notification-menu").children().children().html();
-        txt += ' <span class="notify_num badge badge-important">1</span>'
+        txt += ' <span class="notify_num badge badge-important"></span>'
         $(".notification-menu").children().children().html(txt);
     }
 }

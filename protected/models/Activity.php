@@ -146,25 +146,27 @@ class Activity extends ActiveRecord
         if (in_array($params['type'], $selected_activities)) {
             $notify_receiver_ids = Notification::getNotifyReceiverIDs($params);
             foreach ($notify_receiver_ids  as $receiver_id) {
-                $params['receiver_id'] = $receiver_id;
-                $recent_notification = Notification::model()->getRecentNotification($params)->find();
+                if ($params['user_id'] != $receiver_id) {
+                    $params['receiver_id'] = $receiver_id;
+                    $recent_notification = Notification::model()->getRecentNotification($params)->find();
 
-                if (!$recent_notification) {
-                    // create new notification
-                    $poll_owner_id = Poll::model()->findByPk($params['poll_id'])->user_id;
-                    $notify_params = array(
-                            'poll_id' => $params['poll_id'],
-                            'sender_id' => $params['user_id'],
-                            'receiver_id' => $params['receiver_id'],
-                            'viewed' => 0,
-                    );
-                    $notify_id = Notification::create($notify_params);
-                    $activity_id = Activity::_createActivity($params);
-                    NotifyActivity::create($activity_id, $notify_id);
-                } else {
-                    $activity_id = Activity::_createActivity($params);
-                    $recent_notification->save();
-                    NotifyActivity::create($activity_id, $recent_notification->id);
+                    if (!$recent_notification) {
+                        // create new notification
+                        $poll_owner_id = Poll::model()->findByPk($params['poll_id'])->user_id;
+                        $notify_params = array(
+                                'poll_id' => $params['poll_id'],
+                                'sender_id' => $params['user_id'],
+                                'receiver_id' => $params['receiver_id'],
+                                'viewed' => 0,
+                        );
+                        $notify_id = Notification::create($notify_params);
+                        $activity_id = Activity::_createActivity($params);
+                        NotifyActivity::create($activity_id, $notify_id);
+                    } else {
+                        $activity_id = Activity::_createActivity($params);
+                        $recent_notification->save();
+                        NotifyActivity::create($activity_id, $recent_notification->id);
+                    }
                 }
             }
         } else {
