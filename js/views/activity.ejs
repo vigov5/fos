@@ -20,42 +20,42 @@
 <div id="activity_<%= id %>" class="alert content-item" hidden="hidden">
     <% if (type == CREATE_POLL) { %>
     <%= name %> created poll 
-    <%= poll_link %> at <%= created_at %>
+    <%= poll_link %> <%= created_at %>
     <% } %>
     <% if (type == ADD_CHOICE) { %>
     <%= name %> added choice
     <%= choice %> for poll
-    <%= poll_link %> at <%= created_at %>
+    <%= poll_link %> <%= created_at %>
     <% } %>
     <% if (type == CHANGE_POLL_TIME) { %>
     <%= name %> changed 
-    <%= poll_link %> time at <i><%= created_at %></i>
+    <%= poll_link %> time <i><%= created_at %></i>
     <% } %>
     <% if (type == CHANGE_POLL_SETTING) { %>
     <%= name %> changed 
-    <%= poll_link %> setting at <%= created_at %>
+    <%= poll_link %> setting <%= created_at %>
     <% } %>
     <% if (type == VOTE) { %>
     <%= name %> voted for 
     <%= choice %> in poll 
-    <%= poll_link %> at <%= created_at %>
+    <%= poll_link %> <%= created_at %>
     <% } %>
     <% if (type == RE_VOTE) { %>
     <%= name %> revoted for 
     <%= choice %> in poll 
-    <%= poll_link %> at <%= created_at %>
+    <%= poll_link %> <%= created_at %>
     <% } %>
     <% if (type == INVITE) { %>
     <%= name %> invited 
     <b><%= link_to(target_profile_name, 'index.php?r=profile/view&id='+target_profile_id) %></b> in poll 
-    <%= poll_link %> at <%= created_at %>
+    <%= poll_link %> <%= created_at %>
     <% } %>
     <% if (type == COMMENT) { %>
     <%= name %> commented in poll 
-    <%= poll_link %> at <%= created_at %>
+    <%= poll_link %> <%= created_at %>
     <% } %>
     <% if (type == REPLY_COMMENT) { %>
     <%= name %> replied a comment in poll 
-    <%= poll_link %> at <%= created_at %>
+    <%= poll_link %> <%= created_at %>
     <% } %>
 </div>
