@@ -46,6 +46,16 @@ class PollController extends Controller
      */
     public function actionView($id)
     {
+//  set notification to be viewed when user access the poll page
+        $criteria = new CDbCriteria();
+        $criteria->addCondition(array(
+            'poll_id=:id ', 'viewed=:viewed', 'receiver_id=:receiver_id'
+        ));
+        $criteria->params = array(
+            ':id' => $id, ':viewed' => 0, ':receiver_id' => $this->current_user->id
+        );
+        Notification::model()->updateAll(array('viewed' => 1),$criteria);
+        
         $users_invited = User::model()->invitedTo($id, $this->current_user->id)->findAll();
         unset(Yii::app()->session['poll_creating']);
         $poll = Poll::model()->findbyAttributes(array('id' => $id));
