@@ -8,7 +8,4 @@ $(function() {
             $(this).val('Show Search');
         }
     });
-    $('#multichoice').prop('disabled', true);
-    $('#polltype').prop('disabled', true);
-    $('#displaytype').prop('disabled', true);
 });
