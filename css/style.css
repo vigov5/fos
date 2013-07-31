@@ -204,3 +204,15 @@ div.end_activity {
 .voter_area {
     display: none;
 }
+.notify_element {
+    text-align: left;
+    background-color: #EDEFF4;
+    border-radius: 0px;
+    border-color: rgb(216, 223, 234);
+    border-width: 0px;
+    border-bottom-width: 1px;
+}
+.notify_element :hover {
+    cursor: pointer;
+    cursor: hand;
+}

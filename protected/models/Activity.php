@@ -138,26 +138,37 @@ class Activity extends ActiveRecord
      */
     public static function create($params)
     {
-        $notify_receiver_ids = Notification::getNotifyReceiverIDs($params);
-        foreach ($notify_receiver_ids  as $receiver_id) {
-            $params['receiver_id'] = $receiver_id;
-            $recent_notification = Notification::model()->getRecentNotification($params)->find();
-            if (!$recent_notification) {
-                // create new notification
-                $poll_owner_id = Poll::model()->findByPk($params['poll_id'])->user_id;
-                $notify_params = array(
-                        'poll_id' => $params['poll_id'],
-                        'sender_id' => $params['user_id'],
-                        'receiver_id' => $params['receiver_id'],
-                        'viewed' => 0,
-                );
-                $notify_id = Notification::create($notify_params);
-                $activity_id = Activity::_createActivity($params);
-                NotifyActivity::create($activity_id, $notify_id);
-            } else {
-                $activity_id = Activity::_createActivity($params);
-                NotifyActivity::create($activity_id, $recent_notification->id);
+        $selected_activities = array(
+            Activity::VOTE, Activity::RE_VOTE,
+            Activity::COMMENT, Activity::REPLY_COMMENT,
+            Activity::INVITE,
+        );
+        if (in_array($params['type'], $selected_activities)) {
+            $notify_receiver_ids = Notification::getNotifyReceiverIDs($params);
+            foreach ($notify_receiver_ids  as $receiver_id) {
+                $params['receiver_id'] = $receiver_id;
+                $recent_notification = Notification::model()->getRecentNotification($params)->find();
+
+                if (!$recent_notification) {
+                    // create new notification
+                    $poll_owner_id = Poll::model()->findByPk($params['poll_id'])->user_id;
+                    $notify_params = array(
+                            'poll_id' => $params['poll_id'],
+                            'sender_id' => $params['user_id'],
+                            'receiver_id' => $params['receiver_id'],
+                            'viewed' => 0,
+                    );
+                    $notify_id = Notification::create($notify_params);
+                    $activity_id = Activity::_createActivity($params);
+                    NotifyActivity::create($activity_id, $notify_id);
+                } else {
+                    $activity_id = Activity::_createActivity($params);
+                    $recent_notification->save();
+                    NotifyActivity::create($activity_id, $recent_notification->id);
+                }
             }
+        } else {
+            Activity::_createActivity($params);
         }
     }
 
@@ -179,7 +190,7 @@ class Activity extends ActiveRecord
     public function defaultScope()
     {
         return array(
-            'order' => "id DESC",
+            'order' => $this->getTableAlias(false, false).'.`id` DESC',
         );
     }
 
@@ -246,13 +257,17 @@ class Activity extends ActiveRecord
      * @author Nguyen Anh Tien
      * @return string json of activity
      */
-    public function getJSON($current_user_id = null)
+    public function getJSON($current_user_id = null, $raw = false)
     {
-        return json_encode(array(
+        if ($raw) {
+            return json_encode($this->getData($current_user_id));
+        } else {
+            return json_encode(array(
                 'msg_type' => 'stream',
                 'data' => $this->getData($current_user_id),
-            )
-        );
+                )
+            );
+        }
     }
 
     /**

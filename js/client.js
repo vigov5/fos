@@ -13,6 +13,7 @@ function SocketClient(channel) {
         if (packet.msg_type == 'stream') {
             addNewStream(packet.data);
         } else if (packet.msg_type == 'notification') {
+            localStorage.setItem('is_new_notify', 'true');
             addNewNotification(packet.data);
         }
     });
