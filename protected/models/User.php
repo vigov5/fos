@@ -153,6 +153,23 @@ class User extends ActiveRecord
             $activity->delete();
         }
         
+        foreach ($this->invitations_sent as $invitation) {
+            $invitation->delete();
+        }
+        
+        foreach ($this->invitations_received as $invitation) {
+            $invitation->delete();
+        }
+        
+        foreach ($this->notifications_sent as $notification) {
+            $notification->delete();
+        }
+        
+        foreach ($this->notifications_received as $notification) {
+            $notification->delete();
+        }
+        
+                
         return parent::afterDelete();
     }
 

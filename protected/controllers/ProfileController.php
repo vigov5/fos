@@ -135,7 +135,7 @@ class ProfileController extends Controller
     public function actionDelete($id)
     {
         $profile = $this->loadModel($id);
-        if (!isset($profile->user->is_admin)) {
+        if (empty($profile->user->is_admin)) {
             $profile->delete();
             Yii::app()->user->setFlash('success', 'You deleted successfully!');
         }
