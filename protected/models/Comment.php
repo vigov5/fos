@@ -104,5 +104,12 @@ class Comment extends ActiveRecord
             'criteria' => $criteria,
         ));
     }
+    
+    public function canBeReplied() {
+        if ($this->parent_id) {
+            return false;
+        }
+        return true;
+    }
 
 }
