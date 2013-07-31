@@ -11,12 +11,7 @@ class NotificationController extends Controller
             $this->render('/site/error', array('code' => 403, 'message' => 'Forbidden'));
             Yii::app()->end();
         }
-        $criteria = new CDbCriteria;
-        $criteria->condition = "receiver_id=:user_id ORDER BY updated_at LIMIT 5";
-        $criteria->params = array(
-            ':user_id' => $this->current_user->id,
-        );
-        $notifications = Notification::model()->findAll($criteria);
+        $notifications = $this->current_user->notifications_received('notifications_received:recently:unread');
         if (!empty($notifications)) {
             $result = array();
             foreach ($notifications as $notification) {
@@ -35,4 +30,5 @@ class NotificationController extends Controller
             echo json_encode(array());
         }
     }
+
 }

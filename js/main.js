@@ -56,8 +56,8 @@ $(function() {
 });
 
 function showInfoUser(user_id, activity_id) {
-        if (localStorage.getItem('profile'+user_id)) {
-            var html = localStorage.getItem('profile'+user_id);
+        if (sessionStorage.getItem('profile'+user_id)) {
+            var html = sessionStorage.getItem('profile'+user_id);
             $('#'+activity_id).SetBubblePopupInnerHtml(html);
             $('#'+activity_id).ShowBubblePopup();
         } else {
@@ -91,7 +91,7 @@ function showInfoUser(user_id, activity_id) {
                 }
                 $('#'+activity_id).SetBubblePopupInnerHtml(inner_html);
                 $('#'+activity_id).ShowBubblePopup();
-                localStorage.setItem('profile'+user_id, inner_html);
+                sessionStorage.setItem('profile'+user_id, inner_html);
             }).fail(function() {
                 alert('Fail!');
             });
@@ -100,8 +100,8 @@ function showInfoUser(user_id, activity_id) {
 }
 
 function showInfoPoll(poll_id, activity_id) {
-    if (localStorage.getItem('poll'+poll_id)) {
-        var html = localStorage.getItem('poll'+poll_id);
+    if (sessionStorage.getItem('poll'+poll_id)) {
+        var html = sessionStorage.getItem('poll'+poll_id);
         $('#'+activity_id).SetBubblePopupInnerHtml(html);
         $('#'+activity_id).ShowBubblePopup();
     } else {
@@ -119,7 +119,7 @@ function showInfoPoll(poll_id, activity_id) {
                 'End at: '+poll.end_at;
             $('#'+activity_id).SetBubblePopupInnerHtml(inner_html);
             $('#'+activity_id).ShowBubblePopup();
-            localStorage.setItem('poll'+poll_id, inner_html);
+            sessionStorage.setItem('poll'+poll_id, inner_html);
         }).fail(function() {
             alert('Fail!');
         });
@@ -143,12 +143,12 @@ function notificationDropDown() {
         if ($(this).IsBubblePopupOpen()) {
             $(this).HideBubblePopup();
         } else {
-            if (localStorage.getItem('is_new_notify') == null
-                ||localStorage.getItem('is_new_notify') == 'true') {
+            if (sessionStorage.getItem('is_new_notify') == null
+                ||sessionStorage.getItem('is_new_notify') == 'true') {
                 loadNotification();
-                localStorage.setItem('is_new_notify', 'false');
+                sessionStorage.setItem('is_new_notify', 'false');
             } else {
-                $('.notification-menu').SetBubblePopupInnerHtml(localStorage.getItem('loaded_notify'));
+                $('.notification-menu').SetBubblePopupInnerHtml(sessionStorage.getItem('loaded_notify'));
             }
             $(this).ShowBubblePopup();
             addNotifyListenner();
@@ -175,7 +175,7 @@ function loadNotification(){
             all_notify = 'No notification.';
             $('.notification-menu').SetBubblePopupInnerHtml(all_notify);
         }
-        localStorage.setItem('loaded_notify', all_notify);
+        sessionStorage.setItem('loaded_notify', all_notify);
     }).fail(function() {
     });
 }
@@ -204,7 +204,6 @@ function createNotifyText(data){
             }
         }
     });
-    console.log(voters);
 
     if (voters.length == 1) {
         notify_txt += '<b>' + voters[0] + '</b> voted ';
@@ -227,6 +226,7 @@ function createNotifyText(data){
     }
 
     notify_txt += 'in your poll <b>' + activity.poll_question + '</b>';
+    notify_txt += '<a href="index.php?r=notification/index"><div> See all notifications.</div></a>';
     return notify_txt;
 }
 

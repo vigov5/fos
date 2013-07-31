@@ -180,4 +180,29 @@ class Notification extends ActiveRecord
             )
         );
     }
+
+    /**
+     * @author Nguyen Anh Tien
+     */
+    public function scopes(){
+        return array(
+            'unread' => array(
+                'condition' => 'viewed = 0',
+            ),
+            'recently' => array(
+                'limit' => 5,
+            )
+        );
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     */
+    public function defaultScope()
+    {
+        return array(
+            'order' => $this->getTableAlias(false, false).'.`updated_at` DESC',
+        );
+    }
+
 }

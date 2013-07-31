@@ -148,7 +148,7 @@ class User extends ActiveRecord
         foreach ($this->polls as $poll) {
             $poll->delete();
         }
-        
+
         foreach ($this->activities as $activity) {
             $activity->delete();
         }
@@ -169,7 +169,6 @@ class User extends ActiveRecord
             $notification->delete();
         }
         
-                
         return parent::afterDelete();
     }
 
@@ -223,9 +222,9 @@ class User extends ActiveRecord
         );
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * @author Vu Dang Tung
      * @param integer $poll_id The id of the poll
      * @param integer $user_id The id of the user
@@ -242,7 +241,7 @@ class User extends ActiveRecord
         );
         return $this;
     }
-       
+
     public function getAllVisibleActivitesOfUser($user_id)
     {
         $this->getDbCriteria()->mergeWith(
@@ -263,7 +262,7 @@ class User extends ActiveRecord
         if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_ANONYMOUS) {
             return false;
         } else {
-            if ($poll->result_detail_type == Poll::RESULT_DETAIL_SETTINGS_ALL 
+            if ($poll->result_detail_type == Poll::RESULT_DETAIL_SETTINGS_ALL
                 || $poll->user_id == $this->id) {
                 return true;
             } else {
@@ -271,7 +270,7 @@ class User extends ActiveRecord
             }
         }
     }
-    
+
     /**
      * @author Pham Tri Thai
      * check user is voted?
@@ -282,15 +281,15 @@ class User extends ActiveRecord
         } else {
             return false;
         }
-        
+
     }
-    
+
     /**
      * @author Pham Tri Thai
      * return view result permission
      */
     public function canViewResult ($poll)
-    {        
+    {
         $start_at = strtotime($poll->start_at);
         $end_at = strtotime($poll->end_at);
         $current_time = time();
@@ -299,9 +298,9 @@ class User extends ActiveRecord
         } else {
             $votting = false;
         }
-        
+
         $show_result = false;
-        
+
         if ($poll->user_id == $this->id) {
             $show_result = true;
         } elseif ($poll->result_show_time_type == Poll::RESULT_TIME_SETTINGS_AFTER && $votting) {
@@ -337,5 +336,13 @@ class User extends ActiveRecord
             )
         );
         return $this;
+    }
+
+    /**
+     * @author Nguyen Anh Tien
+     * @return integer number of unread notifications
+     */
+    public function getUnreadNotify(){
+        return count($this->notifications_received('notifications_received:unread'));
     }
 }
