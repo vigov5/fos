@@ -7,8 +7,10 @@
 ?>
 <div class="alert stream-item">
     <?php
-        $poll = $activity->poll->createViewLink();
-        $user = $activity->user->profile->createViewLink();
+        $poll = "<span class='info_poll' data-poll_id='{$activity->poll_id}'
+            id='activity_{$activity->id}_{$activity->poll_id}'>".$activity->poll->createViewLink();
+        $user = "<span class='info_user' data-user_id='{$activity->user->profile_id}'
+            id='activity_{$activity->id}_{$activity->user->profile_id}'>".$activity->user->profile->createViewLink().'</span>';
         switch ($activity->type) {
             case Activity::CREATE_POLL;
                 echo "{$user} created poll {$poll}.";

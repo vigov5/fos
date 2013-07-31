@@ -25,7 +25,7 @@ class PollController extends Controller
             array(
                 'allow',
                 'actions' => array('create', 'index', 'view', 'my', 'update', 'vote',
-                    'invite', 'addinvite'),
+                    'invite', 'addinvite', 'getInfo'),
                 'users' => array('@'),
             ),
             array(
@@ -315,7 +315,19 @@ class PollController extends Controller
             $this->redirect(array('poll/index'));
         }
     }
-
+    
+    public function actionGetInfo() {
+        if (isset($_POST['poll_id'])) {
+            $poll = $this->loadModel($_POST['poll_id']);
+            if ($poll) {
+                echo json_encode($poll->attributes);
+            } else {
+                throw new CHttpException(500, 'Internal Server Error.');
+            }
+        } else {
+            throw new CHttpException(500, 'Internal Server Error.');
+        }
+    }
 }
 ?>
 

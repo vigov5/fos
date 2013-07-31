@@ -22,7 +22,7 @@ class ProfileController extends Controller
     return array(
         array(
             'allow',  // allow all users to perform 'index' and 'view' actions
-            'actions' => array('index','view'),
+            'actions' => array('index','view', 'getInfo'),
             'users' => array('@'),
         ),
         array(
@@ -170,5 +170,19 @@ class ProfileController extends Controller
             Yii::app()->user->setFlash('sucess', "Sign up email has been sent to {$profile->email}");
         }
         $this->redirect(array('profile/index'));
+    }
+    
+    public function actionGetInfo() {
+        if (isset($_POST['user_id'])) {
+            $profile = $this->loadModel($_POST['user_id']);
+            
+            if ($profile) {
+                echo json_encode($profile->attributes);
+            } else {
+                throw new CHttpException(500, 'Internal Server Error.');
+            }
+        } else {
+            throw new CHttpException(500, 'Internal Server Error.');
+        }
     }
 }
