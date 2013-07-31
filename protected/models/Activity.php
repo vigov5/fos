@@ -260,7 +260,7 @@ class Activity extends ActiveRecord
      * @param integer current_user_id
      * @return array data of this activity
      */
-    public function getData($current_user_id = null){
+    public function getData($current_user_id){
         $data = $this->attributes;
         $data['profile_id'] = $this->user->profile_id;
         $data['target_profile_id'] = $this->target_user_id ? $this->target_user->profile_id : null;
