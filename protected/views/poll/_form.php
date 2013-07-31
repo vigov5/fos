@@ -6,7 +6,6 @@
 /* @var $poll Poll */
 /* @var $form CActiveForm */
 ?>
-
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -27,13 +26,13 @@
                 echo CHtml::activeDropDownList(
                     $poll, 'is_multichoice', 
                     array_flip(Poll::$IS_MULTICHOICES_SETTINGS), 
-                    $poll->isNewRecord ? array('id' => '') : array('id' => 'multichoice')
+                    $poll->isNewRecord ? array('id' => 'select_multichoice', 'class' => 'select_option') : array('id' => 'multichoice', 'class' => 'select_option')
                 );
                 ?>
                 <?php echo '</div>'; ?>
             </div>
-            <div class="span5 poll-hints" id="is_multichoice_content">This Poll is multichoices or not</div>  
-    </div>
+          
+    </div>    
     <div class="row">
         <div class="span4">
             <?php echo $form->labelEx($poll, 'poll_type'); ?>
@@ -42,11 +41,11 @@
                 $poll,
                 'poll_type',
                 array_flip(Poll::$POLL_TYPE_SETTINGS),
-                $poll->isNewRecord ? array('id' => 'poll_type') : array('id' => 'polltype')
+                $poll->isNewRecord ? array('id' => 'poll_type', 'class' => 'select_option') : array('id' => 'polltype', 'class' => 'select_option')
             ); ?>
             <?php echo '</div>'; ?>
         </div>
-        <div class="span5 poll-hints" id="poll_type_content">Owner can view and public voter name !</div>  
+
     </div>
     <div class="row">
         <div class="span4">
@@ -54,14 +53,13 @@
             <?php echo '<div class="wide picker">'; ?>
             <?php echo CHtml::activeDropDownList(
                 $poll,
-                'display_type',
+                    'display_type',
                 array_flip(Poll::$POLL_DISPLAY_SETTINGS),
-                $poll->isNewRecord ? array('id' => 'display_type') : array('id' => 'displaytype')
+                $poll->isNewRecord ? array('id' => 'display_type', 'class' => 'select_option') : array('id' => 'displaytype', 'class' => 'select_option')
 
             ); ?>
             <?php echo '</div>'; ?>
-        </div>
-        <div class="span5 poll-hints" id="display_type_content">All user can see and all user can vote !</div>  
+        </div>        
     </div>
     
     <div class="row">
@@ -72,11 +70,11 @@
                 $poll,
                 'result_display_type',
                 array_flip(Poll::$RESULT_DISPLAY_SETTINGS),
-                array('id' => 'result_display_type')
+                array('id' => 'result_display_type', 'class' => 'select_option')
             ); ?>
             <?php echo '</div>'; ?>
         </div>
-        <div class="span5 poll-hints" id="result_display_type_content">All user who can access can see result !</div>  
+        
     </div>
     <div class="row">
         <div class="span4">
@@ -86,11 +84,11 @@
                 $poll,
                 'result_detail_type',
                 array_flip(Poll::$RESULT_DETAIL_SETTINGS),
-                $poll->poll_type == '1' ?  array('disabled' => 'true') : array('id' => 'result_detail_type')
+                $poll->poll_type == '1' ?  array('disabled' => 'true') : array('id' => 'result_detail_type', 'class' => 'select_option')
             ); ?>
             <?php echo '</div>'; ?>
         </div>
-        <div class="span5 poll-hints" id="result_detail_type_content">All result include who voted !</div>  
+        
     </div>
     
     <div class="row">
@@ -101,11 +99,11 @@
                 $poll,
                 'result_show_time_type',
                 array_flip(Poll::$RESULT_TIME_SETTINGS),
-                array('id' => 'result_show_time_type')
+                array('id' => 'result_show_time_type', 'class' => 'select_option')
             ); ?>
             <?php echo '</div>'; ?>
         </div>
-        <div class="span5 poll-hints" id="result_show_time_type_content">Show result only after poll expired !</div>  
+        
     </div>
     
     <div class="none"></div>
