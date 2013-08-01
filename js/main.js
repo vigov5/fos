@@ -44,66 +44,66 @@ $(function() {
     }, function() {
         $(this).HideBubblePopup();
     });
-    
+
     $('.info_poll').CreateBubblePopup(options);
     $('.info_poll').hover(function() {
-       var poll_id = $(this).attr('data-poll_id');
-       var activity_id = $(this).attr('id');
-       showInfoPoll(poll_id, activity_id);
+        var poll_id = $(this).attr('data-poll_id');
+        var activity_id = $(this).attr('id');
+        showInfoPoll(poll_id, activity_id);
     }, function() {
         $(this).HideBubblePopup();
     });
 });
 
 function showInfoUser(user_id, activity_id) {
-        if (sessionStorage.getItem('profile'+user_id)) {
-            var html = sessionStorage.getItem('profile'+user_id);
-            $('#'+activity_id).SetBubblePopupInnerHtml(html);
-            $('#'+activity_id).ShowBubblePopup();
-        } else {
-            var url = 'index.php?r=profile/getInfo';
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: {
-                    user_id: user_id
-                }
-            }).success(function(msg) {
-                var profile = jQuery.parseJSON(msg);
-                var employee_code = profile.employee_code;
-                var position = profile.position;
-                var email = profile.email;
-                var phone = profile.phone;
-                var address = profile.address;
-                var date_of_birth = profile.date_of_birth;
-                var inner_html = 'Employee code: '+ employee_code +'<br/> Email: '+ email;
-                if (position) {
-                    inner_html = inner_html + '<br/> Position: '+ position;
-                }
-                if (phone) {
-                    inner_html = inner_html +'<br/> Phone: '+ phone;
-                }
-                if (date_of_birth) {
-                    inner_html = inner_html +'<br/> Birth day: '+ date_of_birth;
-                }
-                if (address) {
-                    inner_html = inner_html +'<br/> Address: '+ address;
-                }
-                $('#'+activity_id).SetBubblePopupInnerHtml(inner_html);
-                $('#'+activity_id).ShowBubblePopup();
-                sessionStorage.setItem('profile'+user_id, inner_html);
-            }).fail(function() {
-                alert('Fail!');
-            });
-        }
-        
+    if (sessionStorage.getItem('profile' + user_id)) {
+        var html = sessionStorage.getItem('profile' + user_id);
+        $('#' + activity_id).SetBubblePopupInnerHtml(html);
+        $('#' + activity_id).ShowBubblePopup();
+    } else {
+        var url = 'index.php?r=profile/getInfo';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                user_id: user_id
+            }
+        }).success(function(msg) {
+            var profile = jQuery.parseJSON(msg);
+            var employee_code = profile.employee_code;
+            var position = profile.position;
+            var email = profile.email;
+            var phone = profile.phone;
+            var address = profile.address;
+            var date_of_birth = profile.date_of_birth;
+            var inner_html = 'Employee code: ' + employee_code + '<br/> Email: ' + email;
+            if (position) {
+                inner_html = inner_html + '<br/> Position: ' + position;
+            }
+            if (phone) {
+                inner_html = inner_html + '<br/> Phone: ' + phone;
+            }
+            if (date_of_birth) {
+                inner_html = inner_html + '<br/> Birth day: ' + date_of_birth;
+            }
+            if (address) {
+                inner_html = inner_html + '<br/> Address: ' + address;
+            }
+            $('#' + activity_id).SetBubblePopupInnerHtml(inner_html);
+            $('#' + activity_id).ShowBubblePopup();
+            sessionStorage.setItem('profile' + user_id, inner_html);
+        }).fail(function() {
+            alert('Fail!');
+        });
+    }
+
 }
 
 function showInfoPoll(poll_id, activity_id) {
-    if (sessionStorage.getItem('poll'+poll_id)) {
-        var html = sessionStorage.getItem('poll'+poll_id);
-        $('#'+activity_id).SetBubblePopupInnerHtml(html);
-        $('#'+activity_id).ShowBubblePopup();
+    if (sessionStorage.getItem('poll' + poll_id)) {
+        var html = sessionStorage.getItem('poll' + poll_id);
+        $('#' + activity_id).SetBubblePopupInnerHtml(html);
+        $('#' + activity_id).ShowBubblePopup();
     } else {
         var url = 'index.php?r=poll/getInfo';
         $.ajax({
@@ -114,12 +114,12 @@ function showInfoPoll(poll_id, activity_id) {
             }
         }).success(function(msg) {
             var poll = jQuery.parseJSON(msg);
-            var inner_html = 'Description: '+poll.description +'<br/>'+
-                'Start at: '+poll.start_at +'<br/>'+
-                'End at: '+poll.end_at;
-            $('#'+activity_id).SetBubblePopupInnerHtml(inner_html);
-            $('#'+activity_id).ShowBubblePopup();
-            sessionStorage.setItem('poll'+poll_id, inner_html);
+            var inner_html = 'Description: ' + poll.description + '<br/>' +
+                    'Start at: ' + poll.start_at + '<br/>' +
+                    'End at: ' + poll.end_at;
+            $('#' + activity_id).SetBubblePopupInnerHtml(inner_html);
+            $('#' + activity_id).ShowBubblePopup();
+            sessionStorage.setItem('poll' + poll_id, inner_html);
         }).fail(function() {
             alert('Fail!');
         });
@@ -136,27 +136,26 @@ function notificationDropDown() {
         divStyle: {
             'margin-top': '5px'
         },
-        align : 'center',
+        align: 'center',
         manageMouseEvents: false
     });
-    $('.notification-menu').click(function(){
+    $('.notification-menu').click(function() {
         if ($(this).IsBubblePopupOpen()) {
             $(this).HideBubblePopup();
         } else {
             if (sessionStorage.getItem('is_new_notify') == null
-                ||sessionStorage.getItem('is_new_notify') == 'true') {
+                    || sessionStorage.getItem('is_new_notify') == 'true') {
                 loadNotification();
                 sessionStorage.setItem('is_new_notify', 'false');
             } else {
                 $('.notification-menu').SetBubblePopupInnerHtml(sessionStorage.getItem('loaded_notify'));
             }
             $(this).ShowBubblePopup();
-            addNotifyListenner();
         }
     });
 }
 
-function loadNotification(){
+function loadNotification() {
     var url = 'index.php?r=notification/getnotify';
     $.ajax({
         type: 'GET',
@@ -165,7 +164,7 @@ function loadNotification(){
         var all_notify = '';
         var packet = $.parseJSON(msg);
         if (packet.length) {
-            $.each($.parseJSON(msg), function (index, notify) {
+            $.each($.parseJSON(msg), function(index, notify) {
                 var txt = createNotifyText(notify.activities);
                 var notify_html = new HtmlElement('notify_dropdown', {txt: txt, viewed: notify.viewed, poll_id: notify.poll_id});
                 all_notify += notify_html.html;
@@ -176,12 +175,13 @@ function loadNotification(){
             all_notify = 'No notification.';
             $('.notification-menu').SetBubblePopupInnerHtml(all_notify);
         }
+        addNotifyListenner();
         sessionStorage.setItem('loaded_notify', all_notify);
     }).fail(function() {
     });
 }
 
-function createNotifyText(data){
+function createNotifyText(data) {
     var voters = [];
     var commenters = [];
     var inviter;
@@ -198,7 +198,7 @@ function createNotifyText(data){
             }
         } else if (activity.type == INVITE) {
             inviter = activity.profile_name;
-        } else if (activity.type == COMMENT || activity.type == REPLY_COMMENT){
+        } else if (activity.type == COMMENT || activity.type == REPLY_COMMENT) {
             total_cmt++;
             if (commenters.indexOf(activity.profile_name) == -1) {
                 commenters.push(activity.profile_name);
@@ -211,11 +211,13 @@ function createNotifyText(data){
     } else if (voters.length == 2) {
         notify_txt += '<b>' + voters[0] + '</b> and <b>' + voters[1] + '</b> voted ';
     } else if (voters.length > 2) {
-        notify_txt += '<b>' + voters[0] + '</b> and ' + (voters.length-1) + ' others voted ';
+        notify_txt += '<b>' + voters[0] + '</b> and ' + (voters.length - 1) + ' others voted ';
     }
-
+    if (voters.length && commenters.length) {
+        notify_txt += ', ';
+    }
     if (commenters.length == 1) {
-        notify_txt += '<b>' + commenters[0] + '</b> wrote ' + total_cmt + (total_cmt > 1 ?' comments ':' comment ');
+        notify_txt += '<b>' + commenters[0] + '</b> wrote ' + total_cmt + (total_cmt > 1 ? ' comments ' : ' comment ');
     } else if (commenters.length == 2) {
         notify_txt += '<b>' + commenters[0] + '</b> and <b>' + commenters[1] + '</b> wrote ' + total_cmt + ' comments ';
     } else if (commenters.length > 2) {
@@ -230,9 +232,9 @@ function createNotifyText(data){
     return notify_txt;
 }
 
-function addNotifyListenner(){
-    $('.notify_element').click(function(){
-       var poll_id = $(this).attr('data-poll_id');
-      window.location.href='index.php?r=poll/view&id=' + poll_id;
+function addNotifyListenner() {
+    $('.notify_element').click(function() {
+        var poll_id = $(this).attr('data-poll_id');
+        window.location.href = 'index.php?r=poll/view&id=' + poll_id;
     });
 }
