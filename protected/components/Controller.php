@@ -47,7 +47,7 @@ class Controller extends CController
         if (!Yii::app()->user->isGuest) {
             $criteria = new CDbCriteria;
             $criteria->limit = 15;
-            if (isset(Yii::app()->session['current_user'])) {
+            if (!isset(Yii::app()->session['current_user'])) {
                 // broken state
                 Yii::app()->session['current_user'] = User::model()->findByPk(Yii::app()->user->id);
             }
