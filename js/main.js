@@ -170,6 +170,7 @@ function loadNotification(){
                 var notify_html = new HtmlElement('notify_dropdown', {txt: txt, viewed: notify.viewed, poll_id: notify.poll_id});
                 all_notify += notify_html.html;
             });
+            all_notify += '<a href="index.php?r=notification/index"><div> See all notifications.</div></a>';
             $('.notification-menu').SetBubblePopupInnerHtml(all_notify);
         } else {
             all_notify = 'No notification.';
@@ -226,7 +227,6 @@ function createNotifyText(data){
     }
 
     notify_txt += 'in your poll <b>' + activity.poll_question + '</b>';
-    notify_txt += '<a href="index.php?r=notification/index"><div> See all notifications.</div></a>';
     return notify_txt;
 }
 
