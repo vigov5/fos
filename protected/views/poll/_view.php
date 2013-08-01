@@ -26,5 +26,14 @@
         <span class='poll_note'>at </span>{$poll->created_at}.
         {$alert}.
 DOC;
+    if (Yii::app()->user->is_admin) {
+        echo CHtml::button('Delete Poll', array(
+            'class' => 'btn btn-danger del_poll_action_index',
+            'submit' => array(
+                'poll/delete',
+                'id' => $poll->id),
+            'confirm' => 'Do you want to delete this poll ?')
+        );
+    }
     ?>
 </div>
