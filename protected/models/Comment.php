@@ -126,4 +126,15 @@ class Comment extends ActiveRecord
         }
         parent::afterSave();
     }
+    
+    public function scopes() {
+        return array(
+            'is_parent' => array(
+                'condition' => 'parent_id is NULL',
+            ),
+            'limit_comment' => array(
+                'limit' => 5,
+            ),
+        );
+    }
 }

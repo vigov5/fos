@@ -61,7 +61,7 @@ class PollController extends Controller
         $poll = $this->loadModel($id);
         $user = $poll->user;
         $choices = $poll->choices;
-        $comments = $poll->comments;
+        $comments = $poll->comments('comments:is_parent:limit_comment');
         $all_votes = $this->current_user->getAllVotes($poll->id);
         $can_views = $this->current_user->canViewPoll($poll);
         $can_votes = $this->current_user->canVotePoll($poll);

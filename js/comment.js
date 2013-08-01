@@ -3,14 +3,24 @@ $(function(){
         addConmmentInputHandler($(this));
     });
     
+    $('.chil').hide();
     $('.children_comment_textarea').hide();
     $('.reply_comment').click(function(){
+         $('.children_comment_textarea').hide();
          com = $(this).attr('comment_id');
          $('.id_'+com).slideToggle();
          $('.id_'+com).focus();
     });
+    $('.more-chil').click(function(){
+        more = $(this).attr('comment_id');
+        $('.children_'+more).slideToggle();
+    });
     $('.children_comment_textarea').each(function(index) {
         addReplyCommmentInputHandler($(this));
+    });
+    
+    $('.more_main_comment').click(function(){
+        loadFiveComment($(this).attr('current_comment'));
     });
 });
 
@@ -85,7 +95,7 @@ function addComment(content, poll_id) {
 
 function addReplyComment(poll_id, content, parent_id) {
     var url = 'index.php?r=comment/addreply';
-        $.ajax({
+    $.ajax({
         type: 'POST',
         url: url,
         data: {
@@ -98,12 +108,42 @@ function addReplyComment(poll_id, content, parent_id) {
     }).success(function(msg) {
         var arr = jQuery.parseJSON(msg);
         var tmp = new HtmlElement('reply', arr);
-            tmp.appendTo('.children_'+parent_id);
+        tmp.appendTo('.children_' + parent_id);
     }).fail(function() {
         alert('Fail!');
     });
 }
 
+function loadFiveComment(current_comment) {
+    var url = 'index.php?r=comment/loadcomment';
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            current_comment: current_comment
+        }
+    }).success(function(msg) {
+        var obj = jQuery.parseJSON(msg);
+        if (obj.length == 0) {
+            $('.comment_area').append('<br/><b>None more !</b>');
+            $('.more_main_comment').hide();
+        } else {
+            $.each(obj, function(index, value) {
+                var comment = new Array();
+                comment['content'] = value.content;
+                comment['profile_name'] = value.profile_name;
+                comment['profile_id'] = value.profile_id;
+                comment['created_at'] = value.created_at;
+                last_id = value.id;
+                var tmp = new HtmlElement('comment', comment);
+                tmp.appendTo('.comment_area');
+            });
+            $('.more_main_comment').attr('current_comment', last_id);
+        }
+    }).fail(function() {
+        alert('Fail!');
+    });
+}
 function addNewComment(data){
     if (data.parent_comment_id === null) {
         data.class_name = "comment";
