@@ -216,3 +216,8 @@ div.end_activity {
     cursor: pointer;
     cursor: hand;
 }
+
+.del_poll_action_index {
+    padding: 3px;
+    float: right;
+}

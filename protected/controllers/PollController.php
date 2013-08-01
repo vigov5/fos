@@ -165,7 +165,11 @@ class PollController extends Controller
         if ($result_show_time_type != null && $result_show_time_type != 'result_show_time_type') {
             $criteria->addCondition('result_show_time_type='.$result_show_time_type);
         }
-        $polls = Poll::model()->canBeSeenBy($this->current_user->id)->findAll($criteria);
+        if ( $this->current_user->is_admin) {
+            $polls = Poll::model()->findAll($criteria);
+        } else {
+            $polls = Poll::model()->canBeSeenBy($this->current_user->id)->findAll($criteria);
+        }
         $this->render('index', array(
             'polls' => $polls,
             'title' => 'All Polls',
