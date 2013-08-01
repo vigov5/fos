@@ -338,12 +338,14 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                     array('class' => 'time_update'));
                 echo CHtml::link('Reply', '',
                     array('class' => 'reply_comment', 'comment_id' => $comments[$j]->id) );
+                echo CHtml::link('  ('.sizeof($comments[$j]->children).')', '#',
+                    array('class' => 'more-chil', 'comment_id' => $comments[$j]->id) );
                 echo "<div class='clear2'></div>";
                 echo '</div>';
-                echo "<div class= 'children_{$comments[$j]->id}'>";
+                echo "<div class= 'chil children_{$comments[$j]->id}'>";
                 $childrens = $comments[$j]->children;
                 for ($k = 0; $k < sizeof($childrens); $k++) {
-                    echo '<div class="comment_children">';
+                    echo "<div class='comment_children'>";
                     echo "<div class='user_comment'>{$childrens[$k]->user->profile->createViewlink()}</div>";
                     echo $childrens[$k]->content;
                     echo '<br>';
@@ -364,6 +366,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
         echo "<div class='clear2'></div>";        
         echo '</div>';
     echo '</div>';
+    echo CHtml::link('More>>', '', array('class' => 'more_main_comment', 'current_comment' => $comments[$j - 1]->id));
 ?>
 <div class="row">
     <div class="a-comment span7">
