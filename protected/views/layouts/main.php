@@ -74,7 +74,7 @@
                                     array(                                        
                                         'label' => 'Notifications',
                                         'icon' => 'globe white',
-                                        'url' => '#',
+                                        'url' => '',
                                     ),
                                 ),
                             ),

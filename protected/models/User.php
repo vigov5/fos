@@ -143,6 +143,17 @@ class User extends ActiveRecord
         return Vote::model()->votedBy($this->id)->belongTo($poll_id)->findAll();
     }
 
+    public function getRecentNotifications($limit = 10)
+    {
+        return Notification::model()->findAll(
+            array(
+                'condition' => 'receiver_id=:user_id',
+                'limit' => $limit,
+                'params' => array(':user_id' => $this->id),
+            )
+        );
+    }
+
     public function afterDelete()
     {
         foreach ($this->polls as $poll) {
@@ -152,23 +163,23 @@ class User extends ActiveRecord
         foreach ($this->activities as $activity) {
             $activity->delete();
         }
-        
+
         foreach ($this->invitations_sent as $invitation) {
             $invitation->delete();
         }
-        
+
         foreach ($this->invitations_received as $invitation) {
             $invitation->delete();
         }
-        
+
         foreach ($this->notifications_sent as $notification) {
             $notification->delete();
         }
-        
+
         foreach ($this->notifications_received as $notification) {
             $notification->delete();
         }
-        
+
         return parent::afterDelete();
     }
 

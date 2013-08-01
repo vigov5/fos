@@ -172,6 +172,8 @@ class Activity extends ActiveRecord
                         $connection->publish(array($recent_notification->receiver_id));
                         NotifyActivity::create($activity_id, $recent_notification->id);
                     }
+                } else {
+                    Activity::_createActivity($params);
                 }
             }
         } else {

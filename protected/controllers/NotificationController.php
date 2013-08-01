@@ -7,11 +7,22 @@ class NotificationController extends Controller
      */
     public function actionGetNotify()
     {
+        /*
         if (!Yii::app()->request->isAjaxRequest) {
-            $this->render('/site/error', array('code' => 403, 'message' => 'Forbidden'));
+            $this->render('/site/error', array(
+                'code' => 403,
+                'message' => 'Forbidden'
+            ));
             Yii::app()->end();
         }
-        $notifications = $this->current_user->notifications_received('notifications_received:recently');
+         */
+        if (isset($_GET['all']) && $_GET['all'] === 'true') {
+            $notifications = $this->current_user->getRecentNotifications();
+        } else {
+            $notifications = $this->current_user->notifications_received(
+                'notifications_received:recently'
+            );
+        }
         if (!empty($notifications)) {
             $result = array();
             foreach ($notifications as $notification) {
@@ -31,4 +42,9 @@ class NotificationController extends Controller
         }
     }
 
+    public function actionIndex(){
+        $this->render('index');
+    }
+
 }
+
