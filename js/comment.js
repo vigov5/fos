@@ -103,3 +103,15 @@ function addReplyComment(poll_id, content, parent_id) {
         alert('Fail!');
     });
 }
+
+function addNewComment(data){
+    if (data.parent_comment_id === null) {
+        data.class_name = "comment";
+        var tmp = new HtmlElement('live_comment', data);
+        tmp.appendTo('.comment_area');
+    } else {
+        data.class_name = "comment_children";
+        var tmp = new HtmlElement('live_comment', data);
+        tmp.appendTo('.children_' + data.parent_comment_id);
+    }
+}
