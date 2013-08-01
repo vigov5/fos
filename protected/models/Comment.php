@@ -112,4 +112,18 @@ class Comment extends ActiveRecord
         return true;
     }
 
+    public function afterSave()
+    {
+        if ($this->isNewRecord) {
+            $params = array(
+                'type' => ($this->parent_id ? Activity::REPLY_COMMENT : Activity::COMMENT),
+                'user_id' => $this->user_id,
+                'poll_id' => $this->poll_id,
+                'comment_id' => $this->id,
+                'display_type' => $this->poll->getActivityDisplayType(),
+            );
+            Activity::create($params);
+        }
+        parent::afterSave();
+    }
 }
