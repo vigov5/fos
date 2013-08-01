@@ -12,6 +12,9 @@ function SocketClient(channel) {
         var packet = $.parseJSON(msg);
         if (packet.msg_type == 'stream') {
             addNewStream(packet.data);
+            if (packet.data.comment_content !== null) {
+                addNewComment(packet.data);
+            }
         } else if (packet.msg_type == 'notification') {
             sessionStorage.setItem('is_new_notify', 'true');
             addNewNotification(packet.data);
