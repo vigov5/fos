@@ -325,6 +325,14 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
     ?>
 </form>
 
+<div class="row">
+    <div class="a-comment span7">
+        <textarea class ="span12 comment-textarea" 
+            placeholder="Write a comment..." rows="1" data-poll-id= "<?php echo $poll->id; ?>"
+            id="comment-all" wrap="off" style="overflow:hidden "></textarea>
+    </div>
+</div>
+
 <?php
     
     echo '<div class="comment_area">';
@@ -362,20 +370,12 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                       </textarea>";
                 echo "</div>";
             }
-        }
-        echo "<div class='clear2'></div>";        
+        }        
         echo '</div>';
     echo '</div>';
     if ($j>0) {
-        echo CHtml::link('More>>', '', array('class' => 'more_main_comment', 'current_comment' => $comments[$j - 1]->id));
+        echo CHtml::link('More>>', '', array('class' => 'more_main_comment', 'current_comment' => $comments[$j - 1]->id, 'current_poll' => $comments[$j - 1]->poll_id));
     } else {
         echo "<div class='no-comment'>No Comment!</div>";
     }
 ?>
-<div class="row">
-    <div class="a-comment span7">
-        <textarea class ="span12 comment-textarea" 
-            placeholder="Write a comment..." rows="2" data-poll-id= "<?php echo $poll->id; ?>"
-            id="comment-all" wrap="off" style="overflow:hidden "></textarea>
-    </div>
-</div>

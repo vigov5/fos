@@ -399,5 +399,18 @@ class Poll extends ActiveRecord
             return false;
         }
     }
+    
+    public function loadComment($comment_id = null) {
+        
+        $criteria = new CDbCriteria;
+        $criteria->condition ='poll_id=:poll_id';
+        $params[':poll_id'] =  $this->id;
+        if ($comment_id) {
+            $criteria->addCondition('id<:comment_id');
+            $params[':comment_id'] = $comment_id;
+        }
+        $criteria->params = $params;
+        return Comment::model()->is_parent()->limit_comment()->order_created_at()->findAll($criteria);
+    }
 }
 
