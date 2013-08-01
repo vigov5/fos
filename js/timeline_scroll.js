@@ -57,7 +57,11 @@ function setTime(all_span) {
     var now = new Date().getTime();
     now = parseInt(now/1000);
     all_span.each(function(){
-        var datetime = new Date($(this).attr('created_at'));
+        var dateStr = $(this).attr('created_at');
+        var datesplit = dateStr.split(' ');
+        var date = datesplit[0].split('-');
+        var time = datesplit[1].split(':');
+        var datetime = new Date(date[0], (date[1] - 1), date[2], time[0], time[1], time[2]);
         var timestamp = parseInt(datetime.getTime()/1000);
         var seconds = now - timestamp;
         switch (true) {
