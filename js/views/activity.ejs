@@ -14,12 +14,13 @@
         name = '<b>' + link_to(profile_name, 'index.php?r=profile/view&id='+profile_id) + '</b>';
     }
     created_at = '<i><span class="human-time" created_at="' + created_at + '"></span></i>';
-    poll_link = '<b>' + link_to(poll_question, 'index.php?r=poll/view&id='+poll_id) + '</b>';
+    poll_link = "<b><span class='info_poll_new' data-poll_id='" + poll_id + "'>" +
+        link_to(poll_question, 'index.php?r=poll/view&id='+poll_id) + '</span></b>';
     choice = '<b>' + link_to(choice_content, 'index.php?r=poll/view&id='+poll_id) + '</b>';
 %>
 <div id="activity_<%= id %>" class="alert content-item" hidden="hidden">
     <% if (type == CREATE_POLL) { %>
-    <%= name %> created poll 
+    <%= name %> created poll
     <%= poll_link %> <%= created_at %>
     <% } %>
     <% if (type == ADD_CHOICE) { %>

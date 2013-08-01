@@ -10,8 +10,10 @@ $(function(){
             var loading_image = new HtmlElement('loading', {id: 'timeline'});
             loading_image.appendTo('#content');
             load_activity(activity_id_global, loading_image);
+            show_bubble(true);
         }
     });
+    show_bubble();
 });
 
 function load_activity(activity_id, loading_image){
