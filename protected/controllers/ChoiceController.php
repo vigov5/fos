@@ -58,7 +58,7 @@ class ChoiceController extends Controller
     public function actionCreate()
     {
         $poll = Poll::model()->findByPk($_POST['poll_id']);
-        if ($poll && $this->current_user->id == $poll->user_id) {
+        if ($poll && $this->current_user->id == $poll->user_id && !$poll->hasEnded()) {
             $model = new Choice;
             $criteria = new CDbCriteria();
             // Uncomment the following line if AJAX validation is needed
@@ -112,22 +112,25 @@ class ChoiceController extends Controller
     public function actionDelete()
     {
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (isset($_POST['choice_id'])) {
-            $choice = Choice::model()->findByPk($_POST['choice_id']);
-            if ($choice && $this->current_user->id == $choice->poll->user_id) {
-                $votes = $choice->votes;
-                if (empty($votes)) {
-                    $choice->delete();
-                    echo header('HTTP/1.1 200 OK');
-                } else {
-                    CHttpException(500, 'Internal Server Error.');
+            if (isset($_POST['choice_id'])) {
+                $choice = Choice::model()->findByPk($_POST['choice_id']);
+                $poll = $choice->poll;
+                if (!$poll->hasEnded()) {
+                    if ($choice && $this->current_user->id == $choice->poll->user_id) {
+                        $votes = $choice->votes;
+                        if (empty($votes)) {
+                            $choice->delete();
+                            echo header('HTTP/1.1 200 OK');
+                        } else {
+                            CHttpException(500, 'Internal Server Error.');
+                        }
+                    } else {
+                        CHttpException(500, 'Internal Server Error.');
+                    }
                 }
             } else {
                 CHttpException(500, 'Internal Server Error.');
             }
-        } else {
-            CHttpException(500, 'Internal Server Error.');
-        }
     }
 
     /**
@@ -137,10 +140,14 @@ class ChoiceController extends Controller
     {
         $poll = Poll::model()->findByPk($poll_id);
         $choices = Choice::model()->findAllByAttributes(array('poll_id' => $poll_id));
-        $this->render('index', array(
-            'poll' => $poll,
-            'choices' => $choices,
-        ));
+        if (!$poll->hasEnded()) {
+            $this->render('index', array(
+                'poll' => $poll,
+                'choices' => $choices,
+            ));
+        } else {
+            throw new CHttpException(404, 'The requested page does not exist.');
+        }
     }
 
     /**

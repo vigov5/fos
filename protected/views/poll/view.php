@@ -61,7 +61,7 @@ if (Yii::app()->user->getId() == $user->id) {
     );
 }
 echo '</span>&nbsp';
-if (Yii::app()->user->getId() === $user->id) {
+if (Yii::app()->user->getId() === $user->id && !$poll->hasEnded()) {
     echo CHtml::button('Edit Choice', array(
         'class' => 'btn btn-warning',
         'submit' => array(
