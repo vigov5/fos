@@ -165,6 +165,11 @@ class Activity extends ActiveRecord
                     } else {
                         $activity_id = Activity::_createActivity($params);
                         $recent_notification->save();
+                        // publish update notification
+                        $connection = new RedisConnection(json_encode(
+                            array('msg_type' => 'update')
+                        ));
+                        $connection->publish(array($recent_notification->receiver_id));
                         NotifyActivity::create($activity_id, $recent_notification->id);
                     }
                 }

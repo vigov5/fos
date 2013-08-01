@@ -136,6 +136,9 @@ class Notification extends ActiveRecord
         $notification = new Notification;
         $notification->attributes = $params;
         $notification->save();
+        // publish notification
+        $connection = new RedisConnection($notification->getJSON());
+        $connection->publish(array($notification->receiver_id));
         return $notification->id;
     }
 
@@ -145,9 +148,7 @@ class Notification extends ActiveRecord
      */
     public function afterSave()
     {
-        // publish notification
-        $connection = new RedisConnection($this->getJSON());
-        $connection->publish(array($this->receiver_id));
+        return parent::afterSave();
     }
     
     /**

@@ -15,6 +15,8 @@ function SocketClient(channel) {
         } else if (packet.msg_type == 'notification') {
             sessionStorage.setItem('is_new_notify', 'true');
             addNewNotification(packet.data);
+        } else if (packet.msg_type == 'update') {
+            sessionStorage.setItem('is_new_notify', 'true');
         }
     });
 
@@ -37,7 +39,7 @@ function addNewNotification(data){
         });
     } else if (notify_num === 1) {
         var txt = $(".notification-menu").children().children().html();
-        txt += ' <span class="notify_num badge badge-important"></span>'
+        txt += ' <span class="notify_num badge badge-important">1</span>'
         $(".notification-menu").children().children().html(txt);
     }
 }

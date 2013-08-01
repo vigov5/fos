@@ -134,6 +134,8 @@
             if (!Yii::app()->user->isGuest) {
         ?>
                 <script>
+                    sessionStorage.removeItem('loaded_notify');
+                    sessionStorage.setItem('is_new_notify', 'true');
                     $(function(){
                         socket_client = new SocketClient("<?php echo Yii::app()->user->getState('RedisChannel') ?>");
                     });

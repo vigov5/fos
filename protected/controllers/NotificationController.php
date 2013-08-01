@@ -11,7 +11,7 @@ class NotificationController extends Controller
             $this->render('/site/error', array('code' => 403, 'message' => 'Forbidden'));
             Yii::app()->end();
         }
-        $notifications = $this->current_user->notifications_received('notifications_received:recently:unread');
+        $notifications = $this->current_user->notifications_received('notifications_received:recently');
         if (!empty($notifications)) {
             $result = array();
             foreach ($notifications as $notification) {
