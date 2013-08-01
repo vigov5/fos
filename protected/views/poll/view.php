@@ -366,7 +366,11 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
         echo "<div class='clear2'></div>";        
         echo '</div>';
     echo '</div>';
-    echo CHtml::link('More>>', '', array('class' => 'more_main_comment', 'current_comment' => $comments[$j - 1]->id));
+    if ($j>0) {
+        echo CHtml::link('More>>', '', array('class' => 'more_main_comment', 'current_comment' => $comments[$j - 1]->id));
+    } else {
+        echo "<div class='no-comment'>No Comment!</div>";
+    }
 ?>
 <div class="row">
     <div class="a-comment span7">
