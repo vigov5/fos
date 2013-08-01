@@ -118,53 +118,58 @@ $(function() {
             $('#result_show_time_type_content').html(html).fadeIn();
         });
     });
-
-    var dateToday = new Date();
-    var curHour = dateToday.getHours();
-    var curMinute = dateToday.getMinutes();
-    var curSecond = dateToday.getSeconds();
     
     var startDateTextBox = $('#start_at');
     var endDateTextBox = $('#end_at');
+    
+    var maxDateStart;
+    var minDateEnd = new Date();
+    
+    if (!startDateTextBox.attr('disabled')) {
+        minDateEnd = new Date(startDateTextBox.val());
+        maxDateStart = new Date(endDateTextBox.val());
+    }
 
     startDateTextBox.datetimepicker({
-        minDate: dateToday,
         dateFormat: "yy-mm-dd",
         timeFormat: "HH:mm:ss",
-        hourMin: curHour,
-        minuteMin: curMinute,
-        secondMin: curSecond,
+        minDate: new Date(),
+        maxDate: maxDateStart,
         onClose: function(dateText, inst) {
             if (endDateTextBox.val() != '') {
                 var testStartDate = startDateTextBox.datetimepicker('getDate');
                 var testEndDate = endDateTextBox.datetimepicker('getDate');
                 if (testStartDate > testEndDate)
                     endDateTextBox.datetimepicker('setDate', testStartDate);
-            }
-            else {
-                endDateTextBox.val(dateText);
+            } else {
+                endDateTextBox.val(startDateTextBox.val());
             }
         },
         onSelect: function(selectedDateTime) {
+            var date = endDateTextBox.val();
             endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate'));
-        }
+            endDateTextBox.val(date);
+        },
     });
+
     endDateTextBox.datetimepicker({
         dateFormat: "yy-mm-dd",
         timeFormat: "HH:mm:ss",
+        minDate: minDateEnd,
         onClose: function(dateText, inst) {
             if (startDateTextBox.val() != '') {
                 var testStartDate = startDateTextBox.datetimepicker('getDate');
                 var testEndDate = endDateTextBox.datetimepicker('getDate');
                 if (testStartDate > testEndDate)
                     startDateTextBox.datetimepicker('setDate', testEndDate);
-            }
-            else {
-                startDateTextBox.val(dateText);
+            } else {
+                startDateTextBox.val(endDateTextBox.val());
             }
         },
         onSelect: function(selectedDateTime) {
+            var date = startDateTextBox.val();
             startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
-        }
+            startDateTextBox.val(date);
+        },
     });
 });

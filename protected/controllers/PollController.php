@@ -58,7 +58,7 @@ class PollController extends Controller
 
         $users_invited = User::model()->invitedTo($id, $this->current_user->id)->findAll();
         unset(Yii::app()->session['poll_creating']);
-        $poll = Poll::model()->findbyAttributes(array('id' => $id));
+        $poll = $this->loadModel($id);
         $user = $poll->user;
         $choices = $poll->choices;
         $comments = $poll->comments;
@@ -225,6 +225,8 @@ class PollController extends Controller
     public function actionUpdate($id) // id of poll
     {
         $model = $this->loadModel($id);
+        $voting = $model->isVoting();
+        $voted = $model->isVoted();
         if (isset($_POST['Poll'])) {
             $model->logChangedAttributes($_POST['Poll']);
             $model->attributes = $_POST['Poll'];
@@ -238,6 +240,8 @@ class PollController extends Controller
         }
         $this->render('update', array(
             'poll' => $model,
+            'voting' => $voting,
+            'voted' => $voted,
         ));
     }
 

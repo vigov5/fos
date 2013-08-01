@@ -15,6 +15,15 @@ $this->widget('zii.widgets.CBreadcrumbs', array(
 </div>
 <br/>
 <div class="row">
-<?php echo $this->renderPartial('_form', array('poll'=>$poll)); ?>
+<?php
+    echo $this->renderPartial(
+        '_form',
+        array(
+            'poll' => $poll,
+            'voting' => $voting,
+            'voted' => $voted,
+        )
+    ); 
+?>
 
 </div>

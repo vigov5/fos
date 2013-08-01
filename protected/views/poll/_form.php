@@ -142,6 +142,8 @@
                 'class' => 'text input',
                 'placeholder' => 'From',
                 'id' => 'start_at',
+                'readonly' => 'readonly',
+                'disabled' => (isset($voting) && isset($voted)) ? ($voting || $voted) : '',
             )); ?>        
         </div>
         <div class="span4">
@@ -150,6 +152,9 @@
                 'class' => 'text input',
                 'placeholder' => 'To',
                 'id' => 'end_at',
+                'readonly' => 'readonly',
+                'disabled' => isset($voted) ? $voted : '',
+                
              )); ?>        
         </div>
     </div>
