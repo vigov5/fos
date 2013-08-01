@@ -1,14 +1,19 @@
+var end_notify = '<b>No more notifications!</b>';
 $(function(){
     loadRecentNotification();
+    $('#load_more_btn').click(function(){
+        loadRecentNotification($(this).attr('last_notify_id'));
+    });
 });
 
-function loadRecentNotification(){
+function loadRecentNotification(notify_id){
     var url = 'index.php?r=notification/getnotify';
     $.ajax({
         type: 'GET',
         url: url,
         data: {
-            all: true
+            all: true,
+            notify_id: notify_id
         }
     }).success(function(msg) {
         var all_notify = '';
@@ -19,9 +24,12 @@ function loadRecentNotification(){
                 var data = {content: content};
                 var notification_html = new HtmlElement('notification', data);
                 notification_html.appendTo('#notification-list');
+                var last_notify_id = packet[packet.length-1].id;
+                $('#load_more_btn').attr('last_notify_id', last_notify_id);
             });
-
-        } else {
+        }
+        if (packet.length < 10) {
+            $('.end_activity').html(end_notify);
         }
     }).fail(function() {
     });

@@ -143,13 +143,17 @@ class User extends ActiveRecord
         return Vote::model()->votedBy($this->id)->belongTo($poll_id)->findAll();
     }
 
-    public function getRecentNotifications($limit = 10)
+    public function getRecentNotifications($last_id, $limit = 10)
     {
+        if ($last_id == 'undefined') {
+            $condition = "receiver_id = {$this->id}";
+        } else {
+            $condition = "receiver_id = {$this->id} AND id < {$last_id}";
+        }
         return Notification::model()->findAll(
             array(
-                'condition' => 'receiver_id=:user_id',
+                'condition' => $condition,
                 'limit' => $limit,
-                'params' => array(':user_id' => $this->id),
             )
         );
     }
