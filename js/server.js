@@ -1,4 +1,4 @@
-socket_io_port = 8080;
+socket_io_port = 8090;
 
 var io = require('socket.io').listen(socket_io_port);
 var redis = require('redis');

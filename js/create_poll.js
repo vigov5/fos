@@ -17,6 +17,7 @@ $(function() {
     $('.select_option').CreateBubblePopup({
          position: 'right',
          align: 'center',
+         alwaysVisible: false,
          innerHtmlStyle: {
              color: '#FFFFFF',
              'text-align': 'center'

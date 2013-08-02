@@ -1,4 +1,4 @@
-socket_io_port = 8080;
+socket_io_port = 8090;
 
 function SocketClient(channel) {
     var host = window.location.host.split(':')[0];
