@@ -46,4 +46,14 @@ function addNewNotification(data){
         txt += ' <span class="notify_num badge badge-important">1</span>'
         $(".notification-menu").children().children().html(txt);
     }
+    if (notify_num != 0) {
+        var title = document.title;
+        if (notify_num === 1) {
+            title = "(" + notify_num + ") " + title;
+        } else {
+            title = title.slice(title.indexOf(" "));
+            title = "(" + notify_num + ") " + title;
+        }
+        document.title = title;
+    }
 }
