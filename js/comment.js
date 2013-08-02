@@ -149,10 +149,10 @@ function addNewComment(data){
     if (data.parent_comment_id === null) {
         data.class_name = "comment";
         var tmp = new HtmlElement('live_comment', data);
-        tmp.appendTo('.comment_area');
+        tmp.prependTo('.comment_area');
     } else {
         data.class_name = "comment_children";
         var tmp = new HtmlElement('live_comment', data);
-        tmp.appendTo('.children_' + data.parent_comment_id);
+        tmp.prependTo('.children_' + data.parent_comment_id);
     }
 }
