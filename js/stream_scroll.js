@@ -10,10 +10,8 @@ $(function(){
            var loading_image = new HtmlElement('loading', {id: 'stream'});
            loading_image.appendTo('#stream');
            load_stream(stream_id_global, loading_image);
-           show_bubble(true);
        }       
    });
-   show_bubble();
 });
 
 function load_stream(stream_id, loading_image){
