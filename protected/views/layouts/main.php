@@ -63,7 +63,7 @@
                                     array(
                                         'label' => 'Home',
                                         'icon' => 'home white',
-                                        'url' => array('profile/view', 'id' => Yii::app()->user->profile_id),
+                                        'url' => Yii::app()->homeUrl,
                                     ),                                    
                                 ),
                             ),
