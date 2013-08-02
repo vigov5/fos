@@ -56,9 +56,8 @@ class Choice extends ActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'votes' => array(self::HAS_MANY, 'Vote', 'choice_id'),
-            'activities' => array(self::HAS_MANY, 'Activity', 'choice_id'),
             'poll' => array(self::BELONGS_TO, 'Poll', 'poll_id'),
-            'activities' =>array(self::HAS_MANY, 'Activity', 'choice_id'),
+            'activities' => array(self::HAS_MANY, 'Activity', 'choice_id'),
         );
     }
 

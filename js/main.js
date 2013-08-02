@@ -10,6 +10,7 @@ $(function() {
         checkWindowWidth();
     });
     notificationDropDown();
+    show_bubble();
 });
 
 function checkWindowWidth() {
@@ -23,50 +24,53 @@ function checkWindowWidth() {
     }
 }
 
-$(function() {
+function show_bubble(only_new) {
+    if (only_new === true) {
+        var user_class = '.info_user_new';
+        var poll_class = '.info_poll_new';
+    } else {
+        var user_class = '.info_user';
+        var poll_class = '.info_poll';
+    }
     var options = {
         position: 'bottom',
         align: 'center',
-        selectable: true,
         innerHtmlStyle: {
             color: '#FFFFFF',
             'text-align': 'center'
         },
         themeName: 'all-black',
         themePath: 'images/jquerybubblepopup-themes',
-        manageMouseEvents: false
+        openingDelay: 1000
     };
-    $('.info_user').CreateBubblePopup(options);
-    $('.info_user').hover(function() {
-        var user_id = $(this).attr('data-user_id');
-        var activity_id = $(this).attr('id');
-        showInfoUser(user_id, activity_id);
+    
+    $(user_class).CreateBubblePopup(options);
+    $(user_class).hover(function() {
+        var profile_id = $(this).attr('data-profile_id');
+        showInfoUser(profile_id, user_class);
     }, function() {
-        $(this).HideBubblePopup();
     });
-
-    $('.info_poll').CreateBubblePopup(options);
-    $('.info_poll').hover(function() {
-        var poll_id = $(this).attr('data-poll_id');
-        var activity_id = $(this).attr('id');
-        showInfoPoll(poll_id, activity_id);
+    
+    $(poll_class).CreateBubblePopup(options);
+    $(poll_class).hover(function() {
+       var poll_id = $(this).attr('data-poll_id');
+       showInfoPoll(poll_id, poll_class);
     }, function() {
-        $(this).HideBubblePopup();
     });
-});
+}
 
-function showInfoUser(user_id, activity_id) {
-    if (sessionStorage.getItem('profile' + user_id)) {
-        var html = sessionStorage.getItem('profile' + user_id);
-        $('#' + activity_id).SetBubblePopupInnerHtml(html);
-        $('#' + activity_id).ShowBubblePopup();
+function showInfoUser(profile_id, user_class) {
+    if (localStorage.getItem('profile'+profile_id)) {
+        var html = localStorage.getItem('profile'+profile_id);
+        $(user_class).SetBubblePopupInnerHtml(html);
     } else {
         var url = 'index.php?r=profile/getInfo';
+        console.log(profile_id);
         $.ajax({
             type: 'POST',
             url: url,
             data: {
-                user_id: user_id
+                profile_id: profile_id
             }
         }).success(function(msg) {
             var profile = jQuery.parseJSON(msg);
@@ -76,34 +80,30 @@ function showInfoUser(user_id, activity_id) {
             var phone = profile.phone;
             var address = profile.address;
             var date_of_birth = profile.date_of_birth;
-            var inner_html = 'Employee code: ' + employee_code + '<br/> Email: ' + email;
+            var inner_html = 'Employee code: '+ employee_code +'<br/> Email: '+ email;
             if (position) {
-                inner_html = inner_html + '<br/> Position: ' + position;
+                inner_html = inner_html + '<br/> Position: '+ position;
             }
             if (phone) {
-                inner_html = inner_html + '<br/> Phone: ' + phone;
+                inner_html = inner_html +'<br/> Phone: '+ phone;
             }
             if (date_of_birth) {
-                inner_html = inner_html + '<br/> Birth day: ' + date_of_birth;
+                inner_html = inner_html +'<br/> Birth day: '+ date_of_birth;
             }
             if (address) {
-                inner_html = inner_html + '<br/> Address: ' + address;
+                inner_html = inner_html +'<br/> Address: '+ address;
             }
-            $('#' + activity_id).SetBubblePopupInnerHtml(inner_html);
-            $('#' + activity_id).ShowBubblePopup();
-            sessionStorage.setItem('profile' + user_id, inner_html);
-        }).fail(function() {
-            alert('Fail!');
-        });
+            $(user_class).SetBubblePopupInnerHtml(inner_html);
+            localStorage.setItem('profile'+profile_id, inner_html);
+        }).fail(function() {});
     }
-
+        
 }
 
-function showInfoPoll(poll_id, activity_id) {
-    if (sessionStorage.getItem('poll' + poll_id)) {
-        var html = sessionStorage.getItem('poll' + poll_id);
-        $('#' + activity_id).SetBubblePopupInnerHtml(html);
-        $('#' + activity_id).ShowBubblePopup();
+function showInfoPoll(poll_id, poll_class) {
+    if (localStorage.getItem('poll'+poll_id)) {
+        var html = localStorage.getItem('poll'+poll_id);
+        $(poll_class).SetBubblePopupInnerHtml(html);
     } else {
         var url = 'index.php?r=poll/getInfo';
         $.ajax({
@@ -114,12 +114,11 @@ function showInfoPoll(poll_id, activity_id) {
             }
         }).success(function(msg) {
             var poll = jQuery.parseJSON(msg);
-            var inner_html = 'Description: ' + poll.description + '<br/>' +
-                    'Start at: ' + poll.start_at + '<br/>' +
-                    'End at: ' + poll.end_at;
-            $('#' + activity_id).SetBubblePopupInnerHtml(inner_html);
-            $('#' + activity_id).ShowBubblePopup();
-            sessionStorage.setItem('poll' + poll_id, inner_html);
+            var inner_html = 'Description: '+poll.description +'<br/>'+
+                'Start at: '+poll.start_at +'<br/>'+
+                'End at: '+poll.end_at;
+            $(poll_class).SetBubblePopupInnerHtml(inner_html);
+            localStorage.setItem('poll'+poll_id, inner_html);
         }).fail(function() {
             alert('Fail!');
         });

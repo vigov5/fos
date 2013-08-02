@@ -173,8 +173,8 @@ class ProfileController extends Controller
     }
     
     public function actionGetInfo() {
-        if (isset($_POST['user_id'])) {
-            $profile = $this->loadModel($_POST['user_id']);
+        if (isset($_POST['profile_id'])) {
+            $profile = $this->loadModel($_POST['profile_id']);
             
             if ($profile) {
                 echo json_encode($profile->attributes);

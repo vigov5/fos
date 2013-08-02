@@ -31,6 +31,7 @@ function addNewStream(data){
     var stream_html = new HtmlElement('stream', data);
     stream_html.prependTo('#stream');
     stream_html.showMe();
+    show_bubble(true);
 }
 
 function addNewNotification(data){

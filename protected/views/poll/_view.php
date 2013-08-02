@@ -17,12 +17,12 @@
 ?>
 <div class='row well well-small poll-summary <?php echo $class; ?>' align='left'>
     <?php      
-    echo '<span class="poll_link">' . $poll->createViewLink() . '</span>';
+    echo "<span class='poll_link info_poll' data-poll_id='{$poll->id}'>" . $poll->createViewLink() . '</span>';
     $user_link = $poll->user->profile->createViewLink();
     echo <<< DOC
         <br/>
         <span class='poll_note'>created by</span>
-        <span class='user_poll'>{$user_link}</span> 
+        <span class='user_poll info_user' data-profile_id='{$poll->user->profile_id}'>{$user_link}</span> 
         <span class='poll_note'>at </span>{$poll->created_at}.
         {$alert}.
 DOC;
