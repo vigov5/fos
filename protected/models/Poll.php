@@ -270,12 +270,13 @@ class Poll extends ActiveRecord
         );
         $this->getDbCriteria()->mergeWith(
             array(
-            'with' => 'invitations',
-            'condition' => 'invitations.receiver_id=:user_id and display_type=:invite_only',
-            'params' => array(
-                ':user_id' => $user_id,
-                ':invite_only' => Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY,
-            ),
+                'with' => 'invitations',
+                'condition' => 'invitations.receiver_id=:user_id and display_type=:invite_only',
+                'params' => array(
+                    ':user_id' => $user_id,
+                    ':invite_only' => Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY,
+                ),
+                'together' => true,
             ), 'OR'
         );
 
