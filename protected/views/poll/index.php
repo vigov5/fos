@@ -68,3 +68,8 @@ foreach ($polls as $poll) {
     echo "</div>";
 }
 ?>
+<div class="row">
+    <?php $this->widget('CLinkPager', array(
+        'pages' => $pages,
+    )); ?>
+</div>

@@ -166,8 +166,16 @@ class PollController extends Controller
             $criteria->addCondition('result_show_time_type='.$result_show_time_type);
         }
         if ( $this->current_user->is_admin) {
+            $count = Poll::model()->count($criteria);
+            $pages = new CPagination($count);
+            $pages->pageSize = 15;
+            $pages->applyLimit($criteria);
             $polls = Poll::model()->findAll($criteria);
         } else {
+            $count = Poll::model()->canBeSeenBy($this->current_user->id)->count($criteria);
+            $pages = new CPagination($count);
+            $pages->pageSize = 15;
+            $pages->applyLimit($criteria);
             $polls = Poll::model()->canBeSeenBy($this->current_user->id)->findAll($criteria);
         }
         $this->render('index', array(
@@ -179,6 +187,7 @@ class PollController extends Controller
             'result_display_type' => $result_display_type,
             'result_show_time_type' => $result_show_time_type,
             'result_detail_type' => $result_detail_type,
+            'pages' => $pages,
         ));
     }
 
@@ -208,11 +217,20 @@ class PollController extends Controller
         if ($result_show_time_type != null && $result_show_time_type != 'result_show_time_type') {
             $criteria->addCondition('result_show_time_type='.$result_show_time_type);
         }
+
         if ($user_id != null) {
             $criteria->addCondition('user_id='.$user_id);
+            $count = Poll::model()->canBeSeenBy($this->current_user->id)->count($criteria);
+            $pages = new CPagination($count);
+            $pages->pageSize = 15;
+            $pages->applyLimit($criteria);
             $polls = Poll::model()->canBeSeenBy($this->current_user->id)->findAll($criteria);
         } else {
             $criteria->addCondition('user_id='.$this->current_user->id);
+            $count = Poll::model()->count($criteria);
+            $pages = new CPagination($count);
+            $pages->pageSize = 15;
+            $pages->applyLimit($criteria);
             $polls = Poll::model()->findAll($criteria);
         }
         $this->render('index', array(
@@ -224,6 +242,7 @@ class PollController extends Controller
             'result_display_type' => $result_display_type,
             'result_show_time_type' => $result_show_time_type,
             'result_detail_type' => $result_detail_type,
+            'pages' => $pages,
         ));
     }
 
