@@ -24,7 +24,7 @@ class PollController extends Controller
         return array(
             array(
                 'allow',
-                'actions' => array('create', 'index', 'view', 'my', 'update', 'vote',
+                'actions' => array('create', 'index', 'view', 'list', 'update', 'vote',
                     'invite', 'addinvite', 'getInfo'),
                 'users' => array('@'),
             ),
@@ -185,7 +185,7 @@ class PollController extends Controller
     /*
      * @author Nguyen Van Cuong
      */
-    public function actionMy($status = null, $poll_type = null,
+    public function actionList($user_id = null, $status = null, $poll_type = null,
         $display_type = null, $result_display_type = null,
         $result_detail_type = null, $result_show_time_type = null)
     {
@@ -208,11 +208,16 @@ class PollController extends Controller
         if ($result_show_time_type != null && $result_show_time_type != 'result_show_time_type') {
             $criteria->addCondition('result_show_time_type='.$result_show_time_type);
         }
-        $criteria->addCondition('user_id='.$this->current_user->id);
-        $polls = Poll::model()->findAll($criteria);
+        if ($user_id != null) {
+            $criteria->addCondition('user_id='.$user_id);
+            $polls = Poll::model()->canBeSeenBy($this->current_user->id)->findAll($criteria);
+        } else {
+            $criteria->addCondition('user_id='.$this->current_user->id);
+            $polls = Poll::model()->findAll($criteria);
+        }
         $this->render('index', array(
             'polls' => $polls,
-            'title' => 'My Polls',
+            'title' => 'List Polls',
             'status' => $status,
             'poll_type' => $poll_type,
             'display_type' => $display_type,

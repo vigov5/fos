@@ -87,7 +87,7 @@
                                 'items' => array(
                                     array('label' => 'Profiles', 'url' => array('profile/index')),
                                     array('label' => 'All Polls', 'url' => array('poll/index')),
-                                    array('label' => 'My Polls', 'url' => array('poll/my')),
+                                    array('label' => 'My Polls', 'url' => array('poll/list')),
                                     array('label' => Yii::app()->user->username, 'icon' => 'user white', 'url' => '#',
                                         'items' => array(
                                             array(
