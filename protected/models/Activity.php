@@ -354,7 +354,8 @@ class Activity extends ActiveRecord
             Activity::VOTE, Activity::RE_VOTE,
             Activity::COMMENT, Activity::REPLY_COMMENT,
         );
-        if (in_array($this->type, $special_activities)) {
+        if (in_array($this->type, $special_activities)
+            && !in_array((int)$this->poll->user_id, $subscribers)) {
             $subscribers[] = (int)$this->poll->user_id;
         }
         $connection = new RedisConnection($this->getJSON());
