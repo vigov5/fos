@@ -80,9 +80,8 @@ class CommentController extends Controller
     public function actionLoadcomment() {
         if (isset($_POST['current_comment'])) {
             $criteria = new CDbCriteria();
-            $criteria->condition = 'parent_id is NULL AND id > :id LIMIT 5';
-            $criteria->params = array(':id' => $_POST['current_comment']);
-            $comments = Comment::model()->findAll($criteria);
+            $poll = Poll::model()->findByPk($_POST['current_poll']);
+            $comments = $poll->loadComment($_POST['current_comment']);
             $data = array();
             foreach ($comments as $comment) {
                 $comment_data = $comment->attributes;

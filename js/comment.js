@@ -2,8 +2,6 @@ $(function(){
     $('.comment-textarea').each(function(index) {
         addConmmentInputHandler($(this));
     });
-    
-    $('.chil').hide();
     $('.children_comment_textarea').hide();
     $('.reply_comment').click(function(){
          $('.children_comment_textarea').hide();
@@ -20,7 +18,7 @@ $(function(){
     });
     
     $('.more_main_comment').click(function(){
-        loadFiveComment($(this).attr('current_comment'));
+        loadRecentComments($(this).attr('current_comment'), $(this).attr('current_poll'));
     });
 });
 
@@ -44,6 +42,7 @@ function addReplyCommmentInputHandler(dom) {
             poll_id = $(this).attr('data-poll-id');
             parent_id = $(this).attr('parent_comment');
             addReplyComment(poll_id, content, parent_id);
+            
             $('.children_comment_textarea').val('');
        }
     });
@@ -65,6 +64,7 @@ function addConmmentInputHandler(dom) {
             dom.attr('rows', rows);
        }
        if(event.keyCode === 13 && !event.shiftKey) {
+            $('.no-comment').hide();
             content = $('.comment-textarea').val();
             poll_id = $('.comment-textarea').attr('data-poll-id');
             addComment(content, poll_id);
@@ -87,7 +87,7 @@ function addComment(content, poll_id) {
     }).success(function(msg) {
         var arr = jQuery.parseJSON(msg);
         var tmp = new HtmlElement('comment', arr);
-             tmp.appendTo('.comment_area');
+             $('.comment_area').prepend(tmp.html);
     }).fail(function() {
         alert('Fail!');
     });
@@ -114,13 +114,14 @@ function addReplyComment(poll_id, content, parent_id) {
     });
 }
 
-function loadFiveComment(current_comment) {
+function loadRecentComments(current_comment, current_poll) {
     var url = 'index.php?r=comment/loadcomment';
     $.ajax({
         type: 'POST',
         url: url,
         data: {
-            current_comment: current_comment
+            current_comment: current_comment,
+            current_poll: current_poll
         }
     }).success(function(msg) {
         var obj = jQuery.parseJSON(msg);

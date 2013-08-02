@@ -135,6 +135,9 @@ class Comment extends ActiveRecord
             'limit_comment' => array(
                 'limit' => 5,
             ),
+            'order_created_at' => array(
+                'order' => 'created_at DESC',
+            ),
         );
     }
 }
