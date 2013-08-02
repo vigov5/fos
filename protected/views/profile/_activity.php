@@ -10,7 +10,7 @@
     $view_poll = "<b><span class='info_poll' data-poll_id='{$activity->poll_id}'>{$activity->poll->createViewLink()}</span></b>";
     $time = ' <i><span class="human-time" changed="1" created_at="' . $activity->created_at . '">' . DateAndTime::humanReadableTime($activity->created_at) . '</span></i>';
     if (isset($activity->choice)) {
-        $choice_content = "<b>{$activity->poll->createViewLink($activity->choice->content)}</b>";
+        $choice_content = "<b>{$activity->choice->content}</b>";
     } else {
         $choice_content = '';
     }
