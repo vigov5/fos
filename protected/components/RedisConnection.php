@@ -31,7 +31,7 @@ class RedisConnection
         if (!self::$redis->exists(self::getKey($user_id))) {
             self::$redis->set(self::getKey($user_id), md5(microtime() . $user_id . rand(10000, 99999)));
         }
-        return $this->getUserChannel(self::getKey($user_id));
+        return $this->getUserChannel($user_id);
     }
 
     public static function getKey($user_id) {
