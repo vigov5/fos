@@ -265,7 +265,7 @@ class User extends ActiveRecord
                 'params' => array('target_user_id' => $user_id),
             )
         );
-        return Activity::model()->allVisibleActivitiesNotInclude($this->id);
+        return Activity::model()->allVisibleActivitiesNotInclude($this->id, false);
     }
 
      /**

@@ -172,7 +172,8 @@ class Activity extends ActiveRecord
                         $connection->publish(array($recent_notification->receiver_id));
                         NotifyActivity::create($activity_id, $recent_notification->id);
                     }
-                } else {
+                } else if ($params['type'] != Activity::INVITE){
+                    // create one activtiy only in case of invite
                     Activity::_createActivity($params);
                 }
             }
@@ -207,18 +208,25 @@ class Activity extends ActiveRecord
      * @author Nguyen Anh Tien
      * @param User current user
      */
-    public function allVisibleActivitiesNotInclude($user_id)
+    public function allVisibleActivitiesNotInclude($user_id, $is_current_user = true)
     {
         $this->getDbCriteria()->mergeWith(
             array(
-                'condition' => 'display_type=:public AND user_id!=:user_id',
-                //  params :public and :user_id in condition
+                'condition' => 'display_type=:public',
                 'params' => array(
                     ':public' => Activity::DISPLAY_PUBLIC,
-                    ':user_id' => $user_id,
                 ),
             )
         );
+        if ($is_current_user) {
+            $this->getDbCriteria()->mergeWith(
+                array(
+                    'condition' => ' poll_id in (select id from polls where user_id=:user_id)',
+                    'params' => array(':user_id' => $user_id),
+                ),
+                'OR'
+            );
+        }
         $this->getDbCriteria()->mergeWith(
             array(
             'condition' => 'display_type=:invited AND poll_id in (select poll_id from invitations where receiver_id=:user_id)',
@@ -227,6 +235,13 @@ class Activity extends ActiveRecord
                 ':invited' => Activity::DISPLAY_RESTRICTED,
             ),
             ), 'OR'
+        );
+        $this->getDbCriteria()->mergeWith(
+            array(
+                'condition' => 'user_id!=:user_id',
+                'params' => array(':user_id' => $user_id),
+            ),
+            'AND'
         );
 
         return $this;
@@ -334,6 +349,14 @@ class Activity extends ActiveRecord
         // publish activity
         $subscribers = CHtml::listData($this->getSubscriberIDs(), 'id', 'id');
         $subscribers = array_keys($subscribers);
+        // include poll owner when other user vote/revote, comment/reply
+        $special_activities = array(
+            Activity::VOTE, Activity::RE_VOTE,
+            Activity::COMMENT, Activity::REPLY_COMMENT,
+        );
+        if (in_array($this->type, $special_activities)) {
+            $subscribers[] = (int)$this->poll->user_id;
+        }
         $connection = new RedisConnection($this->getJSON());
         $connection->publish($subscribers);
         return parent::afterSave();
