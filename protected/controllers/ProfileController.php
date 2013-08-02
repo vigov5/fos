@@ -42,8 +42,11 @@ class ProfileController extends Controller
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id)
+    public function actionView($id=null)
     {
+        if (!$id) {
+            $id = $this->current_user->profile_id;
+        }
         $profile = $this->loadModel($id);
         if (isset($profile->user)) {
             $criteria = new CDbCriteria;

@@ -16,7 +16,7 @@ return array(
         'application.components.*',
         'application.extensions.yii-mail.*',
     ),
-    'defaultController' => 'home/index',
+    'defaultController' => 'profile/view',
     'modules' => array(
         'gii' => array(
             'class' => 'system.gii.GiiModule',

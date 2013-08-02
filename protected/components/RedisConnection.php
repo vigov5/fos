@@ -23,15 +23,19 @@ class RedisConnection
 
     public static function getUserChannel($user_id)
     {
-        return self::$redis->get($user_id);
+        return self::$redis->get(self::getKey($user_id));
     }
 
     public function checkIn($user_id)
     {
-        if (!self::$redis->exists($user_id)) {
-            self::$redis->set($user_id, md5(microtime() . $user_id . rand(10000, 99999)));
+        if (!self::$redis->exists(self::getKey($user_id))) {
+            self::$redis->set(self::getKey($user_id), md5(microtime() . $user_id . rand(10000, 99999)));
         }
-        return $this->getUserChannel($user_id);
+        return $this->getUserChannel(self::getKey($user_id));
+    }
+
+    public static function getKey($user_id) {
+        return 'fos_' . $user_id;
     }
 
     public function checkOut($user_id)
