@@ -227,7 +227,7 @@ function createNotifyText(data) {
         notify_txt = '<b>' + inviter + '</b> has invited you to vote '
     }
 
-    notify_txt += 'in your poll <b>' + activity.poll_question + '</b>';
+    notify_txt += 'in poll <b>' + activity.poll_question + '</b>';
     return notify_txt;
 }
 

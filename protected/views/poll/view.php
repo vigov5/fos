@@ -94,7 +94,7 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
     <tbody>        
         <tr class='odd hidden_info'>
             <th>User</th>
-            <td><?php echo $user->username ?></td>
+            <td><?php echo $user->profile->name ?></td>
         </tr>
         <tr class='even hidden_info'>
             <th>Setting</th>
