@@ -33,12 +33,14 @@
         'class' => 'btn btn-primary',
     ));
     echo '&nbsp;';
-    echo CHtml::link('All Poll', 
-        array('poll/list', 'user_id' => $profile->user->id),
-        array(
-        'id' => 'show_btn',
-        'class' => 'btn btn-primary',
-    ));
+    if (isset($profile->user)) {
+        echo CHtml::link('All Poll', 
+            array('poll/list', 'user_id' => $profile->user->id),
+            array(
+            'id' => 'show_btn',
+            'class' => 'btn btn-primary',
+        ));
+    }
 ?>
 <div class="none"></div>
 <div id="profile_info" hidden="hidden">

@@ -21,7 +21,7 @@
     <% if (type == ADD_CHOICE) { %>
     <span class='info_user_new' data-profile_id='<%= profile_id %>'>
     <%= user %> </span> added choice
-    <%= choice_content %> for poll
+    <b><%= choice_content %></b> for poll
     <span class='info_poll_new' data-poll_id='<%= poll_id %>'>
     <%= poll %> </span>
     <% } %>
@@ -42,14 +42,14 @@
     <%= user %> </span> voted in poll
     <span class='info_poll_new' data-poll_id='<%= poll_id %>'>
     <%= poll %> </span> with 
-    <%= choice_content %>
+    <b><%= choice_content %></b>
     <% } %>
     <% if (type == RE_VOTE) { %>
     <span class='info_user_new' data-profile_id='<%= profile_id %>'>
     <%= user %> </span> re-voted in poll 
     <span class='info_poll_new' data-poll_id='<%= poll_id %>'>
     <%= poll %> </span> with 
-    <%= choice_content %>
+    <b><%= choice_content %></b>
     <% } %>
     <% if (type == INVITE) { %>
     <span class='info_user_new' data-profile_id='<%= profile_id %>'>
