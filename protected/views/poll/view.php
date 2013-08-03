@@ -1,9 +1,8 @@
-<script src='<?php echo Yii::app()->baseUrl; ?>/js/comment.js'></script> 
-
 <?php
 Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl.'/css/jquery.countdown.css');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery.countdown.js');
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/countdown.js');
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/poll.js');
 $this->widget('bootstrap.widgets.TbAlert');
 ?>
 <h1>Poll Detail </h1>
@@ -334,48 +333,13 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
 </div>
 
 <?php
-    
     echo '<div class="comment_area">';
-        for ($j = 0; $j < sizeof($comments); $j++) {
-            if (!$comments[$j]->parent_id) {
-                echo "<div class='comment'>";
-                echo "<div class='user_comment'>{$comments[$j]->user->profile->createViewlink()}</div>";
-                echo $comments[$j]->content;
-                echo '<br>';
-                echo CHtml::label($comments[$j]->updated_at, '',
-                    array('class' => 'time_update'));
-                echo CHtml::link('Reply', '',
-                    array('class' => 'reply_comment', 'comment_id' => $comments[$j]->id) );
-                echo CHtml::link('  ('.sizeof($comments[$j]->children).')', '#',
-                    array('class' => 'more-chil', 'comment_id' => $comments[$j]->id) );
-                echo "<div class='clear2'></div>";
-                echo '</div>';
-                echo "<div class= 'chil children_{$comments[$j]->id}'>";
-                $childrens = $comments[$j]->children;
-                for ($k = 0; $k < sizeof($childrens); $k++) {
-                    echo "<div class='comment_children'>";
-                    echo "<div class='user_comment'>{$childrens[$k]->user->profile->createViewlink()}</div>";
-                    echo $childrens[$k]->content;
-                    echo '<br>';
-                    echo CHtml::label($childrens[$k]->updated_at, '',
-                        array('class' => 'time_update'));
-                    echo "<div class='clear2'></div>";
-                    echo '</div>';
-                }
-                echo '</div>';
-                echo "<div class='row'>";
-                echo "<textarea class='span8 offset1 children_comment_textarea id_{$comments[$j]->id}'
-                      placeholder='' rows='1' data-poll-id= '{$poll->id}'
-                      parent_comment= '{$comments[$j]->id}'  wrap='off' style='overflow:hidden '>
-                      </textarea>";
-                echo "</div>";
-            }
-        }        
-        echo '</div>';
-    echo '</div>';
-    if ($j>0) {
-        echo CHtml::link('More>>', '', array('class' => 'more_main_comment', 'current_comment' => $comments[$j - 1]->id, 'current_poll' => $comments[$j - 1]->poll_id));
-    } else {
-        echo "<div class='no-comment'>No Comment!</div>";
+    foreach ($comments as $comment) {
+        $last_comment = $comment;
+        $this->renderPartial('_comment', array('comment' => $comment));
     }
+    echo '</div>';
+    echo CHtml::link('Load more ...', '',
+        array('class' => 'load_more_button', 'data-comment_id' => $last_comment->id)
+    );
 ?>
