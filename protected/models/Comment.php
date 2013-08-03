@@ -140,4 +140,11 @@ class Comment extends ActiveRecord
             ),
         );
     }
+    
+    public function getData(){
+        $data = $this->attributes;
+        $data['profile_name'] = $this->user->profile->name;
+        $data['profile_id'] = $this->user->profile_id;
+        return $data;
+    }
 }

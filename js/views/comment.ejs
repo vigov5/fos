@@ -1,10 +1,14 @@
-<div class='comment'>
-     <div class='user_comment'>
-        <%= link_to(profile_name, 'index.php?r=profile/view&id='+profile_id)%>
-     </div>
-     <%= content %>
-    <br/>
-    <div class='time_update'><%= created_at %></div>
-    <div class='btn_comment'><%= link_to('Reply', '#')%></div>
-    <div class='clear2'></div>
+<div class="comment comment_container" id="comment_container_<%= id %>">
+    <div class="comment_content" id="comment_content_<%= id %>">
+        <div class="user_comment">
+            <%= link_to(profile_name, 'index.php?r=profile/view&id='+profile_id)%>
+        </div>
+        <%= content %> <br>
+        <div class="time_update">
+            <%= created_at %>
+        </div>
+        <a id="reply_button_<%= id %>" class='reply_comment' data-comment_id=<%= id %> >Reply</a>
+    </div>
+</div>
+<div class="children_comments" id="children_comments_<%= id %>">
 </div>
