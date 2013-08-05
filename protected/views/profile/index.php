@@ -15,7 +15,7 @@ $this->breadcrumbs = array(
                 'class' => 'btn btn-primary')); ?>
         </div>
     <?php } ?>
-
+    <br/>
     <?php $this->widget('bootstrap.widgets.TbAlert'); ?>
     <HR>
     <?php
