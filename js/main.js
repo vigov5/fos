@@ -149,6 +149,7 @@ function notificationDropDown() {
                 $('.notification-menu').SetBubblePopupInnerHtml(sessionStorage.getItem('loaded_notify'));
             }
             $(this).ShowBubblePopup();
+            addNotifyListenner();
         }
     });
 }
