@@ -146,6 +146,7 @@
                 'id' => 'start_at',
                 'readonly' => 'readonly',
                 'disabled' => (isset($voting) && isset($voted)) ? ($voting || $voted) : '',
+                'edit' => (!$poll->isNewRecord),
             )); ?>        
         </div>
         <div class="span4">
@@ -156,7 +157,7 @@
                 'id' => 'end_at',
                 'readonly' => 'readonly',
                 'disabled' => isset($voted) ? $voted : '',
-                
+                'edit' => (!$poll->isNewRecord),
              )); ?>        
         </div>
     </div>
@@ -166,7 +167,6 @@
                     array('class' => 'btn btn-primary')
                 );
         ?>
-        <?php echo CHtml::resetButton('Reset', array('class' => 'btn')); ?>
     </div>
     
 <?php $this->endWidget(); ?>

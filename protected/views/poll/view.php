@@ -13,7 +13,8 @@ $this->widget('bootstrap.widgets.TbAlert');
 <script>
     var start = <?php echo strtotime($poll->start_at) ?>;
     var end = <?php echo strtotime($poll->end_at) ?>;
-    countDown(start * 1000, end * 1000);
+    var now = <?php echo time(); ?>;
+    countDown(start * 1000, end * 1000, now * 1000);
 
     $(function() {
         $(".invite").click(function() {

@@ -1,15 +1,13 @@
-function countDown(start, end) {
+function countDown(start, end, now) {
 	var note = $('#note'),
 		ts,
         header = "",
-        now = new Date().getTime(),
         max = 100 * 24 * 60 * 60 * 1000;
-
     if (now < start) {
-        ts = new Date(start);
+        ts = new Date(start + deviation_time);
         header = "This poll will start in ";
     } else if (now < end) {
-        ts = new Date(end);
+        ts = new Date(end + deviation_time);
         header = "This poll will end in ";
     } else {
         ts = -1;

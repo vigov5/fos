@@ -124,32 +124,39 @@ $(function() {
     var endDateTextBox = $('#end_at');
     
     var maxDateStart;
-    var minDateEnd = new Date();
+    var minDateStart = new Date();
+    var minDateEnd = new Date(new Date().getTime() + 600000);
     
-    if (!startDateTextBox.attr('disabled')) {
-        minDateEnd = new Date(startDateTextBox.val());
-        maxDateStart = new Date(endDateTextBox.val());
+    if (!startDateTextBox.attr('disabled') && startDateTextBox.val() != '' && $('#start_at').attr('edit') == 1) {
+        minDateEnd = new Date(new Date(startDateTextBox.val()).getTime() + 600000);
+        maxDateStart = new Date(new Date(endDateTextBox.val()).getTime() - 600000);
     }
 
     startDateTextBox.datetimepicker({
         dateFormat: "yy-mm-dd",
         timeFormat: "HH:mm:ss",
-        minDate: new Date(),
+        minDate: minDateStart,
         maxDate: maxDateStart,
         onClose: function(dateText, inst) {
-            if (endDateTextBox.val() != '') {
-                var testStartDate = startDateTextBox.datetimepicker('getDate');
-                var testEndDate = endDateTextBox.datetimepicker('getDate');
-                if (testStartDate > testEndDate)
-                    endDateTextBox.datetimepicker('setDate', testStartDate);
+            if (startDateTextBox.val() == '') {
+                startDateTextBox.datetimepicker('setDate', minDateStart);
+                endDateTextBox.datetimepicker('setDate', minDateEnd);
+            } else if (endDateTextBox.val() == '') {
+                endDateTextBox.datetimepicker('setDate', new Date(new Date(startDateTextBox.val()).getTime() + 600000));
             } else {
-                endDateTextBox.val(startDateTextBox.val());
+                var testStartDate = new Date(startDateTextBox.val()).getTime();
+                var testEndDate = new Date(endDateTextBox.val()).getTime();
+                if (testStartDate + 600000 > testEndDate)
+                    endDateTextBox.datetimepicker('setDate', new Date(new Date(startDateTextBox.val()).getTime() + 600000));
             }
         },
         onSelect: function(selectedDateTime) {
-            var date = endDateTextBox.val();
-            endDateTextBox.datetimepicker('option', 'minDate', startDateTextBox.datetimepicker('getDate'));
-            endDateTextBox.val(date);
+            if (!endDateTextBox.attr('disabled')) {
+                var time = endDateTextBox.val();
+                endDateTextBox.datetimepicker('option', 'minDate', new Date(new Date(startDateTextBox.val()).getTime() + 600000));
+                endDateTextBox.datetimepicker('option', 'minDateTime', new Date(new Date(startDateTextBox.val()).getTime() + 600000));
+                endDateTextBox.val(time);
+            }
         },
     });
 
@@ -157,20 +164,59 @@ $(function() {
         dateFormat: "yy-mm-dd",
         timeFormat: "HH:mm:ss",
         minDate: minDateEnd,
+        minDateTime: minDateEnd,
         onClose: function(dateText, inst) {
-            if (startDateTextBox.val() != '') {
-                var testStartDate = startDateTextBox.datetimepicker('getDate');
-                var testEndDate = endDateTextBox.datetimepicker('getDate');
-                if (testStartDate > testEndDate)
-                    startDateTextBox.datetimepicker('setDate', testEndDate);
+            if (endDateTextBox.val() == '') {
+                startDateTextBox.datetimepicker('setDate', minDateStart);
+                endDateTextBox.datetimepicker('setDate', minDateEnd);
+            } else if (startDateTextBox.val() == '') {
+                startDateTextBox.datetimepicker('setDate', new Date(new Date(endDateTextBox.val()).getTime() - 600000));
             } else {
-                startDateTextBox.val(endDateTextBox.val());
+                var testStartDate = new Date(startDateTextBox.val()).getTime();
+                var testEndDate = new Date(endDateTextBox.val()).getTime();
+                if (testStartDate + 600000 > testEndDate)
+                    startDateTextBox.datetimepicker('setDate', new Date(new Date(endDateTextBox.val()).getTime() - 600000));
             }
         },
         onSelect: function(selectedDateTime) {
-            var date = startDateTextBox.val();
-            startDateTextBox.datetimepicker('option', 'maxDate', endDateTextBox.datetimepicker('getDate'));
-            startDateTextBox.val(date);
+            if (!startDateTextBox.attr('disabled')) {
+                var time = startDateTextBox.val();
+                startDateTextBox.datetimepicker('option', 'maxDate', new Date(new Date(endDateTextBox.val()).getTime() - 600000));
+                startDateTextBox.datetimepicker('option', 'maxDateTime', new Date(new Date(endDateTextBox.val()).getTime() - 600000));
+                startDateTextBox.val(time);
+            }
         },
     });
+    
+    var ONE_SECOND = 1000;
+    var FIVE_SECOND = 5 * ONE_SECOND;
+    var interval = setInterval(function(){
+        var time = new Date();
+        if (!startDateTextBox.attr('disabled') && new Date(startDateTextBox.val()).getTime() < time.getTime()) {
+            startDateTextBox.datetimepicker('setDate', new Date(time.getTime()));
+            if (new Date(endDateTextBox.val()).getTime() < time.getTime() + 600000) {
+                endDateTextBox.datetimepicker('setDate', new Date(time.getTime() + 600000));
+            }
+        }
+    }, ONE_SECOND);
+
+    var timeStart = $('#start_at').val();
+    var timeEnd = $('#end_at').val();
+    if (startDateTextBox.val() != '' && $('#start_at').attr('edit') == 1) {
+        var interval1 = setInterval(function(){
+            if (new Date(timeStart).getTime() < new Date().getTime()) {
+                $('#start_at').attr('disabled', 'disabled');
+                clearInterval(interval1);
+            }
+        }, ONE_SECOND);
+    }
+    
+    if (endDateTextBox.val() != '' && $('#end_at').attr('edit') == 1) {
+        var interval2 = setInterval(function(){
+            if (new Date(timeEnd).getTime() < new Date().getTime()) {
+                $('#end_at').attr('disabled', 'disabled');
+                clearInterval(interval2);
+            }
+        }, ONE_SECOND);
+    }
 });
