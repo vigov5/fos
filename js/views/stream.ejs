@@ -9,7 +9,7 @@
     COMMENT = 8;
     REPLY_COMMENT = 9;
     user = link_to(profile_name, 'index.php?r=profile/view&id='+profile_id);
-    poll = link_to(mb_strimwidth(poll_question, 0, 50, "..."), 'index.php?r=poll/view&id='+poll_id);
+    poll = link_to(poll_question, 'index.php?r=poll/view&id='+poll_id);
 %>
 <div id="stream_<%= id %>" class="alert alert-success stream-item" hidden="hidden">
     <% if (type == CREATE_POLL) { %>

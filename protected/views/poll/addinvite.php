@@ -8,7 +8,7 @@
 <?php
 foreach ($users as $user) {
     echo CHtml::button(
-        $user->username, 
+        $user->profile->name,
         array(
             'sender_id' => $this->current_user->id,
             'poll_id' => $poll->id,

@@ -185,49 +185,51 @@ function createNotifyText(data) {
     var commenters = [];
     var inviter;
     var notify_txt = '';
-    var activity;
     var total_cmt = 0;
 
-    var activities = [];
-    $.each(data, function(index, act) {
-        activity = $.parseJSON(act);
-        if (activity.type == VOTE || activity.type == RE_VOTE) {
-            if (voters.indexOf(activity.profile_name) == -1) {
-                voters.push(activity.profile_name);
+    if (data.length > 0) {
+        $.each(data, function(index, act) {
+            var activity = $.parseJSON(act);
+            if (activity.type == VOTE || activity.type == RE_VOTE) {
+                if (voters.indexOf(activity.profile_name) == -1) {
+                    voters.push(activity.profile_name);
+                }
+            } else if (activity.type == INVITE) {
+                inviter = activity.profile_name;
+            } else if (activity.type == COMMENT || activity.type == REPLY_COMMENT) {
+                total_cmt++;
+                if (commenters.indexOf(activity.profile_name) == -1) {
+                    commenters.push(activity.profile_name);
+                }
             }
-        } else if (activity.type == INVITE) {
-            inviter = activity.profile_name;
-        } else if (activity.type == COMMENT || activity.type == REPLY_COMMENT) {
-            total_cmt++;
-            if (commenters.indexOf(activity.profile_name) == -1) {
-                commenters.push(activity.profile_name);
-            }
+        });
+
+        current_activity = $.parseJSON(data[0]);
+
+        if (voters.length == 1) {
+            notify_txt += '<b>' + voters[0] + '</b> voted ';
+        } else if (voters.length == 2) {
+            notify_txt += '<b>' + voters[0] + '</b> and <b>' + voters[1] + '</b> voted ';
+        } else if (voters.length > 2) {
+            notify_txt += '<b>' + voters[0] + '</b> and ' + (voters.length - 1) + ' others voted ';
         }
-    });
+        if (voters.length && commenters.length) {
+            notify_txt += ', ';
+        }
+        if (commenters.length == 1) {
+            notify_txt += '<b>' + commenters[0] + '</b> wrote ' + total_cmt + (total_cmt > 1 ? ' comments ' : ' comment ');
+        } else if (commenters.length == 2) {
+            notify_txt += '<b>' + commenters[0] + '</b> and <b>' + commenters[1] + '</b> wrote ' + total_cmt + ' comments ';
+        } else if (commenters.length > 2) {
+            notify_txt += '<b>' + commenters[0] + '</b> and ' + (commenters.length - 1) + ' wrote ' + total_cmt + ' comments ';
+        }
 
-    if (voters.length == 1) {
-        notify_txt += '<b>' + voters[0] + '</b> voted ';
-    } else if (voters.length == 2) {
-        notify_txt += '<b>' + voters[0] + '</b> and <b>' + voters[1] + '</b> voted ';
-    } else if (voters.length > 2) {
-        notify_txt += '<b>' + voters[0] + '</b> and ' + (voters.length - 1) + ' others voted ';
-    }
-    if (voters.length && commenters.length) {
-        notify_txt += ', ';
-    }
-    if (commenters.length == 1) {
-        notify_txt += '<b>' + commenters[0] + '</b> wrote ' + total_cmt + (total_cmt > 1 ? ' comments ' : ' comment ');
-    } else if (commenters.length == 2) {
-        notify_txt += '<b>' + commenters[0] + '</b> and <b>' + commenters[1] + '</b> wrote ' + total_cmt + ' comments ';
-    } else if (commenters.length > 2) {
-        notify_txt += '<b>' + commenters[0] + '</b> and ' + (commenters.length - 1) + ' wrote ' + total_cmt + ' comments ';
-    }
+        if (inviter) {
+            notify_txt = '<b>' + inviter + '</b> has invited you to vote '
+        }
 
-    if (inviter) {
-        notify_txt = '<b>' + inviter + '</b> has invited you to vote '
+        notify_txt += 'in poll <b>' + current_activity.poll_question + '</b>';
     }
-
-    notify_txt += 'in poll <b>' + activity.poll_question + '</b>';
     return notify_txt;
 }
 
