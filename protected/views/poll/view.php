@@ -334,12 +334,17 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
 
 <?php
     echo '<div class="comment_area">';
+    $last_comment_id = -1;
     foreach ($comments as $comment) {
-        $last_comment = $comment;
+        $last_comment_id = $comment->id;
         $this->renderPartial('_comment', array('comment' => $comment));
     }
     echo '</div>';
-    echo CHtml::link('Load more ...', '',
-        array('class' => 'load_more_button', 'data-comment_id' => $last_comment->id)
-    );
+    if (count($comments) >= 5) {
+        echo '<div class="row">';
+            echo CHtml::link('Load more ...', '',
+                array('class' => 'load_more_button', 'data-comment_id' => $last_comment_id)
+            );
+        echo '</div>';
+    }
 ?>

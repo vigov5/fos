@@ -1,13 +1,20 @@
 <div class="comment comment_container" id="comment_container_<%= id %>">
     <div class="comment_content" id="comment_content_<%= id %>">
-        <div class="user_comment">
+        <div class="row user_comment">
             <%= link_to(profile_name, 'index.php?r=profile/view&id='+profile_id)%>
         </div>
-        <%= content %> <br>
-        <div class="time_update">
-            <%= created_at %>
+        <div class="row">
+            <%= content %>
         </div>
-        <a id="reply_button_<%= id %>" class='reply_comment' data-comment_id=<%= id %> >Reply</a>
+        <div class="row">
+            <div class="time_update">
+                <%= created_at %>
+            </div>
+            <input id="reply_button_<%= id %>" type="button" data-comment_id=<%= id %> value="Reply" data-comment_id="<%= id %>" class="reply_comment btn btn-primary btn-mini">
+            <% if (children_comments_count > 0) { %>
+             <input id="load_children_button_<%= id %>" type="button" value="Load replies (<%= children_comments_count %>)" data-comment_id="<%= id %>" class="load_children_comment btn btn-info btn-mini">
+            <% } %> 
+        </div>
     </div>
 </div>
 <div class="children_comments" id="children_comments_<%= id %>">
