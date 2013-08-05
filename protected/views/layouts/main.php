@@ -95,7 +95,7 @@
                                                 'icon' => 'cog',
                                                 'url' => array('user/changePassword'),
                                             ),
-                                            array('label' => 'Help', 'icon' => 'flag', 'url' => '#'),
+                                            array('label' => 'Help', 'icon' => 'flag', 'url' => array('help/help')),
                                             '---',
                                             array('label' => 'Logout', 'icon' => 'icon-share', 'url' => array('user/signout')),
                                         )),
