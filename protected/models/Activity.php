@@ -306,6 +306,7 @@ class Activity extends ActiveRecord
         $data['poll_question'] = $this->poll->question;
         $data['choice_content'] = $this->choice_id ? $this->choice->content : null;
         $data['comment_content'] = $this->comment_id ? $this->comment->content : null;
+        $data['children_comments_count'] = count($this->comment->children) ? count($this->comment->children) : null;
         $data['parent_comment_id'] = $this->comment_id ? $this->comment->parent_id : null;
         $data['profile_name'] = $this->user->profile->name;
         $data['target_profile_name'] = $this->target_user_id ? $this->target_user->profile->name : null;

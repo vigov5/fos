@@ -148,11 +148,11 @@ function loadRecentComments(current_comment, current_poll) {
 function addNewComment(data){
     if (data.parent_comment_id === null) {
         data.class_name = "comment";
-        var tmp = new HtmlElement('live_comment', data);
+        var tmp = new HtmlElement('comment', data);
         tmp.prependTo('.comment_area');
     } else {
         data.class_name = "comment_children";
-        var tmp = new HtmlElement('live_comment', data);
+        var tmp = new HtmlElement('comment', data);
         tmp.prependTo('.children_' + data.parent_comment_id);
     }
 }

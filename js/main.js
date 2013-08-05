@@ -65,7 +65,6 @@ function showInfoUser(profile_id, user_class) {
         $(user_class).SetBubblePopupInnerHtml(html);
     } else {
         var url = 'index.php?r=profile/getInfo';
-        console.log(profile_id);
         $.ajax({
             type: 'POST',
             url: url,
