@@ -17,8 +17,10 @@
 )); ?>
     <p class="note">Fields with <span class="required">*</span> are required.</p>
     <?php echo $form->errorSummary($poll); ?>
- 
-    <div class="row">
+    
+    <div class="select_option" style="display: none;" id="hide"></div>
+    
+    <div class="row" >
         <div class="span4">
             <?php echo $form->labelEx($poll, 'is_multichoice'); ?>
             <?php echo '<div class="wide picker">'; ?>
