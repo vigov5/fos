@@ -104,7 +104,7 @@ class Comment extends ActiveRecord
             'criteria' => $criteria,
         ));
     }
-    
+
     public function canBeReplied() {
         if ($this->parent_id) {
             return false;
@@ -126,7 +126,7 @@ class Comment extends ActiveRecord
         }
         parent::afterSave();
     }
-    
+
     public function scopes() {
         return array(
             'is_parent' => array(
@@ -140,11 +140,19 @@ class Comment extends ActiveRecord
             ),
         );
     }
-    
+
+    public function defaultScope()
+    {
+        return array(
+            'order' => $this->getTableAlias(false, false).'.`id` DESC',
+        );
+    }
+
     public function getData(){
         $data = $this->attributes;
         $data['profile_name'] = $this->user->profile->name;
         $data['profile_id'] = $this->user->profile_id;
+        $data['children_comments_count'] = count($this->children);
         return $data;
     }
 }
