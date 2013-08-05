@@ -76,6 +76,7 @@ function loadReplyComment(comment_id) {
         url: url,
         data: {comment_id: comment_id}
     }).success(function(msg) {
+        $('#children_comments_' + comment_id).html('');
         var children_comments = jQuery.parseJSON(msg);
         $.each(children_comments, function(index, child) {
             var tmp = new HtmlElement('reply', child);
