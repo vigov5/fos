@@ -21,6 +21,7 @@
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/stream_scroll.js');
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/jquery-bubble-popup-v3.min.js');
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/main.js');
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/search.js');
        ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
@@ -79,7 +80,7 @@
                                 ),
                             ),
                             '<form class="navbar-search pull-left" action=""><input type="text"
-                             class="search-query" placeholder="search people, post and anythings">
+                             class="search-query" placeholder="search people and polls" id="search" >
                             </form>',
                             array(
                                 'class' => 'bootstrap.widgets.TbMenu',
