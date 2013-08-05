@@ -124,7 +124,7 @@ class Comment extends ActiveRecord
             );
             Activity::create($params);
         }
-        parent::afterSave();
+        return parent::afterSave();
     }
 
     public function scopes() {

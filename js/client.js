@@ -34,17 +34,21 @@ function addNewStream(data){
     show_bubble(true);
 }
 
+function addNotificationBadge(notification_num){
+    var txt = $(".notification-menu").children().children().html();
+    txt += ' <span class="notify_num badge badge-important">' + notification_num + '</span>';
+    $(".notification-menu").children().children().html(txt);
+}
+
 function addNewNotification(data){
     notify_num++;
-    if (notify_num > 1) {
+    if ($('.notify_num').length) {
         $('.notify_num').fadeOut(250, function(){
             $('.notify_num').html(notify_num);
             $('.notify_num').fadeIn(250);
         });
-    } else if (notify_num === 1) {
-        var txt = $(".notification-menu").children().children().html();
-        txt += ' <span class="notify_num badge badge-important">1</span>'
-        $(".notification-menu").children().children().html(txt);
+    } else if (notify_num !== 0){
+        addNotificationBadge(notify_num);
     }
     if (notify_num != 0) {
         var title = document.title;

@@ -11,8 +11,10 @@
                 <%= created_at %>
             </div>
             <input id="reply_button_<%= id %>" type="button" data-comment_id=<%= id %> value="Reply" data-comment_id="<%= id %>" class="reply_comment btn btn-primary btn-mini">
-            <% if (children_comments_count > 0) { %>
-             <input id="load_children_button_<%= id %>" type="button" value="Load replies (<%= children_comments_count %>)" data-comment_id="<%= id %>" class="load_children_comment btn btn-info btn-mini">
+            <% if (children_comments_count !== undefined ) { %>
+                <% if (children_comments_count > 0) { %>
+                 <input id="load_children_button_<%= id %>" type="button" value="Load replies (<%= children_comments_count %>)" data-comment_id="<%= id %>" class="load_children_comment btn btn-info btn-mini">
+                <% } %>
             <% } %> 
         </div>
     </div>
