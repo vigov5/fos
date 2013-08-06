@@ -3,7 +3,15 @@
 <?php
     $this->widget('bootstrap.widgets.TbAlert');
 ?>
-
+<?php 
+    if (isset($user_id)) {
+        echo "<script>
+                $(document).ready(function(){
+                    $('li').removeClass('active');
+                });
+            </script>";
+    }
+?>
 <div class='row'>
     <div class='span6'>
         <h2><?php echo $title; ?></h2>
