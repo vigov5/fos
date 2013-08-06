@@ -137,6 +137,7 @@ function notificationDropDown() {
         align: 'center',
         manageMouseEvents: false
     });
+    
     $('.notification-menu').click(function() {
         if ($(this).IsBubblePopupOpen()) {
             $(this).HideBubblePopup();
@@ -148,7 +149,7 @@ function notificationDropDown() {
             } else {
                 $('.notification-menu').SetBubblePopupInnerHtml(sessionStorage.getItem('loaded_notify'));
             }
-            $(this).ShowBubblePopup();
+            $('.notification-menu').ShowBubblePopup();
             addNotifyListenner();
         }
     });
@@ -168,7 +169,7 @@ function loadNotification() {
                 var notify_html = new HtmlElement('notify_dropdown', {txt: txt, viewed: notify.viewed, poll_id: notify.poll_id});
                 all_notify += notify_html.html;
             });
-            all_notify += '<a href="index.php?r=notification/index"><div> See all notifications.</div></a>';
+            all_notify += '<a href="index.php?r=notification/index"><div class="not-viewed"> See all notifications.</div></a>';
             $('.notification-menu').SetBubblePopupInnerHtml(all_notify);
         } else {
             all_notify = 'No notification.';

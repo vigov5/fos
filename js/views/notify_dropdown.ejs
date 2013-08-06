@@ -1,3 +1,3 @@
-<div class="notify_element <%= viewed ? "viewed" : "not-viewed" %>" data-poll_id="<%= poll_id %>">
+<div class="notify_element <% if (viewed == "1") {%>viewed<%} else {%>not-viewed<%}%>" data-poll_id="<%= poll_id %>">
     <%= txt %>
 </div>
