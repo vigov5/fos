@@ -303,7 +303,7 @@ class Activity extends ActiveRecord
         $data = $this->attributes;
         $data['profile_id'] = $this->user->profile_id;
         $data['target_profile_id'] = $this->target_user_id ? $this->target_user->profile_id : null;
-        $data['poll_question'] = $this->poll->question;
+        $data['poll_question'] = mb_strimwidth($this->poll->question, 0, 30, "...");
         $data['choice_content'] = $this->choice_id ? $this->choice->content : null;
         $data['comment_content'] = $this->comment_id ? $this->comment->content : null;
         $data['children_comments_count'] = $this->comment_id ? count($this->comment->children) : null;

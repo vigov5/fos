@@ -16,11 +16,13 @@
         <div class="media-body">
             <div class="row">
                 <?php
-                if ($poll->display_type == 3)
+                if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_RESTRICTED
+                    || $poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY) {
                     echo CHtml::button('Invite Peole ', array(
                         'id' => 'invite',
                         'class' => 'btn btn-success'
                     ));
+                }
                 ?>
             </div>
             <h4 class="media-heading"><?php echo $poll->question; ?></h4>

@@ -7,7 +7,7 @@
 ?>
 <div class="alert stream-item">
     <?php
-        $text_view = mb_strimwidth($activity->poll->question, 0, 50, "...");
+        $text_view = mb_strimwidth($activity->poll->question, 0, 30, "...");
         $poll = $activity->poll->createViewLink($text_view);
         $user = $activity->user->profile->createViewLink();
         switch ($activity->type) {
