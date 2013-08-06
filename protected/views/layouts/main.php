@@ -116,6 +116,7 @@
                     ?>
                     <div class="span9 content" id="main-content">
                         <?php echo $content; ?>
+                        <div class="clear"></div>
                     </div>
                     <div class="span3 stream" id="stream">
                         <?php

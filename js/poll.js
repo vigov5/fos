@@ -49,6 +49,9 @@ function loadMoreComment(last_comment_id){
             addLoadReplyCommentListener($('#load_children_button_' + child.id));
             last_comment_id = child.id;
         });
+        if (children_comments.length < 5) {
+           $('.comment_area').append('<b>No more Comment</b>');
+        }
         if ($('.load_more_button').length) {
             $('.load_more_button').attr('data-comment_id', last_comment_id);
         }
