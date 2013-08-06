@@ -53,8 +53,8 @@
                 } else {
                     $this->widget('bootstrap.widgets.TbNavbar', array(
                         'type' => 'inverse', // null or 'inverse'
-                        'brand' => 'framgia',
-                        'brandUrl' => '#',
+                        'brand' => 'Fos',
+                        'brandUrl' => array('/help'),
                         'collapse' => true, // requires bootstrap-responsive.css
                         'items' => array(
                             array(
@@ -96,7 +96,7 @@
                                                 'icon' => 'cog',
                                                 'url' => array('user/changePassword'),
                                             ),
-                                            array('label' => 'Help', 'icon' => 'flag', 'url' => array('help/help')),
+                                            array('label' => 'Help', 'icon' => 'flag', 'url' => array('/help')),
                                             '---',
                                             array('label' => 'Logout', 'icon' => 'icon-share', 'url' => array('user/signout')),
                                         )),
