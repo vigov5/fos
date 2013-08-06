@@ -243,6 +243,7 @@ class PollController extends Controller
             'result_show_time_type' => $result_show_time_type,
             'result_detail_type' => $result_detail_type,
             'pages' => $pages,
+            'user_id' => $user_id,
         ));
     }
 
