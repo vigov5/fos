@@ -3,9 +3,9 @@
 class HelpController extends Controller
 {
 
-    public function actionHelp()
+    public function actionIndex()
     {
-        $this->render('help');
+        $this->render('index');
     }
 
 }
