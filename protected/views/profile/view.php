@@ -4,6 +4,7 @@
 ?>
 <script src='<?php echo Yii::app()->baseUrl; ?>/js/show_profile.js'></script>
 <script src='<?php echo Yii::app()->baseUrl; ?>/js/timeline_scroll.js'></script>
+<script src='<?php echo Yii::app()->baseUrl; ?>/js/auto_update.js'></script>
 
 <script type="text/javascript"> 
     var profile_id = <?php echo $profile->id; ?>;
