@@ -1,6 +1,4 @@
-<?php
-
-?>
+<script src='<?php echo Yii::app()->baseUrl; ?>/js/auto_update.js'></script>
 <div class="comment comment_container" id="comment_container_<?php echo $comment->id ?>">
     <div class="comment_content" id="comment_content_<?php echo $comment->id ?>">
         <div class="row user_comment">
@@ -10,8 +8,9 @@
             <?php echo $comment->content ?> <br>
         </div>
         <div class="row">
+            <?php $time_update = ' <i><span class="human-time" changed="1" created_at="' . $comment->updated_at . '">' . DateAndTime::humanReadableTime($comment->updated_at) . '</span></i>';?>
             <div class="time_update">
-                <?php echo $comment->updated_at ?>
+                <?php echo $time_update; ?>
             </div>
             <?php
             echo CHtml::button(

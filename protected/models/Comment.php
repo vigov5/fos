@@ -153,6 +153,7 @@ class Comment extends ActiveRecord
         $data['profile_name'] = $this->user->profile->name;
         $data['profile_id'] = $this->user->profile_id;
         $data['children_comments_count'] = count($this->children);
+        $data['human_time'] = DateAndTime::humanReadableTime($this->created_at);
         return $data;
     }
 }
