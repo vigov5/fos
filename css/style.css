@@ -221,3 +221,12 @@ div.end_activity {
     padding: 3px;
     float: right;
 }
+
+.not-viewed {
+    color: blue;
+}
+
+.jquerybubblepopup-blue {
+    top: 31px !important;
+    position: fixed !important;
+}
