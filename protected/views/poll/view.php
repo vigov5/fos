@@ -21,9 +21,6 @@ $this->widget('bootstrap.widgets.TbAlert');
         });
         $('.hidden_info').hide();
         $('.invited').hide();
-        $('.view_invited').click(function(){            
-            $('.invited').toggle(500);
-        });
         $('.more').click(function(){
             $('.invited').hide();
             $('.hidden_info').toggle(500);
@@ -135,6 +132,8 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                         if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_NON_ANONYMOUS) {
                             echo CHtml::button('view invited', array(
                                 'class' => 'view_invited btn btn-primary btn-mini',
+                                'poll_id' => $poll->id,
+                                'current_time' => date('Y-m-d H:i:s',time()),
                             ));
                         }
                         break;
@@ -143,6 +142,8 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
                         if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_NON_ANONYMOUS || $poll->user_id == $this->current_user->id) {
                             echo CHtml::button('view invited', array(
                                 'class' => 'view_invited btn btn-primary btn-mini',
+                                'poll_id' => $poll->id,
+                                'current_time' => date('Y-m-d H:i:s',time()),
                             ));
                         }
                         break;
@@ -153,12 +154,14 @@ if ($poll->display_type == Poll::POLL_DISPLAY_SETTINGS_INVITED_ONLY && Yii::app(
         <tr class="invited">
             <th></th>
             <td>
-            <?php
-                foreach($users_invited as $user) {
-                    echo $user->profile->createViewlink();
-                    echo '&nbsp;&nbsp;&nbsp;';
-                }
-            ?>
+                <span class="all_invite">
+                    <?php
+                    foreach ($users_invited as $user) {
+                        echo $user->profile->createViewlink();
+                        echo '&nbsp;&nbsp';
+                    }
+                    ?>
+                </span>
             </td>
         </tr>
         <tr class='odd hidden_info'>

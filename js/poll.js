@@ -1,4 +1,11 @@
 $(function(){
+    $('.view_invited').click(function() {
+        $('.invited').slideToggle();
+        var poll_id = $(this).attr('poll_id');
+        var current_time = $(this).attr('current_time');
+        loadInvited(poll_id, current_time);
+    });
+    
     $('.reply_comment').each(function(){
        addReplyListener($(this));
     });
@@ -155,4 +162,24 @@ function addNewComment(data){
         var tmp = new HtmlElement('reply', data);
         tmp.prependTo('#children_comments_' + data.parent_comment_id);
     }
+}
+
+function loadInvited(poll_id, current_time) {
+    var url = 'index.php?r=invite/getInvited'
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: {
+            poll_id: poll_id,
+            current_time: current_time,
+        }
+    }).success(function(msg) {
+        var obj = jQuery.parseJSON(msg);
+        $.each(obj, function(index, value) {
+            $('.view_invited').attr('current_time', value.current_time);
+            var tmp = new HtmlElement('invite', value);
+            tmp.appendTo('.all_invite');
+        });
+    }).fail(function() {
+    });
 }

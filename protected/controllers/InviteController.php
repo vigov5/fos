@@ -8,7 +8,7 @@ class InviteController extends Controller
         return array(
             array(
                 'allow',
-                'actions' => array('addpeople'),
+                'actions' => array('addpeople', 'getInvited'),
                 'users' => array('@'),
             ),);
     }
@@ -33,6 +33,24 @@ class InviteController extends Controller
                 echo header('HTTP/1.1 405 Method Not Allowed');
             }
         }
+    }
+    
+    public function actionGetInvited() {
+        if (!Yii::app()->request->isAjaxRequest) {
+            $this->render('/site/error', array('code' => 403, 'message' => 'Forbidden'));
+            Yii::app()->end();
+        }
+        if (isset($_POST['poll_id']) && isset($_POST['current_time'])) {
+            $users_invited = User::model()->invitedTo($_POST['poll_id'], $this->current_user->id, $_POST['current_time'])->findAll();
+            $data = array();
+            foreach ($users_invited as $user) {
+                $data[] = $user->getData();
+            }
+            echo json_encode($data);
+        } else {
+            echo header('HTTP/1.1 405 Method Not Allowed');
+        }
+        
     }
 
 }
