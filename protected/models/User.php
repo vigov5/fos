@@ -231,7 +231,7 @@ class User extends ActiveRecord
         $this->getDbCriteria()->mergeWith(
             array(
                 'condition' => 'id not in (select receiver_id from invitations where poll_id=:poll_id)
-                AND id !=:user_id',
+                    AND id !=:user_id',
                 'params' => array('poll_id' => $poll_id, ':user_id' => $user_id),
             )
         );
@@ -245,18 +245,28 @@ class User extends ActiveRecord
      * @param integer $user_id The id of the user
      * @return list all user invited in this poll
      */
-    public function invitedTo($poll_id, $user_id)
+    public function invitedTo($poll_id, $user_id, $time)
     {
-        $this->getDbCriteria()->mergeWith(
-            array(
-                'condition' => 'id in (select receiver_id from invitations where poll_id=:poll_id)
-                AND id !=:user_id',
-                'params' => array('poll_id' => $poll_id, ':user_id' => $user_id),
-            )
-        );
+        if ($time == null) {
+            $this->getDbCriteria()->mergeWith(
+                array(
+                    'condition' => 'id in (select receiver_id from invitations where poll_id=:poll_id)
+                        AND id !=:user_id',
+                    'params' => array('poll_id' => $poll_id, ':user_id' => $user_id),
+                )
+            ); 
+        } else {
+           $this->getDbCriteria()->mergeWith(
+                array(
+                    'condition' => 'id in (select receiver_id from invitations where poll_id=:poll_id AND created_at>:time)
+                        AND id !=:user_id',
+                    'params' => array('poll_id' => $poll_id, ':user_id' => $user_id, ':time' => $time),
+                )
+            ); 
+        }
         return $this;
     }
-
+       
     public function getAllVisibleActivitesOfUser($user_id)
     {
         $this->getDbCriteria()->mergeWith(
@@ -359,5 +369,12 @@ class User extends ActiveRecord
      */
     public function getUnreadNotify(){
         return count($this->notifications_received('notifications_received:unread'));
+    }
+    
+    public function getData(){
+        $data['profile_id'] = $this->profile_id;
+        $data['profile_name'] = $this->profile->name;
+        $data['current_time'] = date('Y-m-d H:i:s',time());
+        return $data;
     }
 }

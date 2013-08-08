@@ -56,12 +56,12 @@ class PollController extends Controller
         );
         Notification::model()->updateAll(array('viewed' => 1),$criteria);
 
-        $users_invited = User::model()->invitedTo($id, $this->current_user->id)->findAll();
         unset(Yii::app()->session['poll_creating']);
         $poll = $this->loadModel($id);
         $user = $poll->user;
         $choices = $poll->choices;
         $comments = $poll->loadComment();
+        $users_invited = User::model()->invitedTo($id, $this->current_user->id, null)->findAll();
         $all_votes = $this->current_user->getAllVotes($poll->id);
         $can_views = $this->current_user->canViewPoll($poll);
         $can_votes = $this->current_user->canVotePoll($poll);
@@ -77,11 +77,11 @@ class PollController extends Controller
                     'choices' => $choices,
                     'all_votes' => $all_votes,
                     'comments' => $comments,
+                    'users_invited' => $users_invited,
                     'can_views' => $can_views,
                     'can_votes' => $can_votes,
                     'can_show_result' => $can_show_result,
                     'can_show_voter' => $can_show_voter,
-                    'users_invited' => $users_invited,
                     'voting' => $voting,
                 )
             );
