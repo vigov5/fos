@@ -24,6 +24,10 @@
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl.'/js/search.js');
        ?>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+        <script>
+            var server_time = <?php echo time() * 1000; ?>;
+            var deviation_time = new Date().getTime() - server_time;
+        </script>
     </head>
     <body>
         <div class="row-fluid" id="page">

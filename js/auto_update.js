@@ -18,7 +18,7 @@ function getDate(datetime){
 }
 
 function setTime(all_span) {
-    var now = new Date().getTime();
+    var now = new Date().getTime() - deviation_time;
     now = parseInt(now/1000);
     all_span.each(function(){
         var dateStr = $(this).attr('created_at');

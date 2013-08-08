@@ -127,6 +127,14 @@ class PollController extends Controller
             if ($poll->poll_type == Poll::POLL_TYPE_SETTINGS_ANONYMOUS) {
                 $poll->result_detail_type = Poll::RESULT_DETAIL_SETTINGS_ONLY_PERCENTAGE;
             }
+            
+            if (strtotime($poll->start_at) < time()) {
+                $poll->start_at = date('Y-m-d H:i:s', time());
+                if ((strtotime($poll->end_at) - strtotime($poll->start_at)) < 10) {
+                    $poll->end_at = date('Y-m-d H:i:s', strtotime($poll->start_at) + 10);
+                }
+            }
+            
             if ($poll->save()) {
                 Yii::app()->user->setFlash('success', 'You created successfully!');
                 $this->redirect(array('choice/index', 'poll_id' => $poll->id));
@@ -258,6 +266,14 @@ class PollController extends Controller
             if ($model->poll_type == Poll::POLL_TYPE_SETTINGS_ANONYMOUS) {
                 $model->result_detail_type = Poll::RESULT_DETAIL_SETTINGS_ONLY_PERCENTAGE;
             }
+
+            if (!$voting && !$voted && strtotime($model->start_at) < time()) {
+                $model->start_at = date('Y-m-d H:i:s', time());
+                if (strtotime($model->end_at) - strtotime($model->start_at) < 10) {
+                    $model->end_at = date('Y-m-d H:i:s', strtotime($model->start_at) + 10);
+                }
+            }
+
             if ($model->save()) {
                 Yii::app()->user->setFlash('success', 'Poll is updated !');
                 $this->redirect(array('view', 'id' => $model->id));
