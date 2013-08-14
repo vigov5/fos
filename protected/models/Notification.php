@@ -108,7 +108,7 @@ class Notification extends ActiveRecord
 
     public static function getNotifyReceiverIDs($params){
         $receivers = array(Poll::model()->findByPk($params['poll_id'])->user_id);
-        if (isset($params['target_user_id'])) {
+        if (isset($params['target_user_id']) && $params['target_user_id'] != $receivers[0]) {
             $receivers[] = $params['target_user_id'];
         }
         return $receivers;
