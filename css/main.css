@@ -99,3 +99,7 @@ body
 a {
     color: rgb(59, 89, 152);
 }
+
+.wrap_text {
+    word-wrap: break-word;
+}
