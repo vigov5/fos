@@ -122,6 +122,9 @@ class Comment extends ActiveRecord
                 'comment_id' => $this->id,
                 'display_type' => $this->poll->getActivityDisplayType(),
             );
+            if ($this->parent_id != null) {
+                $params['target_user_id'] = Comment::model()->findByPk($this->parent_id)->user->id;
+            }
             Activity::create($params);
         }
         return parent::afterSave();
