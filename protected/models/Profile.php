@@ -142,7 +142,10 @@ class Profile extends ActiveRecord
             $this->updateKey();
         }
         return Yii::app()->createAbsoluteUrl(
-            'user/signup', array('email' => $this->email, 'secret_key' => $this->secret_key)
+            'user/signup', array(
+                'email' => $this->email,
+                'secret_key' => $this->secret_key
+            )
         );
     }
 
@@ -152,6 +155,9 @@ class Profile extends ActiveRecord
      */
     public function generateResetPasswordLink()
     {
+        if ($this->secret_key == null) {
+            $this->updateKey();
+        }
         return Yii::app()->createAbsoluteUrl(
             'user/resetPassword', array(
                 'email' => $this->email,
