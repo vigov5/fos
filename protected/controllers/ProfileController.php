@@ -170,6 +170,7 @@ class ProfileController extends Controller
     public function actionSendSignUpEmail($id) {
         $profile = Profile::model()->findByPk($id);
         if ($profile != null) {
+            $profile->sendSignUpEmail();
             Yii::app()->user->setFlash('success', "Sign up email has been sent to {$profile->email}");
         }
         $this->redirect(array('profile/index'));

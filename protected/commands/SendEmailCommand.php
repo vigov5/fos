@@ -14,7 +14,7 @@ class SendEmailCommand extends CConsoleCommand
         $message->view = 'email_template';
         $message->setSubject($subject);
         $message->setTo($address);
-        $message->setFrom('dontreply@framgia.com');
+        $message->setFrom('phpgroup@framgia.com');
         $message->setBody(
             array(
                 'content' => $content,
