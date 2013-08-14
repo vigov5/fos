@@ -35,7 +35,7 @@ function addChoice() {
         addCloseListener(choice_id);
         checkNumberChoices();
     }).fail(function() {
-        alert('Fail!');
+        alert('Fail to add choice !');
     });
 }
 
@@ -50,7 +50,7 @@ function deleteChoice(choice_id) {
     }).success(function() {                
         HtmlElement.remove('#choice_' + choice_id, checkNumberChoices);         
     }).fail(function() {
-        alert('Fail!');
+        alert('Fail to delete choice !');
     });
 }
 
