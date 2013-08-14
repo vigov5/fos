@@ -154,13 +154,16 @@ function addComment(poll_id, content, parent_id, reply) {
 function addNewComment(data){
     data.content = data.comment_content;
     data.id = data.comment_id;
-    if (data.parent_comment_id === null) {
-        var tmp = new HtmlElement('comment', data);
-        tmp.prependTo('.comment_area');
-        addReplyListener($('#reply_button_' + data.id));
-    } else {
-        var tmp = new HtmlElement('reply', data);
-        tmp.prependTo('#children_comments_' + data.parent_comment_id);
+    poll_id = $('#comment-all').attr('data-poll-id');
+    if (poll_id == data.poll_id) {
+        if (data.parent_comment_id === null) {
+            var tmp = new HtmlElement('comment', data);
+            tmp.prependTo('.comment_area');
+            addReplyListener($('#reply_button_' + data.id));
+        } else {
+            var tmp = new HtmlElement('reply', data);
+            tmp.prependTo('#children_comments_' + data.parent_comment_id);
+        }
     }
 }
 

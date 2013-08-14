@@ -26,6 +26,6 @@ function addPeople(sender_id, receiver_id, poll_id)
         }
     }).success(function() {
     }).fail(function() {
-        alert('Add peopel fail !');
+        alert('Fail to add people !');
     });
 }
